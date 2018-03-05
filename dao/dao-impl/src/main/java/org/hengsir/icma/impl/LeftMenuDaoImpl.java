@@ -15,7 +15,6 @@ import java.util.List;
 
 /**
  * 菜单数据接口实现类。
- * @author yuanyaping
  * @createTime 2017年12月1日
  * @version 1.0.0
  */
