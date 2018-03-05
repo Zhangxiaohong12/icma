@@ -1,4 +1,4 @@
-package org.hengsir.icma.mapper;
+package org.hengsir.icma.dao.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.hengsir.icma.entity.PersonImageRelation;

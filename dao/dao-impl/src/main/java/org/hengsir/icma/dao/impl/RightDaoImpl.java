@@ -1,9 +1,9 @@
-package org.hengsir.icma.impl;
+package org.hengsir.icma.dao.impl;
 
 import org.hengsir.icma.dao.RightWriteDao;
 import org.hengsir.icma.entity.Right;
 import org.hengsir.icma.entity.Role;
-import org.hengsir.icma.mapper.RightMapper;
+import org.hengsir.icma.dao.mapper.RightMapper;
 import org.hengsir.icma.utils.Page;
 import org.hengsir.icma.utils.PageHelper;
 import org.slf4j.Logger;

@@ -1,8 +1,8 @@
-package org.hengsir.icma.impl;
+package org.hengsir.icma.dao.impl;
 
 import org.hengsir.icma.dao.LeftMenuWriteDao;
 import org.hengsir.icma.entity.LeftMenu;
-import org.hengsir.icma.mapper.LeftMenuMapper;
+import org.hengsir.icma.dao.mapper.LeftMenuMapper;
 import org.hengsir.icma.utils.Page;
 import org.hengsir.icma.utils.PageHelper;
 import org.slf4j.Logger;

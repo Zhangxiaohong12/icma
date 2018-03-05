@@ -1,10 +1,10 @@
-package org.hengsir.icma.impl;
+package org.hengsir.icma.dao.impl;
 
 import org.hengsir.icma.dao.UserWriteDao;
 import org.hengsir.icma.entity.Right;
 import org.hengsir.icma.entity.Role;
 import org.hengsir.icma.entity.User;
-import org.hengsir.icma.mapper.UserMapper;
+import org.hengsir.icma.dao.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,8 +1,8 @@
-package org.hengsir.icma.impl;
+package org.hengsir.icma.dao.impl;
 
 import org.hengsir.icma.dao.UserRelRoleWriteDao;
 import org.hengsir.icma.entity.UserRelRole;
-import org.hengsir.icma.mapper.UserRelRoleMapper;
+import org.hengsir.icma.dao.mapper.UserRelRoleMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

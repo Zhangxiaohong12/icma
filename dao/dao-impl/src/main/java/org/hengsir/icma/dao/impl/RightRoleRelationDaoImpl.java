@@ -1,8 +1,8 @@
-package org.hengsir.icma.impl;
+package org.hengsir.icma.dao.impl;
 
 import org.hengsir.icma.dao.RightRoleRelationWriteDao;
 import org.hengsir.icma.entity.RightRoleRelation;
-import org.hengsir.icma.mapper.RightRoleRelationMapper;
+import org.hengsir.icma.dao.mapper.RightRoleRelationMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
