@@ -32,7 +32,6 @@ import java.util.Map;
  * 集成shiro配置
  */
 @Configuration
-@PropertySource(value = {"classpath:redis.properties"})
 public class ShiroConfig {
 
     @Autowired
@@ -159,6 +158,9 @@ public class ShiroConfig {
      */
     @Bean("shiroReal")
     public ShiroReal shiroReal(ShiroSpringCacheManager shiroSpringCacheManager,@Qualifier("credentialsMatcher") RetryLimitCredentialsMatcher credentialsMatcher){
+        /*
+         * 这里可能还有个bug就是new出来的ShiroReal中有用到@Autowrite，可能为无法自动注入
+         * */
         ShiroReal shiroReal = new ShiroReal(shiroSpringCacheManager,credentialsMatcher);
         shiroReal.setAuthenticationCachingEnabled(false);
         shiroReal.setAuthorizationCachingEnabled(false);
