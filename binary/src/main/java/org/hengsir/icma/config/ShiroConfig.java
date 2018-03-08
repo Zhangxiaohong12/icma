@@ -16,11 +16,10 @@ import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreato
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.MethodInvokingFactoryBean;
+import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.data.redis.cache.RedisCacheManager;
 
 import javax.servlet.Filter;
 import java.util.HashMap;
@@ -35,7 +34,7 @@ import java.util.Map;
 public class ShiroConfig {
 
     @Autowired
-    private RedisCacheManager cacheManager;
+    private CacheManager cacheManager;
 
     @Autowired
     private ShiroRealService shiroRealService;
@@ -144,8 +143,8 @@ public class ShiroConfig {
      * @return
      */
     @Bean("credentialsMatcher")
-    public RetryLimitCredentialsMatcher credentialsMatcher(PasswordHash passwordHash){
-        RetryLimitCredentialsMatcher credentialsMatcher = new RetryLimitCredentialsMatcher(shiroSpringCacheManager());
+    public RetryLimitCredentialsMatcher credentialsMatcher(PasswordHash passwordHash,ShiroSpringCacheManager shiroSpringCacheManager){
+        RetryLimitCredentialsMatcher credentialsMatcher = new RetryLimitCredentialsMatcher(shiroSpringCacheManager);
         credentialsMatcher.setRetryLimitCacheName("halfHour");
         credentialsMatcher.setPasswordHash(passwordHash);
         credentialsMatcher.setPasswordFailNumber(5);

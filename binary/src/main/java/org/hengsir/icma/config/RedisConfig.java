@@ -3,6 +3,7 @@ package org.hengsir.icma.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
+import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -66,7 +67,7 @@ public class RedisConfig {
     @Autowired
     private JdkSerializationRedisSerializer jdkSerializationRedisSerializer;
 
-    @Bean
+    @Bean("jedisPoolConfig")
     public JedisPoolConfig jedisPoolConfig(){
         JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
         jedisPoolConfig.setMaxTotal(maxActive);
@@ -82,7 +83,7 @@ public class RedisConfig {
         return jedisPoolConfig;
     }
 
-    @Bean
+    @Bean("jedisConnectionFactory")
     public JedisConnectionFactory jedisConnectionFactory(JedisPoolConfig jedisPoolConfig){
         JedisConnectionFactory jedisConnectionFactory = new JedisConnectionFactory();
         jedisConnectionFactory.setHostName(host);
@@ -92,8 +93,8 @@ public class RedisConfig {
         return jedisConnectionFactory;
     }
 
-    @Bean
-    public RedisTemplate redisTemplate(JedisConnectionFactory jedisConnectionFactory){
+    @Bean("redisTemplate")
+    public RedisTemplate<Object, Object> redisTemplate(JedisConnectionFactory jedisConnectionFactory){
         RedisTemplate redisTemplate = new RedisTemplate();
         redisTemplate.setConnectionFactory(jedisConnectionFactory);
         redisTemplate.setKeySerializer(jdkSerializationRedisSerializer);
@@ -103,8 +104,8 @@ public class RedisConfig {
         return redisTemplate;
     }
 
-    @Bean
-    public RedisCacheManager redisCacheManager(RedisTemplate redisTemplate){
+    @Bean("redisCacheManager")
+    public CacheManager cacheManager(RedisTemplate redisTemplate){
         RedisCacheManager redisCacheManager = new RedisCacheManager(redisTemplate);
         //默认缓存10分钟
         redisCacheManager.setDefaultExpiration(600);

@@ -15,22 +15,6 @@
         <result property="userIdCard" column="USER_IDCARD"/>
     </resultMap>
 
-    <resultMap id="UserResult" type="org.hengsir.icma.entity.UserOrg">
-        <result property="userId" column="USER_ID" />
-        <result property="userName" column="USER_NAME" />
-        <result property="userAccount" column="USER_ACCOUNT" />
-        <result property="userPassword" column="USER_PASSWORD" />
-        <result property="personId" column="PERSON_ID" />
-        <result property="groupId" column="GROUP_ID" />
-        <result property="createTime" column="CREATE_TIME" />
-        <result property="updateTime" column="UPDATE_TIME" />
-        <result property="userStatus" column="USER_STATUS" />
-        <result property="userSex" column="USER_SEX" />
-        <result property="userIdCard" column="USER_IDCARD"/>
-        <result property="userOrgName" column="CLASS_NAME"/>
-    </resultMap>
-
-
     <select id="findAllUser" resultMap="UserResult" useCache="false">
         SELECT * FROM T_USER ORDER BY CREATE_TIME DESC
     </select>
