@@ -53,12 +53,6 @@
         WHERE ID = #{id}
     </update>
 
-    <update id="updateSysIdById" parameterType="org.hengsir.icma.entity.LeftMenu">
-        UPDATE T_MENU
-        SET SYS_ID=#{sysId}
-        WHERE ID=#{id}
-    </update>
-
     <delete id="delete" parameterType="java.lang.Long">
         DELETE
         FROM T_MENU
