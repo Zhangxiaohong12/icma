@@ -20,12 +20,12 @@ import java.util.Map;
  * @author hengsir
  * @date 2018/2/27 上午10:28
  */
-@Configuration
+/*@Configuration
 @PropertySource(value = {"classpath:redis.properties"})
-@AutoConfigureBefore(ShiroConfig.class)
+@AutoConfigureBefore(ShiroConfig.class)*/
 public class RedisConfig {
 
-    @Value("${redis.host}")
+    /*@Value("${redis.host}")
     private String host;
 
     @Value("${redis.port}")
@@ -120,5 +120,5 @@ public class RedisConfig {
         map.put("activeSessionCache",new Long(1800));
         redisCacheManager.setExpires(map);
         return redisCacheManager;
-    }
+    }*/
 }

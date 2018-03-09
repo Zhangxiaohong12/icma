@@ -11,14 +11,12 @@ import org.hengsir.icma.dao.UserDao;
 import org.hengsir.icma.entity.User;
 import org.hengsir.icma.manage.controller.BaseController;
 import org.hengsir.icma.manage.shiro.PasswordHash;
-import org.hengsir.icma.manage.shiro.RetryLimitCredentialsMatcher;
 import org.hengsir.icma.service.UserService;
 import org.hengsir.icma.utils.DecodeUtil;
 import org.hengsir.icma.utils.ValidateCodeUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,7 +35,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * 管理端登录。
  */
 @Controller
-@RequestMapping("/org/hengsir/icma/manage")
+@RequestMapping("/manage")
 public class LoginController extends BaseController {
 
     private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
@@ -46,8 +44,7 @@ public class LoginController extends BaseController {
     private VerifyCodeService verifyCodeService;*/
 
     @Autowired
-    @Qualifier("redisTemplate")
-    private RedisTemplate<String, String> redisTemplate;
+    private RedisTemplate redisTemplate;
 
     @Autowired
     private UserService userService;
@@ -58,8 +55,7 @@ public class LoginController extends BaseController {
     @Autowired
     private PasswordHash passwordHash;
 
-    @Autowired
-    private RetryLimitCredentialsMatcher retryLimitCredentialsMatcher;
+
 
     /**
      * 账号登陆。
@@ -128,22 +124,6 @@ public class LoginController extends BaseController {
             currentUser.getSession().setAttribute("userAccount", userBo.getUserAccount());
             msg = "登陆成功";
             code = 1;
-        } catch (IncorrectCredentialsException ex) {
-            code = 7;
-            AtomicInteger atomicInteger = retryLimitCredentialsMatcher.getPasswordRetryCache().get(
-                userAccount);
-            int error = atomicInteger.get();
-            int count = retryLimitCredentialsMatcher.getPasswordFailNumber();
-            if (error == count) {
-                msg = "登录密码错误" + error + "次,账户将锁定半小时";
-            } else {
-                msg = "登录密码错误" + error + "次," + count + "次错误账号将锁定半小时,请谨慎";
-            }
-            logger.error(msg, ex);
-        } catch (ExcessiveAttemptsException ex) {
-            code = 8;
-            msg = "登录密码已错误" + retryLimitCredentialsMatcher.getPasswordFailNumber() + "次，账号已锁定半小时";
-            logger.error(msg, ex);
         } catch (LockedAccountException ex) {
             code = 9;
             msg = "帐号已被锁定";

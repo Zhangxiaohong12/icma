@@ -1,5 +1,6 @@
 package org.hengsir.icma.config;
 
+import com.youtu.Youtu;
 import org.hengsir.icma.utils.InitBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -26,7 +27,7 @@ public class YouTuConfig {
     @Value("${userId}")
     private String userId;
 
-    @Bean(initMethod = "init")
+    /*@Bean(initMethod = "init")
     public InitBean initBean(){
         InitBean initBean = new InitBean();
         initBean.setAPP_ID(appId);
@@ -34,5 +35,11 @@ public class YouTuConfig {
         initBean.setSECRET_KEY(secretKey);
         initBean.setUSER_ID(userId);
         return initBean;
+    }*/
+
+    @Bean
+    public Youtu youtu(){
+        Youtu youtu = new Youtu(appId, secretId, secretKey,Youtu.API_YOUTU_END_POINT,userId);
+        return youtu;
     }
 }

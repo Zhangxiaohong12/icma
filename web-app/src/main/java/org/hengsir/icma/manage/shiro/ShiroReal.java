@@ -6,7 +6,6 @@ import org.apache.shiro.authc.*;
 import org.apache.shiro.authc.credential.CredentialsMatcher;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
-import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.SimplePrincipalCollection;
@@ -49,8 +48,8 @@ public class ShiroReal extends AuthorizingRealm {
         this.shiroRealService = shiroRealService;
     }
 
-    public ShiroReal(CacheManager cacheManager, CredentialsMatcher matcher) {
-        super(cacheManager, matcher);
+    public ShiroReal() {
+
     }
 
     /**

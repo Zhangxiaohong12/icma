@@ -16,10 +16,15 @@ import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreato
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.MethodInvokingFactoryBean;
-import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.data.redis.cache.RedisCacheManager;
+import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
+import redis.clients.jedis.JedisPoolConfig;
 
 import javax.servlet.Filter;
 import java.util.HashMap;
@@ -31,13 +36,16 @@ import java.util.Map;
  * 集成shiro配置
  */
 @Configuration
+@PropertySource(value = {"classpath:redis.properties"})
 public class ShiroConfig {
 
-    @Autowired
+    /*@Autowired
     private CacheManager cacheManager;
+*/
 
     @Autowired
     private ShiroRealService shiroRealService;
+
 
     /**
      * rememberMe管理器,cipherKey生成见{@code Base64Test.java}
@@ -87,7 +95,7 @@ public class ShiroConfig {
         //设置全局会话超时时间 半小时 session共享将取决与sessionDao中cacheManager缓存存储时长
         sessionManager.setGlobalSessionTimeout(3*1000*60);
         sessionManager.setSessionDAO(sessionDAO);
-        sessionManager.setSessionIdCookie(new SimpleCookie("icma_SHIRO_SESSIONID"));
+        sessionManager.setSessionIdCookie(new SimpleCookie("ICMA_SHIRO_SESSIONID"));
         return sessionManager;
     }
 
@@ -99,20 +107,19 @@ public class ShiroConfig {
     public EnterpriseCacheSessionDAO sessionDAO(){
         EnterpriseCacheSessionDAO sessionDAO = new EnterpriseCacheSessionDAO();
         sessionDAO.setActiveSessionsCacheName("manager-activeSessionCache");
-        sessionDAO.setCacheManager(shiroSpringCacheManager());
         return sessionDAO;
     }
 
     /**
      * 用户授权信息Cache, 采用spring-cache, 具体请查看spring-ehcache.xml、spring-redis.xml
      * @return
-     */
+     *//*
     @Bean
-    public ShiroSpringCacheManager shiroSpringCacheManager(){
+    public ShiroSpringCacheManager shiroSpringCacheManager(CacheManager cacheManager){
         ShiroSpringCacheManager shiroSpringCacheManager = new ShiroSpringCacheManager();
         shiroSpringCacheManager.setCacheManager(cacheManager);
         return shiroSpringCacheManager;
-    }
+    }*/
 
     /**
      * 在方法中 注入  securityManager ，进行代理控制
@@ -141,7 +148,7 @@ public class ShiroConfig {
     /**
      * 密码错误5次锁定半小时
      * @return
-     */
+     *//*
     @Bean("credentialsMatcher")
     public RetryLimitCredentialsMatcher credentialsMatcher(PasswordHash passwordHash,ShiroSpringCacheManager shiroSpringCacheManager){
         RetryLimitCredentialsMatcher credentialsMatcher = new RetryLimitCredentialsMatcher(shiroSpringCacheManager);
@@ -149,18 +156,18 @@ public class ShiroConfig {
         credentialsMatcher.setPasswordHash(passwordHash);
         credentialsMatcher.setPasswordFailNumber(5);
         return credentialsMatcher;
-    }
+    }*/
 
     /**
      * 項目自定义的Realm
      * @return
      */
     @Bean("shiroReal")
-    public ShiroReal shiroReal(ShiroSpringCacheManager shiroSpringCacheManager,@Qualifier("credentialsMatcher") RetryLimitCredentialsMatcher credentialsMatcher){
+    public ShiroReal shiroReal(){
         /*
          * 这里可能还有个bug就是new出来的ShiroReal中有用到@Autowrite，可能为无法自动注入
          * */
-        ShiroReal shiroReal = new ShiroReal(shiroSpringCacheManager,credentialsMatcher);
+        ShiroReal shiroReal = new ShiroReal();
         shiroReal.setAuthenticationCachingEnabled(false);
         shiroReal.setAuthorizationCachingEnabled(false);
         shiroReal.setAuthenticationCacheName("authenticationCache");
@@ -232,11 +239,12 @@ public class ShiroConfig {
      * @return
      */
     @Bean("securityManager")
-    public SecurityManager securityManager(@Qualifier("shiroReal") ShiroReal shiroReal, ShiroSpringCacheManager shiroSpringCacheManager, CookieRememberMeManager cookieRememberMeManager){
+    public SecurityManager securityManager(DefaultWebSessionManager sessionManager,@Qualifier("shiroReal") ShiroReal shiroReal, CookieRememberMeManager cookieRememberMeManager){
         DefaultWebSecurityManager defaultWebSecurityManager = new DefaultWebSecurityManager();
         defaultWebSecurityManager.setRealm(shiroReal);
-        defaultWebSecurityManager.setCacheManager(shiroSpringCacheManager);
+        //defaultWebSecurityManager.setCacheManager(shiroSpringCacheManager);
         defaultWebSecurityManager.setRememberMeManager(cookieRememberMeManager);
+        defaultWebSecurityManager.setSessionManager(sessionManager);
         return defaultWebSecurityManager;
     }
 

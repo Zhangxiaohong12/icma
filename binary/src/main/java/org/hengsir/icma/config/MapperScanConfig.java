@@ -13,10 +13,10 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @AutoConfigureAfter(MybatisConfig.class)
 public class MapperScanConfig {
-    @Bean
+    /*@Bean
     public MapperScannerConfigurer mapperScannerConfigurer(){
         MapperScannerConfigurer mapperScannerConfigurer = new MapperScannerConfigurer();
         mapperScannerConfigurer.setBasePackage("org.hengsir.icma.dao.mapper");
         return mapperScannerConfigurer;
-    }
+    }*/
 }

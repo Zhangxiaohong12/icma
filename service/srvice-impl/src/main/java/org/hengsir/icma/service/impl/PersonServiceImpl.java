@@ -31,7 +31,8 @@ public class PersonServiceImpl implements PersonService {
     @Autowired
     private ImageWriteDao imageWriteDao;
 
-    private Youtu youtu = InitBean.getYoutu();
+    @Autowired
+    private Youtu youtu;
 
     @Override
     public int create(Person person, Image image) {

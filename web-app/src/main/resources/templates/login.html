@@ -2,7 +2,43 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" style="height: 100%;">
 <head>
     <title th:text="${pageTitle}"></title>
-    <head th:include="/commons/head::header"/>
+    <head>
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+        <meta content="" name="description"/>
+        <meta content="" name="author"/>
+        <meta name="MobileOptimized" content="320">
+
+        <link href="/metronic/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+        <link href="/metronic/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+        <link href="/metronic/plugins/uniform/css/uniform.default.css" rel="stylesheet" type="text/css"/>
+
+
+        <link href="/metronic/plugins/gritter/css/jquery.gritter.css" rel="stylesheet" type="text/css"/>
+        <link href="/metronic/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css" rel="stylesheet" type="text/css"/>
+        <link href="/metronic/plugins/fullcalendar/fullcalendar/fullcalendar.css" rel="stylesheet" type="text/css"/>
+        <link href="/metronic/plugins/jqvmap/jqvmap/jqvmap.css" rel="stylesheet" type="text/css"/>
+        <link href="/metronic/plugins/jquery-easy-pie-chart/jquery.easy-pie-chart.css" rel="stylesheet" type="text/css"/>
+        <link href="/metronic/plugins/data-tables/DT_bootstrap.css" rel="stylesheet" type="text/css"/>
+        <link href="/metronic/plugins/select2/select2_metro.css" rel="stylesheet" type="text/css"/>
+
+        <link href="/metronic/css/style-metronic.css" rel="stylesheet" type="text/css"/>
+        <link href="/metronic/css/style.css" rel="stylesheet" type="text/css"/>
+        <link href="/metronic/css/style-responsive.css" rel="stylesheet" type="text/css"/>
+        <link href="/metronic/css/plugins.css" rel="stylesheet" type="text/css"/>
+        <link href="/metronic/css/pages/tasks.css" rel="stylesheet" type="text/css"/>
+        <link href="/metronic/css/themes/default.css" rel="stylesheet" type="text/css" id="style_color"/>
+        <link href="/metronic/css/custom.css" rel="stylesheet" type="text/css"/>
+        <link href="/css/style.css" rel="stylesheet" type="text/css"/>
+        <link href="/css/custom.css" rel="stylesheet" type="text/css"/>
+        <link href="/metronic/plugins/bootstrap-datepicker/css/datepicker.css" rel="stylesheet" type="text/css"/>
+        <link href="/metronic/plugins/bootstrap-datetimepicker/css/datetimepicker.css" rel="stylesheet" type="text/css"/>
+
+        <link href="/metronic/plugins/bootstrap-toastr/toastr.min.css" rel="stylesheet" type="text/css"/>
+
+        <link href="/css/content.css" rel="stylesheet" type="text/css"/>
+    </head>
     <link th:href="@{/metronic/css/pages/error.css}" rel="stylesheet" type="text/css"/>
     <link th:href="@{/css/login/login-soft.css}" rel="stylesheet" type="text/css"/>
 </head>
@@ -53,14 +89,79 @@
             <a href="/manage/touser-account" id="forget-password">忘记密码</a>
         </div>
     </form>
-    <button class="btn blue pull-right" id=btnLogin>
+    <button class="btn blue pull-right" id="btnLogin">
         登陆 <i class="m-icon-swapright m-icon-white"></i>
     </button>
     <div class="forget-password">
     </div>
 
 </div>
-<div th:replace="/commons/scripts::scripts"/>
+<head>
+    <script src="/metronic/plugins/respond.min.js"></script>
+    <script src="/metronic/plugins/excanvas.min.js"></script>
+    <script src="/metronic/plugins/jquery-1.10.2.min.js" type="text/javascript"></script>
+    <script src="/metronic/plugins/jquery-migrate-1.2.1.min.js" type="text/javascript"></script>
+    <script src="/metronic/plugins/jquery-ui/jquery-ui-1.10.3.custom.min.js" type="text/javascript"></script>
+    <script src="/metronic/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="/metronic/plugins/bootstrap-hover-dropdown/twitter-bootstrap-hover-dropdown.min.js" type="text/javascript"></script>
+    <script src="/metronic/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
+    <script src="/metronic/plugins/jquery.blockui.min.js" type="text/javascript"></script>
+    <script src="/metronic/plugins/jquery.cookie.min.js" type="text/javascript"></script>
+    <script src="/metronic/plugins/uniform/jquery.uniform.min.js" type="text/javascript"></script>
+    <script src="/metronic/plugins/jqvmap/jqvmap/jquery.vmap.js" type="text/javascript"></script>
+    <script src="/metronic/plugins/jqvmap/jqvmap/maps/jquery.vmap.russia.js" type="text/javascript"></script>
+    <script src="/metronic/plugins/jqvmap/jqvmap/maps/jquery.vmap.world.js" type="text/javascript"></script>
+    <script src="/metronic/plugins/jqvmap/jqvmap/maps/jquery.vmap.europe.js" type="text/javascript"></script>
+    <script src="/metronic/plugins/jqvmap/jqvmap/maps/jquery.vmap.germany.js" type="text/javascript"></script>
+    <script src="/metronic/plugins/jqvmap/jqvmap/maps/jquery.vmap.usa.js" type="text/javascript"></script>
+    <script src="/metronic/plugins/jqvmap/jqvmap/data/jquery.vmap.sampledata.js" type="text/javascript"></script>
+    <script src="/metronic/plugins/flot/jquery.flot.js" type="text/javascript"></script>
+    <script src="/metronic/plugins/flot/jquery.flot.resize.js" type="text/javascript"></script>
+    <script src="/metronic/plugins/jquery.pulsate.min.js" type="text/javascript"></script>
+    <script src="/metronic/plugins/bootstrap-daterangepicker/moment.min.js" type="text/javascript"></script>
+    <script src="/metronic/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js" type="text/javascript"></script>
+    <!--支持中文日期插件-->
+    <script src="/metronic/plugins/bootstrap-datepicker/js/locales/bootstrap-datepicker.zh-CN.js" type="text/javascript"></script>
+    <script src="/metronic/plugins/bootstrap-daterangepicker/daterangepicker.js" type="text/javascript"></script>
+    <script src="/metronic/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js" type="text/javascript"></script>
+    <!--支持中文时间插件-->
+    <script src="/metronic/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" type="text/javascript"></script>
+    <script src="/metronic/plugins/gritter/js/jquery.gritter.js" type="text/javascript"></script>
+    <script src="/metronic/plugins/fullcalendar/fullcalendar/fullcalendar.min.js" type="text/javascript"></script>
+    <script src="/metronic/plugins/jquery-easy-pie-chart/jquery.easy-pie-chart.js" type="text/javascript"></script>
+    <script src="/metronic/plugins/jquery.sparkline.min.js" type="text/javascript"></script>
+    <script src="/metronic/scripts/app.js" type="text/javascript"></script>
+    <script src="/metronic/scripts/index.js" type="text/javascript"></script>
+    <script src="/metronic/scripts/tasks.js" type="text/javascript"></script>
+    <script src="/metronic/plugins/select2/select2.min.js" type="text/javascript"></script>
+    <script src="/metronic/plugins/data-tables/jquery.dataTables.min.js" type="text/javascript"></script>
+    <script src="/metronic/plugins/data-tables/DT_bootstrap.js" type="text/javascript"></script>
+    <script src="/metronic/plugins/bootstrap-toastr/toastr.min.js"></script>
+    <!--弹出框-->
+    <script src="/js/commons/bootbox/bootbox.min.js" type="text/javascript"></script>
+    <script src="/js/commons/bootbox/bootbox-extend.js" type="text/javascript"></script>
+    <!--大遮罩-->
+    <script src="/js/commons/bootbox/shade.js" type="text/javascript"></script>
+    <!--分页-->
+    <script src="/js/commons/pageInfo.js"></script>
+    <script src="/js/commons/util/map.js"></script>
+    <!--自定义下拉标签-->
+    <script src="/js/commons/util/selectItem.js"></script>
+    <script src="/js/commons/util/itemInfo.js"></script>
+    <!--数据验证-->
+    <script src="/js/commons/form-validate/jquery.validate.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/js/commons/form-validate/additional-methods.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/js/commons/form-validate/additional-methods-extend.js" type="text/javascript"></script>
+    <script src="/js/commons/form-validate/messages_cn.js" type="text/javascript"></script>
+
+    <!--日期转换-->
+    <script src="/js/commons/util/dateUtil.js"></script>
+    <script src="/js/commons/content.js"></script>
+    <!--异步请求异常统一处理-->
+    <script src="/js/commons/jquery-ext-min.js"></script>
+
+
+</head>
 
 <script th:src="@{/js/login/my-login.js}" type="text/javascript"></script>
 <script th:src="@{/js/login/login-soft.js}" type="text/javascript"></script>
