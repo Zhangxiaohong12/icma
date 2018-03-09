@@ -42,7 +42,7 @@ public class SpringMVCConfig extends WebMvcConfigurerAdapter {
         super.addInterceptors(registry);
     }
 
-    /*@Override
+    @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         //将所有/static/** 访问都映射到classpath:/static/ 目录下
         registry.addResourceHandler("/templates/**").addResourceLocations("classpath*:/templates/");
@@ -52,7 +52,7 @@ public class SpringMVCConfig extends WebMvcConfigurerAdapter {
         registry.addResourceHandler("/jsondata/**").addResourceLocations("classpath*:/jsondata/");
         registry.addResourceHandler("/metronic/**").addResourceLocations("classpath*:/metronic/");
         super.addResourceHandlers(registry);
-    }*/
+    }
 
 
 }
