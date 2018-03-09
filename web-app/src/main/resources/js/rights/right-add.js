@@ -75,7 +75,7 @@ $(function () {
                         Shade.unblockUI($("#rightBody"));
 				if(data.result == true){
 					BootboxExt.alert("修改成功",function(res){
-						location.href="/rights//right/search";
+						location.href="/rights/right/search";
 					});
 				}else{
 					BootboxExt.alert("修改失败",function(res){

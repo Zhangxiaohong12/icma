@@ -14,9 +14,9 @@ $(function () {
                 $("#btnUserAccount").attr("disabled", false);
                 if (data.result == '2') {
                     count = 0;
-                    BootboxExt.alert(function (res) {
-                        location.href = "/manage/touser-mobile?mobile=" + encode64(data.mobile);
-                    });
+                    // BootboxExt.alert(function (res) {
+                    location.href = "/manage/touser-mobile?mobile=" + encode64(data.mobile);
+                    // });
                 } else {
                     count++;
                     BootboxExt.alert(data.result);

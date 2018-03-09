@@ -135,7 +135,7 @@
                                 <td th:text="${subMchInfo.subMidName}"></td><!--子商户名称-->
                                 <td th:text="${subMchInfo.subMidShortName}"></td><!--子商户简称-->
                                 <td sl:type="SUB_MCH_STATUS" sl:text="${subMchInfo.status}"></td><!--子商户状态-->
-                                <td th:each="txnOnOff: ${txnOnOffs}" sl:post="${txnOnOff.post}" sl:onoff="${subMchInfo.onOffCode}+','+${onOffResult}+','+${subMchInfo.mchInfo.onOffCode}"></td>
+                                <td th:each="txnOnOff: ${txnOnOffs}" sl:post="${txnOnOff.post}" sl:onoff="${subMchInfo.onOffCode!=null?subMchInfo.onOffCode:0}+','+${onOffResult}+','+${subMchInfo.mchInfo.onOffCode!=null?subMchInfo.mchInfo.onOffCode:0}"></td>
                                 <td th:text="${subMchInfo.subMchAddr}"></td><!--子商户地址-->
                                 <td th:text="${subMchInfo.mid}"></td><!--商户号-->
                                 <td th:text="${subMchInfo.mchInfo?.midName?: ''}"></td><!--商户名称-->

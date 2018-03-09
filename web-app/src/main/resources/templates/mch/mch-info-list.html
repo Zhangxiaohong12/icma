@@ -127,6 +127,8 @@
                                 <th>商户类型</th>
                                 <th>商户地区</th>
                                 <th>商户地址</th>
+                                <th>经度</th>
+                                <th>纬度</th>
                                 <th>联系人</th>
                                 <th>联系电话</th>
                                 <th>结算间隔（天）</th>
@@ -148,6 +150,8 @@
                                 <td th:text="${mchInfo.mccName}"></td><!--商户类型码-->
                                 <td th:text="${mchInfo.areaName}"></td><!--商户地区码-->
                                 <td th:text="${mchInfo.mchAddr}"></td><!--商户地址-->
+                                <td th:text="${mchInfo.longitude}"></td><!--经度-->
+                                <td th:text="${mchInfo.latitude}"></td><!--纬度-->
                                 <td th:text="${mchInfo.linkMan}"></td><!--联系人-->
                                 <td th:text="${mchInfo.phone}"></td><!--联系电话-->
                                 <td th:text="${mchInfo.settleInterval}"></td><!--结算间隔时间-->
@@ -156,8 +160,11 @@
                                 <td th:text="${mchInfo.teller}"></td><!--操作员-->
                                 <td th:text="${#calendars.format(mchInfo.modifyTime,'yyyy-MM-dd HH:mm:ss')}"></td><!--修改时间-->
                                 <td th:text="${mchInfo.memo}"></td>
-                                <shiro:hasAnyPermissions name="mchInfo_update,mchInfo_delete">
+                                <shiro:hasAnyPermissions name="mchInfo_update,mchInfo_delete,mchInfo_view,mchInfo_label">
                                     <td>
+                                        <shiro:hasPermission name="mchInfo_label">
+                                            <a data-toggle="modal" class='btn purple  btn-xs' th:onclick="'javascript:label(\''+${mchInfo.mid}+'\');'" style="margin-left: 5px;">标注</a>
+                                        </shiro:hasPermission>
                                         <shiro:hasPermission name="mchInfo_update">
                                             <a th:onclick="'javascript:toUpdate(\''+${mchInfo.mid}+'\');'" class='btn blue btn-xs'>修改</a>
                                         </shiro:hasPermission>

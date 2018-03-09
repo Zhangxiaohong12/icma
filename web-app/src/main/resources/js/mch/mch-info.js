@@ -94,6 +94,14 @@ function viewMchInfo(mid) {
     window.location.href = "/mch/info/view?mid=" + mid;
 }
 
+/**
+ * 进入标注。
+ * @param mid
+ */
+function label(mid) {
+    window.location.href = "/mch/info/label?mid=" + mid;
+}
+
 var mchInfoVo = new Object();
 
 function setSearchParam() {

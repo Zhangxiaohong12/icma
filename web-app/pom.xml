@@ -29,10 +29,27 @@
             <artifactId>service-api</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <groupId>org.smarabbit.massy</groupId>
+            <artifactId>massy-webfront-metronic</artifactId>
+            <version>0.1.8</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>massy-web</artifactId>
+                    <groupId>org.smarabbit.massy</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>slf4j-log4j12</artifactId>
+                    <groupId>org.slf4j</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>log4j</artifactId>
+                    <groupId>log4j</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
+
     </dependencies>
 
 </project>

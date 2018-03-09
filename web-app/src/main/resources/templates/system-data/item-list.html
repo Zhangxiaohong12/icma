@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+        xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <title th:text="${pageTitle}"></title>
     <head th:include="/commons/head::header"/>
     <link th:href="@{/metronic/css/pages/error.css}" rel="stylesheet" type="text/css"/>
     <style>
-        th{
+        th {
             width: 100px;
         }
     </style>
@@ -36,7 +36,7 @@
                             <div class="input-icon right">
                                 <i class="icon-edit"></i>
                                 <input type="text" class="form-control" id="category" name="category"
-                                       th:value="${itemVo.category}" placeholder="请输入类型">
+                                        th:value="${itemVo.category}" placeholder="请输入类型">
                             </div>
                         </div>
                     </div>
@@ -46,7 +46,7 @@
                             <div class="input-icon right">
                                 <i class="icon-edit"></i>
                                 <input type="text" class="form-control" id="name" name="name"
-                                       th:value="${itemVo.name}" placeholder="请输入名称">
+                                        th:value="${itemVo.name}" placeholder="请输入名称">
                             </div>
                         </div>
                     </div>
@@ -94,7 +94,7 @@
                                 <td th:text="${itemDto.category}"></td>
                                 <td th:text="${itemDto.name}"></td>
                                 <td th:text="${itemDto.description}"></td>
-                                <td th:text="${ItemUtil.getName(itemDto.status,'STATUS')}"></td>
+                                <td sl:type="STATUS" sl:text="${itemDto.status}"></td>
                                 <td th:text="${itemDto.orderId}"></td>
                                 <shiro:hasAnyPermissions name="itemDetail_search,item_update,item_delete">
                                     <td>
@@ -103,11 +103,11 @@
                                         </shiro:hasPermission>
                                         <shiro:hasPermission name="item_update">
                                             <a class='btn blue btn-xs' style="margin-left: 5px;"
-                                               th:href="@{toupdate-item(id=${itemDto.id})}">修改</a>
+                                                    th:href="@{toupdate-item(id=${itemDto.id})}">修改</a>
                                         </shiro:hasPermission>
                                         <shiro:hasPermission name="item_delete">
                                             <a class='btn red btn-xs'
-                                               th:onclick="'javascript:deleteItemAndItemDetail(\''+${itemDto.id}+'\');'">删除</a>
+                                                    th:onclick="'javascript:deleteItemAndItemDetail(\''+${itemDto.id}+'\');'">删除</a>
                                         </shiro:hasPermission>
                                     </td>
                                 </shiro:hasAnyPermissions>

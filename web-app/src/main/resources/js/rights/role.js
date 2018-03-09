@@ -52,8 +52,14 @@ $(function() {
     var rightArr = "";
     $("#tree-btnSave").click(function () {
         $("#tree-btnSave").attr("disabled", true);
-        Shade.blockUI($("#tree-modal"));
-        rightStrArray = getCheckboxTreeSelNode();
+        Shade.blockUI($("#roleBody"));
+        var rightStrArray = getCheckboxTreeSelNode();
+        if(rightStrArray.length == 0){
+            $("#tree-btnSave").attr("disabled", false);
+            Shade.unblockUI($("#roleBody"));
+            BootboxExt.alert("请先选择权限信息!");
+            return;
+        }
         for (var i = 0; i < rightStrArray.length; i++){
             if(i > 0){
                 rightArr += ",";
@@ -65,7 +71,7 @@ $(function() {
         $.get("/rights/right-role-relation/add", { rightArr:rightArr, roleId: roleId},
             function(data){  //此处是回调函数 接收从后台传回的值
                 $("#tree-btnSave").attr("disabled", false);
-               Shade.unblockUI($("#tree-modal"));
+               Shade.unblockUI($("#roleBody"));
                 if(data.result == true){
                     BootboxExt.alert("分配成功", function (res) {
                         location.href = "/rights/role/search";

@@ -21,7 +21,7 @@ function initTidGroupTables(userId,merchantId,subMid) {
     } else {
         $("#tidGroupSubMchId").val(subMid);
     }
-    queryTidGroupInfo(userId);
+    queryTidGroupInfo(userId,merchantId,subMid);
     if(tidGroupInfoItems != null){
         $.each(tidGroupInfoItems, function (index, row) {
             selectGroupIds[index] = row.tidGroupId;
@@ -123,11 +123,16 @@ function queryParamsTidGroup(params) {
 }
 
 
-function queryTidGroupInfo(userId) {
-    $.ajax({
+function queryTidGroupInfo(userId,merchantId,subMid) {
+        $.ajax({
         async: false,
         type: "get",
-        url: "/rights/tidGroup/queryRoleByUser/"+userId ,
+        url: "/rights/tidGroup/queryTidGroupByUser/" ,
+        data:{
+            userId:userId,
+            merchantId:merchantId,
+            subMid:subMid
+        },
         dataType: "json",
         success: function (data) {
             tidGroupInfoItems = data.rows;
@@ -192,10 +197,10 @@ function viewTidGroupTables(userId) {
         queryParamsType:'',
         singleSelect : true,
         columns: [
-            {
-                field : 'checked',
-                checkbox: true,
-            },
+            // {
+            //     field : 'checked',
+            //     checkbox: true,
+            // },
             {
                 field: 'tidGroupCode',
                 title: '终端组编码'
