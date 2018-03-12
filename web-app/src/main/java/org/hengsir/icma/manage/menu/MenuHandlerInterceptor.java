@@ -51,7 +51,7 @@ public class MenuHandlerInterceptor implements HandlerInterceptor {
         String url = request.getRequestURI().replace(request.getContextPath(), "");
         //左侧菜单
         try {
-            request.setAttribute("pageTitle", "智能课堂点名录入系统");
+            request.setAttribute("pageTitle", "智能课堂点名后台");
             Map<String, String> map = shiroFilterFactoryBeanExtend.getFilterChainDefinitionMap();
             Subject subject = SecurityUtils.getSubject();
             ShiroUser shiroUser = (ShiroUser) subject.getPrincipal();
