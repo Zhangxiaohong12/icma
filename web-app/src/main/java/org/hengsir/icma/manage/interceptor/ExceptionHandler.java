@@ -1,9 +1,10 @@
 package org.hengsir.icma.manage.interceptor;
 
 import com.alibaba.fastjson.JSONObject;
-import org.apache.log4j.Logger;
 import org.apache.shiro.authz.AuthorizationException;
 import org.hengsir.icma.manage.exception.BusinessException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 
@@ -30,7 +31,7 @@ public class ExceptionHandler extends SimpleMappingExceptionResolver {
     /**
      * 日志。
      */
-    private Logger log = Logger.getLogger(ExceptionHandler.class);
+    private Logger log = LoggerFactory.getLogger(ExceptionHandler.class);
 
     /**
      * 公用拦截异常处理方法。

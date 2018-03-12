@@ -8,7 +8,6 @@ import org.hengsir.icma.service.LeftMenuService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -37,8 +36,7 @@ public class LeftMenuServiceImpl implements LeftMenuService {
     @Autowired
     private LeftMenuWriteDao leftMenuWriteDao;
 
-   @Autowired
-    private RedisTemplate redisTemplate;
+
 
     //根模块和根菜单
     private List<LeftMenu> modelList = new ArrayList<>();
@@ -56,7 +54,7 @@ public class LeftMenuServiceImpl implements LeftMenuService {
         if(menus == null){
             menus = leftMenuDao.findAll();
         }
-        redisTemplate.opsForValue().set(userAccount, menus);
+        //redisTemplate.opsForValue().set(userAccount, menus);
         fillModelList(menus);//填充菜单列表
         splitModelMenu();//分割菜单和模块
         StringBuffer locationMenu = new StringBuffer();
