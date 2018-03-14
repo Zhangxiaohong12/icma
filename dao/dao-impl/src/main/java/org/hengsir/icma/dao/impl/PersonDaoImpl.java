@@ -2,7 +2,7 @@ package org.hengsir.icma.dao.impl;
 
 import org.hengsir.icma.dao.PersonWriteDao;
 import org.hengsir.icma.entity.Person;
-import org.hengsir.icma.dao.mapper.PersonMapper;
+import org.hengsir.icma.dao.mapper.*;
 import org.hengsir.icma.utils.Page;
 import org.hengsir.icma.utils.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;

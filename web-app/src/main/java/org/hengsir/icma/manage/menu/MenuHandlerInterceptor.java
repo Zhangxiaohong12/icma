@@ -1,15 +1,16 @@
 package org.hengsir.icma.manage.menu;
 
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.subject.Subject;
 import org.hengsir.icma.entity.LeftMenu;
 import org.hengsir.icma.manage.scan.ShiroRealService;
-import org.hengsir.icma.manage.shiro.ShiroFilterFactoryBeanExtend;
 import org.hengsir.icma.manage.shiro.ShiroUser;
 import org.hengsir.icma.service.LeftMenuService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -35,11 +36,13 @@ public class MenuHandlerInterceptor implements HandlerInterceptor {
     @Autowired
     private LeftMenuService leftMenuService;//菜单管理
 
-    @Autowired
-    private ShiroFilterFactoryBeanExtend shiroFilterFactoryBeanExtend;
 
     @Autowired
     private ShiroRealService shiroRealService;
+
+    @Autowired
+    @Qualifier("shiroFilter")
+    private ShiroFilterFactoryBean shiroFilter;
 
     /**
      * 请求开始时执行。
@@ -51,8 +54,7 @@ public class MenuHandlerInterceptor implements HandlerInterceptor {
         String url = request.getRequestURI().replace(request.getContextPath(), "");
         //左侧菜单
         try {
-            request.setAttribute("pageTitle", "智能课堂点名后台");
-            Map<String, String> map = shiroFilterFactoryBeanExtend.getFilterChainDefinitionMap();
+            request.setAttribute("pageTitle", "ICMA后台");
             Subject subject = SecurityUtils.getSubject();
             ShiroUser shiroUser = (ShiroUser) subject.getPrincipal();
             if (shiroUser != null) {
@@ -93,7 +95,7 @@ public class MenuHandlerInterceptor implements HandlerInterceptor {
         //是否登陆验证
         try {
             if (modelAndView != null) {
-                Map<String, String> map = shiroFilterFactoryBeanExtend.getFilterChainDefinitionMap();
+                Map<String, String> map = shiroFilter.getFilterChainDefinitionMap();
                 Subject subject = SecurityUtils.getSubject();
                 ShiroUser shiroUser = (ShiroUser) subject.getPrincipal();
                 if (shiroUser == null) {

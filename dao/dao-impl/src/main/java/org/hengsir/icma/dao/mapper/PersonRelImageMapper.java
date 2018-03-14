@@ -1,13 +1,13 @@
 package org.hengsir.icma.dao.mapper;
 
-import org.apache.ibatis.annotations.Mapper;
 import org.hengsir.icma.entity.PersonImageRelation;
+import org.springframework.stereotype.Component;
 
 /**
  * @author hengsir
  * @date 2018/1/5 下午4:09
  */
-@Mapper
+@Component
 public interface PersonRelImageMapper {
 
     /**

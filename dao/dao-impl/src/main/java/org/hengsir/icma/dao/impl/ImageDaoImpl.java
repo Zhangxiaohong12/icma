@@ -3,7 +3,7 @@ package org.hengsir.icma.dao.impl;
 import org.hengsir.icma.dao.ImageWriteDao;
 import org.hengsir.icma.entity.Image;
 import org.hengsir.icma.entity.Person;
-import org.hengsir.icma.dao.mapper.ImageMapper;
+import org.hengsir.icma.dao.mapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -2,7 +2,7 @@ package org.hengsir.icma.dao.impl;
 
 import org.hengsir.icma.dao.RoleWriteDao;
 import org.hengsir.icma.entity.Role;
-import org.hengsir.icma.dao.mapper.RoleMapper;
+import org.hengsir.icma.dao.mapper.*;
 import org.hengsir.icma.utils.Page;
 import org.hengsir.icma.utils.PageHelper;
 import org.slf4j.Logger;

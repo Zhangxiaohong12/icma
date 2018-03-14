@@ -10,7 +10,6 @@ import org.apache.shiro.subject.Subject;
 import org.hengsir.icma.dao.UserDao;
 import org.hengsir.icma.entity.User;
 import org.hengsir.icma.manage.controller.BaseController;
-import org.hengsir.icma.manage.shiro.PasswordHash;
 import org.hengsir.icma.service.UserService;
 import org.hengsir.icma.utils.DecodeUtil;
 import org.hengsir.icma.utils.ValidateCodeUtil;
@@ -48,10 +47,6 @@ public class LoginController extends BaseController {
 
     @Autowired
     private UserDao userDao;
-
-    @Autowired
-    private PasswordHash passwordHash;
-
 
 
     /**
@@ -202,23 +197,6 @@ public class LoginController extends BaseController {
         modelAndView.addObject("mobile", mobile);
         modelAndView.setViewName("/rights/user-password");
         return modelAndView;
-    }
-
-    @RequestMapping(value = "/user-password")
-    @ResponseBody
-    public Object userPassword(String userPassword, String mobile) {
-        User user = null;
-        //对密码进行加密处理
-        boolean flag = false;
-        if (user != null) {
-            String salt = "12345";
-            String encodePass = passwordHash.toHex(userPassword, salt);
-            user.setUserPassword(encodePass);
-            flag = userService.updatePass(user);
-        }
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.accumulate("result", flag);
-        return jsonObject;
     }
 
     @RequestMapping(value = "/touser-account")

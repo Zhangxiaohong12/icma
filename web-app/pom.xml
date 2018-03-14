@@ -12,11 +12,6 @@
     <artifactId>web-app</artifactId>
 
     <dependencies>
-        <dependency>
-            <groupId>org.hengsir</groupId>
-            <artifactId>commons</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
 
         <dependency>
             <groupId>org.hengsir</groupId>
@@ -30,7 +25,7 @@
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
-        <dependency>
+        <!--<dependency>
             <groupId>org.smarabbit.massy</groupId>
             <artifactId>massy-webfront-metronic</artifactId>
             <version>0.1.8</version>
@@ -48,7 +43,7 @@
                     <groupId>log4j</groupId>
                 </exclusion>
             </exclusions>
-        </dependency>
+        </dependency>-->
 
     </dependencies>
 

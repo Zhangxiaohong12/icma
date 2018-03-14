@@ -1,14 +1,14 @@
 package org.hengsir.icma.dao.mapper;
 
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.hengsir.icma.entity.Right;
 import org.hengsir.icma.entity.Role;
 import org.hengsir.icma.entity.User;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Mapper
+@Component
 public interface UserMapper {
 
     /**

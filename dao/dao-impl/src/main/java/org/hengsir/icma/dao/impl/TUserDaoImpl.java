@@ -3,7 +3,7 @@ package org.hengsir.icma.dao.impl;
 import org.hengsir.icma.dao.TUserWriteDao;
 import org.hengsir.icma.entity.User;
 import org.hengsir.icma.entity.UserOrg;
-import org.hengsir.icma.dao.mapper.TUserMapper;
+import org.hengsir.icma.dao.mapper.*;
 import org.hengsir.icma.utils.Page;
 import org.hengsir.icma.utils.PageHelper;
 import org.slf4j.Logger;

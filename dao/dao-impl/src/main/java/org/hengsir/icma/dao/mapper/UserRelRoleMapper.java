@@ -1,15 +1,15 @@
 package org.hengsir.icma.dao.mapper;
 
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.hengsir.icma.entity.UserRelRole;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 /**
  * 用户角色关联mapper。
  */
-@Mapper
+@Component
 public interface UserRelRoleMapper {
     /**
      * 新增。

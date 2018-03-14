@@ -1,9 +1,7 @@
 package org.hengsir.icma.manage.shiro;
 
 import com.alibaba.fastjson.JSONObject;
-import jodd.util.StringUtil;
 import org.apache.shiro.authc.*;
-import org.apache.shiro.authc.credential.CredentialsMatcher;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
@@ -26,6 +24,7 @@ import java.util.Set;
  *
  * @author huangzebin
  */
+
 @Service
 public class ShiroReal extends AuthorizingRealm {
 
@@ -34,8 +33,9 @@ public class ShiroReal extends AuthorizingRealm {
     @Autowired
     private ShiroRealService shiroRealService;
 
-    /*@Autowired
+/*@Autowired
     private SysAppDao sysAppDao;*/
+
 
     @Autowired
     private RoleDao roleDao;
@@ -52,12 +52,13 @@ public class ShiroReal extends AuthorizingRealm {
 
     }
 
-    /**
+/**
      * Shiro登录认证。
      * (原理：用户提交 用户名和密码，shiro 封装令牌，realm 通过用户名将密码查询返回
      * shiro 自动去比较查询出密码和用户输入密码是否一致
      * 进行登陆控制）
      */
+
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(
             AuthenticationToken authcToken) throws AuthenticationException {
@@ -65,7 +66,7 @@ public class ShiroReal extends AuthorizingRealm {
         UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
         String userAccount = token.getUsername();
         //登陆失败
-        if (StringUtil.isBlank(userAccount)) {
+        if (userAccount == null || userAccount.length() == 0) {
             return null;
         }
         ShiroUser shiroUser = new ShiroUser();
@@ -95,15 +96,16 @@ public class ShiroReal extends AuthorizingRealm {
         shiroUser.setLeftMenus(leftMenus);
 
         LOGGER.info("shiroUser=" + JSONObject.toJSONString(shiroUser));
-        // 认证缓存信息,默认md5加盐处理为123456
+
         return new SimpleAuthenticationInfo(shiroUser,
-                user.getUserPassword().toCharArray(),
-                ShiroByteSource.of("12345"), getName());
+                user.getUserPassword(),
+                 getName());
     }
 
-    /**
+/**
      * Shiro权限认证。
      */
+
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(
             PrincipalCollection principals) {
@@ -121,20 +123,22 @@ public class ShiroReal extends AuthorizingRealm {
         removeUserCache(shiroUser);
     }
 
-    /**
+/**
      * 清除用户缓存。
      *
      * @param shiroUser 自定义用户信息类，用来保存更多的登陆信息
      */
+
     private void removeUserCache(ShiroUser shiroUser) {
         removeUserCache(shiroUser.getUserAccount());
     }
 
-    /**
+/**
      * 清除用户缓存。
      *
      * @param loginName 登陆用户名
      */
+
     private void removeUserCache(String loginName) {
         SimplePrincipalCollection principals = new SimplePrincipalCollection();
         principals.add(loginName, super.getName());

@@ -1,10 +1,10 @@
 package org.hengsir.icma.dao.mapper;
 
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.hengsir.icma.entity.Right;
 import org.hengsir.icma.entity.Role;
 import org.hengsir.icma.utils.Page;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ import java.util.List;
  * @createTime 2017年11月23日
  * @version 1.0.0
  */
-@Mapper
+@Component
 public interface RightMapper {
 
     /**

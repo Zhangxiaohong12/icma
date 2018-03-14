@@ -1,3 +1,4 @@
+/*
 package org.hengsir.icma.service.impl;
 
 import com.youtu.Youtu;
@@ -6,7 +7,6 @@ import org.hengsir.icma.dao.PersonWriteDao;
 import org.hengsir.icma.entity.Image;
 import org.hengsir.icma.entity.Person;
 import org.hengsir.icma.service.PersonService;
-import org.hengsir.icma.utils.InitBean;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +18,12 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
+*/
 /**
  * @author hengsir
  * @date 2018/1/10 上午11:47
- */
+ *//*
+
 @Service
 public class PersonServiceImpl implements PersonService {
 
@@ -138,3 +140,4 @@ public class PersonServiceImpl implements PersonService {
         return false;
     }
 }
+*/

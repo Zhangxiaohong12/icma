@@ -1,9 +1,9 @@
 package org.hengsir.icma.dao.mapper;
 
 
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.hengsir.icma.entity.LeftMenu;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ import java.util.List;
  * @createTime 2017年12月1日
  * @version 1.0.0
  */
-@Mapper
+@Component
 public interface LeftMenuMapper {
     /**
      * 获取所有菜单。

@@ -1,10 +1,10 @@
 package org.hengsir.icma.dao.mapper;
 
 
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.hengsir.icma.entity.User;
 import org.hengsir.icma.entity.UserOrg;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
@@ -15,7 +15,8 @@ import java.util.Map;
  * @createTime 2017年6月13日上午19:44:23
  * @version 1.0.0
  */
-@Mapper
+@Component
+
 public interface TUserMapper {
 
     /**

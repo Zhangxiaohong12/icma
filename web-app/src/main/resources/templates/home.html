@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro" >
 <head>
     <title th:text="${pageTitle}"></title>
     <head th:include="/commons/head::header"/>
@@ -16,7 +17,7 @@
             <li th:utext="${locationMenu}"></li>
         </ul>
         <h3 style="text-align: center;">
-            <shiro:principal/>
+            <shiro:principal property="userName"/>
             ，你好！欢迎来到<span th:text="${pageTitle}"></span></h3>
         <div class="box" id="clock" style="display: none;">
             <!-- 原点 -->

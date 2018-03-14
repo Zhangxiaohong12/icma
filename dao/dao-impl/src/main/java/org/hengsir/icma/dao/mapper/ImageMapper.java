@@ -1,9 +1,9 @@
 package org.hengsir.icma.dao.mapper;
 
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.hengsir.icma.entity.Image;
 import org.hengsir.icma.entity.Person;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ import java.util.List;
  * @author hengsir
  * @date 2018/1/5 下午4:22
  */
-@Mapper
+@Component
 public interface ImageMapper {
 
     /**
