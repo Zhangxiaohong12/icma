@@ -4,7 +4,7 @@ import java.lang.reflect.Field;
 
 /**
  * 分页查询获取总条数参数设置。
- * Created by lidan on 2017/8/24.
+ * Created by hengsir on 2017/8/24.
  */
 public class ReflectUtil {
 

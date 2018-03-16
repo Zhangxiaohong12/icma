@@ -6,7 +6,7 @@ import java.util.Set;
 
 /**
  * 验证码对象。
- * Created by lijiguang on 2017/7/13.
+ * Created by hengsir on 2017/7/13.
  */
 public class VerifyCode implements Serializable {
 

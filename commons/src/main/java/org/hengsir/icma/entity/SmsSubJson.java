@@ -5,7 +5,7 @@ import java.io.Serializable;
 
 /**
  * 短信实体。
- * create by lijiguang on 2017-7-12
+ * create by hengsir on 2017-7-12
  */
 public class SmsSubJson implements Serializable {
     private static final long serialVersionUID = 1;

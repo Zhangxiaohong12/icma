@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  * 返回结果。
- * Created by lijiguang on 2017/7/13.
+ * Created by hengsir on 2017/7/13.
  */
 public class Result implements Serializable {
 

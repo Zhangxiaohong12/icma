@@ -12,7 +12,7 @@ import java.util.List;
 
 /**
  * 用户角色关联dao实现。
- * Created by lidan on 2017/6/14.
+ * Created by hengsir on 2017/6/14.
  */
 @Service
 public class UserRelRoleDaoImpl implements UserRelRoleWriteDao {

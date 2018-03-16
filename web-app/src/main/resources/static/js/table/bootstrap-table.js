@@ -1,5 +1,5 @@
 /**
- * Created by lidan on 2017/7/6.
+ * Created by hengsir on 2017/7/6.
  */
 (function ($) {
     'use strict';

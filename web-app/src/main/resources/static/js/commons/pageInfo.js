@@ -1,5 +1,5 @@
 /**
- * @author lijiguang
+ * @author hengsir
  * @date 2017年5月20日
  *分页的公用方法
  *<div class="row page_info" data-search="formId"></div>

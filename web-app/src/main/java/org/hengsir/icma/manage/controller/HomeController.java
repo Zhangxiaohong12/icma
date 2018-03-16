@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * 首页处理。
  *
- * @author lijiguang
+ * @author hengsir
  * @version 1.0.0
  * @createTime 2017年5月8日下午3:05:23
  */

@@ -3,7 +3,7 @@
  * ajax未定义error方法
  * 将执行以下js代码
  * 弹出提示。
- * @author lijiguang 2017年11月3日
+ * @author hengsir 2017年11月3日
  */
 $(function () {
     $.ajaxSetup({

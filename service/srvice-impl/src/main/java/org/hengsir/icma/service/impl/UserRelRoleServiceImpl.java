@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * 用户角色关联表service实现类。
- * Created by lidan on 2017/6/14.
+ * Created by hengsir on 2017/6/14.
  */
 @Service
 public class UserRelRoleServiceImpl implements UserRelRoleService {

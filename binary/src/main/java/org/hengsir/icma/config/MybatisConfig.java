@@ -1,10 +1,9 @@
 package org.hengsir.icma.config;
 
-import org.hengsir.icma.utils.PageHelper;
+import org.apache.ibatis.plugin.Interceptor;
+import org.hengsir.icma.utils.pageHelper.PageHelper;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -23,21 +22,11 @@ public class MybatisConfig {
     private DataSource dataSource;
 
     @Bean
-    @ConditionalOnMissingBean
-    public SqlSessionFactoryBean sqlSessionFactoryBean() throws IOException {
+    public SqlSessionFactoryBean sqlSessionFactoryBean(PageHelper pageHelper) throws IOException {
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
         sqlSessionFactoryBean.setDataSource(dataSource);
+        sqlSessionFactoryBean.setPlugins(new Interceptor[]{pageHelper});
         return sqlSessionFactoryBean;
     }
 
-    @Bean
-    public PageHelper pageHelper(){
-        PageHelper pageHelper = new PageHelper();
-        Properties properties = new Properties();
-        properties.setProperty("dialect","mysql");
-        properties.setProperty("offsetAsPageNum","true");
-        properties.setProperty("rowBoundsWithCount","true");
-        pageHelper.setProperties(properties);
-        return pageHelper;
-    }
 }

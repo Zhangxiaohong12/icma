@@ -9,7 +9,7 @@ public class User implements Model<String> {
     /**
      * 主键。
      */
-    private Integer userId;
+    private int userId;
     /**
      * 用户名。
      */
@@ -26,10 +26,7 @@ public class User implements Model<String> {
      * personId。
      */
     private String personId;
-    /**
-     * 机构id。
-     */
-    private int groupId;
+
     /**
      * 创建时间。
      */
@@ -41,33 +38,81 @@ public class User implements Model<String> {
     /**
      * 用户状态。
      */
-    private int userStatus;
+    private String userStatus;
     /**
      * 性别。
      */
-    private int userSex;
+    private String userSex;
     /**
      * 身份证号。
      */
     private String userIdCard;
 
     /**
-     * 手机号
+     * 所属机构
      */
-    private String mobile;
+    private Group group;
 
+    private int groupId;
 
+    private Group parentGroup;
+
+    private int parentGroupId;
+
+    private Group grandGroup;
+
+    private int grandGroupId;
+
+    public int getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(int groupId) {
+        this.groupId = groupId;
+    }
+
+    public int getParentGroupId() {
+        return parentGroupId;
+    }
+
+    public void setParentGroupId(int parentGroupId) {
+        this.parentGroupId = parentGroupId;
+    }
+
+    public int getGrandGroupId() {
+        return grandGroupId;
+    }
+
+    public void setGrandGroupId(int grandGroupId) {
+        this.grandGroupId = grandGroupId;
+    }
+
+    public Group getGroup() {
+        return group;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
+    }
+
+    public Group getParentGroup() {
+        return parentGroup;
+    }
+
+    public void setParentGroup(Group parentGroup) {
+        this.parentGroup = parentGroup;
+    }
+
+    public Group getGrandGroup() {
+        return grandGroup;
+    }
+
+    public void setGrandGroup(Group grandGroup) {
+        this.grandGroup = grandGroup;
+    }
 
     public String getUserIdCard() {
         return userIdCard;
-    }
-
-    public String getMobile() {
-        return mobile;
-    }
-
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
     }
 
     public void setUserIdCard(String userIdCard) {
@@ -114,14 +159,6 @@ public class User implements Model<String> {
         this.personId = personId;
     }
 
-    public int getGroupId() {
-        return groupId;
-    }
-
-    public void setGroupId(int groupId) {
-        this.groupId = groupId;
-    }
-
     public Date getCreateTime() {
         return createTime;
     }
@@ -138,19 +175,19 @@ public class User implements Model<String> {
         this.updateTime = updateTime;
     }
 
-    public int getUserStatus() {
+    public String getUserStatus() {
         return userStatus;
     }
 
-    public void setUserStatus(int userStatus) {
+    public void setUserStatus(String userStatus) {
         this.userStatus = userStatus;
     }
 
-    public int getUserSex() {
+    public String getUserSex() {
         return userSex;
     }
 
-    public void setUserSex(int userSex) {
+    public void setUserSex(String userSex) {
         this.userSex = userSex;
     }
 
@@ -160,6 +197,10 @@ public class User implements Model<String> {
 
     public void setIdCard(String idCard) {
         this.userIdCard = idCard;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     @Override

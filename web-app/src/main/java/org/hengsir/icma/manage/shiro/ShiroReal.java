@@ -33,10 +33,6 @@ public class ShiroReal extends AuthorizingRealm {
     @Autowired
     private ShiroRealService shiroRealService;
 
-/*@Autowired
-    private SysAppDao sysAppDao;*/
-
-
     @Autowired
     private RoleDao roleDao;
 
@@ -52,7 +48,7 @@ public class ShiroReal extends AuthorizingRealm {
 
     }
 
-/**
+    /**
      * Shiro登录认证。
      * (原理：用户提交 用户名和密码，shiro 封装令牌，realm 通过用户名将密码查询返回
      * shiro 自动去比较查询出密码和用户输入密码是否一致
@@ -99,10 +95,10 @@ public class ShiroReal extends AuthorizingRealm {
 
         return new SimpleAuthenticationInfo(shiroUser,
                 user.getUserPassword(),
-                 getName());
+                getName());
     }
 
-/**
+    /**
      * Shiro权限认证。
      */
 
@@ -123,7 +119,7 @@ public class ShiroReal extends AuthorizingRealm {
         removeUserCache(shiroUser);
     }
 
-/**
+    /**
      * 清除用户缓存。
      *
      * @param shiroUser 自定义用户信息类，用来保存更多的登陆信息
@@ -133,7 +129,7 @@ public class ShiroReal extends AuthorizingRealm {
         removeUserCache(shiroUser.getUserAccount());
     }
 
-/**
+    /**
      * 清除用户缓存。
      *
      * @param loginName 登陆用户名

@@ -12,8 +12,8 @@ import org.hengsir.icma.dao.RoleDao;
 import org.hengsir.icma.entity.*;
 import org.hengsir.icma.manage.shiro.ShiroUser;
 import org.hengsir.icma.service.RightService;
-import org.hengsir.icma.utils.Page;
-import org.hengsir.icma.utils.PageHtmlUtil;
+import org.hengsir.icma.utils.pageHelper.Page;
+import org.hengsir.icma.utils.pageHelper.PageHtmlUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,7 +24,7 @@ import java.util.*;
 
 /**
  * 权限管理类。
- * Created by lidan on 2017/6/7.
+ * Created by hengsir on 2017/6/7.
  */
 @Controller
 @RequestMapping("/rights/right")

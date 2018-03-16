@@ -3,7 +3,7 @@ package org.hengsir.icma.manage.exception;
 /**
  * 业务处理异常。
  *
- * @author lijiguang
+ * @author hengsir
  */
 public class BusinessException extends RuntimeException {
 

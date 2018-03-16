@@ -5,7 +5,7 @@ import org.hengsir.icma.entity.UserRelRole;
 
 /**
  * 用户角色关联表service层。
- * Created by lidan on 2017/6/14.
+ * Created by hengsir on 2017/6/14.
  */
 public interface UserRelRoleService {
     /**

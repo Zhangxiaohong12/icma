@@ -25,7 +25,7 @@ import java.util.Set;
  * 请求拦截--获取菜单。
  * 2017年5月4日下午5:20:58
  *
- * @author lijiguang
+ * @author hengsir
  * @version 1.0.0
  */
 @Service

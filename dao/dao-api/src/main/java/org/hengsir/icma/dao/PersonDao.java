@@ -1,7 +1,7 @@
 package org.hengsir.icma.dao;
 
 import org.hengsir.icma.entity.Person;
-import org.hengsir.icma.utils.Page;
+import org.hengsir.icma.utils.pageHelper.Page;
 
 import java.util.List;
 

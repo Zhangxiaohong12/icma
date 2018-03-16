@@ -206,26 +206,6 @@ public class LoginController extends BaseController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/user-account")
-    @ResponseBody
-    public Object userAccount(String userAccount) {
-        JSONObject jsonObject = new JSONObject();
-        String flag = ""; //标示用户不存在
-        User user = userDao.selectUserByAccount(userAccount);
-        if (user == null) {
-            flag = "用户不存在";
-        } else {
-            String mobile = user.getMobile();
-            if (mobile == null || "".equals(mobile)) {
-                flag = "该用户未绑定手机号";//用户存在，且未绑定手机号
-            } else {
-                jsonObject.accumulate("mobile", mobile);
-                flag = "2";//用户存在，且绑定了手机号
-            }
-        }
-        jsonObject.accumulate("result", flag);
-        return jsonObject;
-    }
 
     @RequestMapping(value = "/touser-mobile")
     public ModelAndView touserMobile(String mobile) {

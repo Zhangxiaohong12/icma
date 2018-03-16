@@ -1,6 +1,6 @@
 /**
  * 主页圆盘电子时钟js文件
- * @author lijiguang 2017年11月7日
+ * @author hengsir 2017年11月7日
  */
 $(function () {
     var clock = document.getElementById("clock");

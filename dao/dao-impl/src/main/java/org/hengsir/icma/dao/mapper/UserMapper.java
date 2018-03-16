@@ -15,24 +15,52 @@ public interface UserMapper {
      * 根据帐号查询用户。
      * @param userAccount 用户账号
      */
-    public User findUserByAccount(@Param("userAccount") String userAccount);
+    User findUserByAccount(@Param("userAccount") String userAccount);
 
     /**
      * 根据id查询用户。
      * @param userId 用户id
      */
-    public User findUserById(@Param("userId") int userId);
+    User findUserById(@Param("userId") int userId);
 
     /**
      * 根据帐号得出用户角色。
      * @param userAccount 用户账号
      */
-    public List<Role> getRolesByAccount(@Param("userAccount") String userAccount);
+    List<Role> getRolesByAccount(@Param("userAccount") String userAccount);
 
 
     /**
      * 根据帐号得出用户所有的权限。
      * @param userAccount 用户账号
      */
-    public List<Right> getPermissionsByAccount(@Param("userAccount") String userAccount);
+    List<Right> getPermissionsByAccount(@Param("userAccount") String userAccount);
+
+    /**
+     * 根据多条件来查询
+     * @param user
+     * @return
+     */
+    List<User> findByUser(User user);
+
+    /**
+     * 创建用户
+     * @param user
+     * @return
+     */
+    int create(User user);
+
+    /**
+     * 修改用户
+     * @param user
+     * @return
+     */
+    int update(User user);
+
+    /**
+     * 根据用户id删除用户
+     * @param userId
+     * @return
+     */
+    int delete(@Param("userId") int userId);
 }

@@ -3,8 +3,8 @@ package org.hengsir.icma.dao.impl;
 import org.hengsir.icma.dao.PersonWriteDao;
 import org.hengsir.icma.entity.Person;
 import org.hengsir.icma.dao.mapper.*;
-import org.hengsir.icma.utils.Page;
-import org.hengsir.icma.utils.PageHelper;
+import org.hengsir.icma.utils.pageHelper.Page;
+import org.hengsir.icma.utils.pageHelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

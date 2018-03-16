@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.hengsir.icma.dao.mapper.ItemMapper">
+    <resultMap type="org.hengsir.icma.entity.ItemVo" id="itemResult">
+        <id property="id" column="id"/>
+        <result property="category" column="CATEGORY"/>
+        <result property="name" column="NAME"/>
+        <result property="description" column="DESCRIPTION"/>
+        <result property="status" column="STATUS"/>
+        <result property="orderId" column="ORDER_ID"/>
+        <association property="itemDetails"
+                     javaType="org.hengsir.icma.entity.ItemDetail">
+            <result property="id" column="TD_ID"/>
+            <result property="code" column="TD_CODE"/>
+            <result property="supperCode" column="TD_SUPPEER_CODE"/>
+            <result property="name" column="TD_NAME"/>
+            <result property="category" column="TD_CATEGORY"/>
+            <result property="description" column="TD_DESCRIPTION"/>
+            <result property="status" column="TD_STATUS"/>
+            <result property="orderId" column="ID_ORDER_ID"/>
+        </association>
+    </resultMap>
+
+    <select id="read" resultMap="itemResult" useCache="false">
+        SELECT * FROM T_ITEM
+        <if test="id!='' and id!=null">
+            WHERE ID = #{id}
+        </if>
+        ORDER BY ID DESC
+    </select>
+
+    <select id="findById" resultMap="itemResult" useCache="false">
+        SELECT T.*,TD.ID AS TD_ID,TD.CATEGORY AS TD_CATEGORY,TD.CODE AS TD_CODE,TD.SUPPER_CODE AS
+        TD_SUPPEER_CODE,
+        TD.NAME AS TD_NAME,TD.DESCRIPTION AS TD_DESCRIPTION,TD.STATUS AS TD_STATUS,TD.ORDER_ID AS ID_ORDER_ID
+        FROM T_ITEM T LEFT JOIN T_ITEM_DETAIL TD ON T.CATEGORY = TD.CATEGORY
+        <if test="id!='' and id!=null">
+            WHERE T.ID = #{id}
+        </if>
+        ORDER BY TD.CATEGORY,TD.CODE
+    </select>
+
+    <select id="findByPage" resultMap="itemResult" useCache="false">
+        SELECT T.* FROM T_ITEM T
+        <where>
+            <if test="item.category!=null and item.category!='' ">
+                AND T.CATEGORY LIKE '%'||#{item.category}||'%'
+            </if>
+            <if test="item.name!=null and item.name!='' ">
+                AND T.NAME LIKE '%'||#{item.name}||'%'
+            </if>
+            <if test="item.status!=null and item.status!='' ">
+                AND T.STATUS = #{item.status}
+            </if>
+        </where>
+        ORDER BY T.ORDER_ID,T.CATEGORY ASC
+    </select>
+
+    <select id="findByCategory" resultMap="itemResult" useCache="false">
+        SELECT T.*,TD.ID AS TD_ID,TD.CATEGORY AS TD_CATEGORY,TD.CODE AS TD_CODE,TD.SUPPER_CODE AS
+        TD_SUPPEER_CODE,
+        TD.NAME AS TD_NAME,TD.DESCRIPTION AS TD_DESCRIPTION,TD.STATUS AS TD_STATUS
+        FROM T_ITEM T LEFT JOIN T_ITEM_DETAIL TD ON T.CATEGORY = TD.CATEGORY
+        <if test="category!=null and category!=null">
+            WHERE T.CATEGORY = #{category}
+        </if>
+        ORDER BY TD.CATEGORY,TD.ORDER_ID ASC
+    </select>
+
+    <select id="findItemNameExit" resultMap="itemResult" parameterType="java.lang.String">
+        SELECT * FROM T_ITEM
+        <where>
+           <if test="category!=null and category!='' ">
+               CATEGORY = #{category}
+           </if>
+        </where>
+    </select>
+
+    <insert id="addItem" parameterType="org.hengsir.icma.entity.Item">
+
+        INSERT INTO T_ITEM ( CATEGORY, NAME, DESCRIPTION, STATUS, ORDER_ID)
+        VALUES ( #{category},
+        #{name}, #{description},
+        #{status}, #{orderId})
+    </insert>
+
+    <update id="updateItem" parameterType="org.hengsir.icma.entity.Item">
+        UPDATE T_ITEM
+        SET CATEGORY=#{category},
+        NAME=#{name},
+        DESCRIPTION=#{description},
+        STATUS=#{status},
+        ORDER_ID=#{orderId}
+        WHERE ID = #{id}
+    </update>
+
+    <delete id="deleteItemById" parameterType="java.lang.Integer">
+        DELETE FROM T_ITEM WHERE ID = #{id}
+    </delete>
+</mapper>

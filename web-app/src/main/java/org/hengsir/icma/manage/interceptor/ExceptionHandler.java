@@ -15,7 +15,7 @@ import java.io.PrintWriter;
 /**
  * 公用异常处理 Spring MVC。
  *
- * @author lijiguang
+ * @author hengsir
  */
 public class ExceptionHandler extends SimpleMappingExceptionResolver {
     /**

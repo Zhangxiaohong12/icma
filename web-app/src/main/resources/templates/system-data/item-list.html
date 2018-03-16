@@ -21,13 +21,13 @@
         <ul class="page-breadcrumb breadcrumb">
             <li th:utext="${locationMenu}"></li>
             <li class="btn-group">
-                <shiro:hasPermission name="item_add">
+                <!--<shiro:hasPermission name="item_add">-->
                     <a th:href="toadd-item" class='btn blue '><span>新增</span></a>
-                </shiro:hasPermission>
+                <!--</shiro:hasPermission>-->
             </li>
         </ul>
-        <shiro:hasPermission name="item_search">
-            <form action="/system-data/item/search" id="orderForm" method="post">
+        <!--<shiro:hasPermission name="item_search">-->
+            <form action="/item/search" id="orderForm" method="post">
                 <!-- 搜索内容start -->
                 <div class="row">
                     <div class="col-md-4">
@@ -84,9 +84,9 @@
                                 <th style="width: 20%;">描述</th>
                                 <th style="width: 20%;">状态</th>
                                 <th style="width: 20%;">排序号</th>
-                                <shiro:hasAnyPermissions name="itemDetail_search,item_update,item_delete">
+                                <!--<shiro:hasAnyPermissions name="itemDetail_search,item_update,item_delete">-->
                                     <th style="width: 100px;">操作</th>
-                                </shiro:hasAnyPermissions>
+                                <!--</shiro:hasAnyPermissions>-->
                             </tr>
                             </thead>
                             <tbody>
@@ -96,21 +96,21 @@
                                 <td th:text="${itemDto.description}"></td>
                                 <td sl:type="STATUS" sl:text="${itemDto.status}"></td>
                                 <td th:text="${itemDto.orderId}"></td>
-                                <shiro:hasAnyPermissions name="itemDetail_search,item_update,item_delete">
+                                <!--<shiro:hasAnyPermissions name="itemDetail_search,item_update,item_delete">-->
                                     <td>
-                                        <shiro:hasPermission name="itemDetail_search">
+                                        <!--<shiro:hasPermission name="itemDetail_search">-->
                                             <a th:href="@{detail(id=${itemDto.id})}" class='btn green btn-xs'>详细</a>
-                                        </shiro:hasPermission>
-                                        <shiro:hasPermission name="item_update">
+                                        <!--</shiro:hasPermission>-->
+                                        <!--<shiro:hasPermission name="item_update">-->
                                             <a class='btn blue btn-xs' style="margin-left: 5px;"
                                                     th:href="@{toupdate-item(id=${itemDto.id})}">修改</a>
-                                        </shiro:hasPermission>
-                                        <shiro:hasPermission name="item_delete">
+                                        <!--</shiro:hasPermission>
+                                        <shiro:hasPermission name="item_delete">-->
                                             <a class='btn red btn-xs'
                                                     th:onclick="'javascript:deleteItemAndItemDetail(\''+${itemDto.id}+'\');'">删除</a>
-                                        </shiro:hasPermission>
+                                        <!--</shiro:hasPermission>-->
                                     </td>
-                                </shiro:hasAnyPermissions>
+                                <!--</shiro:hasAnyPermissions>-->
                             </tr>
                             </tbody>
                         </table>
@@ -118,7 +118,7 @@
                 </div>
                 <div th:utext="${pageHtml}" class="row page_info" data-search="orderForm"></div>
             </form>
-        </shiro:hasPermission>
+        <!--</shiro:hasPermission>-->
     </div>
 </div>
 <div th:replace="/commons/scripts::scripts"/>

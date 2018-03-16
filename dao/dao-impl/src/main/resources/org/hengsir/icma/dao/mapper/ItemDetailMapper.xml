@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.hengsir.icma.dao.mapper.ItemDetailMapper">
+    <resultMap type="org.hengsir.icma.entity.ItemDetail" id="ItemDetailResult">
+        <result property="id" column="ID"/>
+        <result property="code" column="CODE"/>
+        <result property="supperCode" column="SUPPER_CODE"/>
+        <result property="name" column="NAME"/>
+        <result property="category" column="CATEGORY"/>
+        <result property="description" column="DESCRIPTION"/>
+        <result property="status" column="STATUS"/>
+        <result property="orderId" column="ORDER_ID"/>
+    </resultMap>
+
+    <select id="findItemDetailById" resultMap="ItemDetailResult" useCache="false" parameterType="java.lang.Integer">
+        SELECT * FROM T_ITEM_DETAIL
+        <if test="id!=null and id!=null">
+            WHERE ID = #{id}
+        </if>
+        ORDER BY ID DESC
+    </select>
+
+    <insert id="addItemDetail" parameterType="org.hengsir.icma.entity.ItemDetail">
+
+        INSERT INTO T_ITEM_DETAIL ( CATEGORY,CODE,ORDER_ID, NAME,SUPPER_CODE, DESCRIPTION, STATUS)
+        VALUES (#{category},
+        #{code},#{orderId},
+        #{name},#{supperCode},
+        #{description}, #{status})
+    </insert>
+
+    <update id="updateItemDetailParam" parameterType="org.hengsir.icma.entity.ItemDetail">
+        UPDATE T_ITEM_DETAIL
+        SET CATEGORY=#{category},
+        CODE=#{code},
+        ORDER_ID=#{orderId},
+        NAME=#{name},
+        SUPPER_CODE=#{supperCode},
+        DESCRIPTION=#{description},
+        STATUS=#{status}
+        WHERE ID = #{id}
+    </update>
+
+    <delete id="deleteItemDetailById" parameterType="java.lang.Integer">
+        DELETE FROM T_ITEM_DETAIL WHERE ID = #{id}
+    </delete>
+
+    <delete id="deleteByCategory" parameterType="java.lang.String">
+        DELETE FROM T_ITEM_DETAIL WHERE CATEGORY=#{category}
+    </delete>
+
+    <select id="findItemDetailByCategoryAndOrderId" resultMap="ItemDetailResult" useCache="false" parameterType="org.hengsir.icma.entity.ItemDetail">
+        SELECT * FROM T_ITEM_DETAIL
+        <where>
+            <if test="category!=null and category!='' ">
+                AND CATEGORY = #{category}
+            </if>
+            <if test="orderId!=null and orderId!='' ">
+                AND ORDER_ID=#{orderId}
+            </if>
+        </where>
+        ORDER BY CATEGORY DESC
+    </select>
+
+    <select id="findItemDetailByCategoryAndDescription" resultMap="ItemDetailResult" useCache="false" parameterType="org.hengsir.icma.entity.ItemDetail">
+        SELECT * FROM T_ITEM_DETAIL
+        <where>
+            <if test="category!=null and category!='' ">
+                AND CATEGORY = #{category}
+            </if>
+            <if test="description!=null and description!='' ">
+                AND DESCRIPTION = #{description}
+            </if>
+        </where>
+    </select>
+
+    <select id="findItemDetailByCategoryAndCode" resultMap="ItemDetailResult" useCache="false" parameterType="org.hengsir.icma.entity.ItemDetail">
+        SELECT * FROM T_ITEM_DETAIL
+        <where>
+            <if test="category!=null and category!='' ">
+                AND CATEGORY = #{category}
+            </if>
+            <if test="code!=null and code!='' ">
+                AND CODE=#{code}
+            </if>
+        </where>
+        ORDER BY CATEGORY DESC
+    </select>
+
+</mapper>

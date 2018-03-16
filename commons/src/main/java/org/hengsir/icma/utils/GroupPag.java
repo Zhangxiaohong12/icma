@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  * 组合分页参数。
- * Created by lijiguang on 2017/6/23.
+ * Created by hengsir on 2017/6/23.
  */
 public class GroupPag implements Serializable {
     /**

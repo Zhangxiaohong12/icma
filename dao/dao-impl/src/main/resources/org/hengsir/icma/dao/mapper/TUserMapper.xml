@@ -7,12 +7,25 @@
         <result property="userAccount" column="USER_ACCOUNT" />
         <result property="userPassword" column="USER_PASSWORD" />
         <result property="personId" column="PERSON_ID" />
-        <result property="groupId" column="GROUP_ID" />
         <result property="createTime" column="CREATE_TIME" />
         <result property="updateTime" column="UPDATE_TIME" />
         <result property="userStatus" column="USER_STATUS" />
         <result property="userSex" column="USER_SEX" />
         <result property="userIdCard" column="USER_IDCARD"/>
+        <association property="group" javaType="org.hengsir.icma.entity.Group">
+            <result property="groupId" column="GROUP_ID"/>
+            <result property="parentGroupId" column="PARENT_GROUP_ID"/>
+            <result property="groupName" column="CLASS_NAME"/>
+        </association>
+        <association property="parentGroup" javaType="org.hengsir.icma.entity.Group">
+            <result property="groupId" column="PARENT_GROUP_ID"/>
+            <result property="parentGroupId" column="GRAND_GROUP_ID"/>
+            <result property="groupName" column="XI_BIE"/>
+        </association>
+        <association property="grandGroup" javaType="org.hengsir.icma.entity.Group">
+            <result property="groupId" column="GRAND_GROUP_ID"/>
+            <result property="groupName" column="SCHOOL_NAME"/>
+        </association>
     </resultMap>
 
     <select id="findAllUser" resultMap="UserResult" useCache="false">
@@ -20,12 +33,12 @@
     </select>
     
     <select id="findByUser"  resultMap="UserResult" useCache="false" >
-        SELECT A.*,B.GROUP_NAME AS CLASS_NAME  FROM T_USER A LEFT JOIN T_GROUP B
-        ON A.GROUP_ID = B.GROUP_ID
+        SELECT A.*,B.GROUP_NAME AS CLASS_NAME,C.GROUP_NAME AS XI_BIE,C.GROUP_ID AS PARENT_GROUP_ID,D.GROUP_NAME AS SCHOOL_NAME,D.GROUP_ID AS GRAND_GROUP_ID FROM T_USER A,T_GROUP B,T_GROUP C,T_GROUP D
         <where>
-            <if test="null != groupId and '' != groupId">
-                AND A.GROUP_ID = #{groupId}
-            </if>
+            A.GROUP_ID = B.GROUP_ID
+            AND B.PARENT_GROUP_ID = C.GROUP_ID
+            AND C.PARENT_GROUP_ID = D.GROUP_ID
+
             <if test="null != userName and '' != userName">
                 AND A.USER_NAME LIKE CONCAT(CONCAT('%', #{userName}),'%')
             </if>
@@ -43,12 +56,20 @@
     </select>
 
     <select id="findById" parameterType="java.lang.Integer" resultMap="UserResult" useCache="false">
-        SELECT * FROM T_USER WHERE
-       USER_ID = #{userId}
+        SELECT A.*,B.GROUP_NAME AS CLASS_NAME,C.GROUP_NAME AS XI_BIE,C.GROUP_ID AS PARENT_GROUP_ID,D.GROUP_NAME AS SCHOOL_NAME,D.GROUP_ID AS GRAND_GROUP_ID FROM T_USER A,T_GROUP B,T_GROUP C,T_GROUP D
+        WHERE
+        A.GROUP_ID = B.GROUP_ID
+        AND B.PARENT_GROUP_ID = C.GROUP_ID
+        AND C.PARENT_GROUP_ID = D.GROUP_ID
+        AND USER_ID = #{userId}
     </select>
 
     <select id="findByUserAccount" parameterType="java.lang.String" resultMap="UserResult" useCache="false">
-        SELECT * FROM T_USER WHERE
+        SELECT A.*,B.GROUP_NAME AS CLASS_NAME,C.GROUP_NAME AS XI_BIE,C.GROUP_ID AS PARENT_GROUP_ID,D.GROUP_NAME AS SCHOOL_NAME,D.GROUP_ID AS GRAND_GROUP_ID FROM T_USER A,T_GROUP B,T_GROUP C,T_GROUP D
+        WHERE
+        A.GROUP_ID = B.GROUP_ID
+        AND B.PARENT_GROUP_ID = C.GROUP_ID
+        AND C.PARENT_GROUP_ID = D.GROUP_ID
         USER_ACCOUNT = #{userAccount}
     </select>
 
@@ -61,7 +82,7 @@
         <if test="null != userStatus and '' != userStatus">
             USER_STATUS,
         </if>
-        <if test="null != groupID and '' != groupID">
+        <if test="0 != groupId">
             GROUP_ID,
         </if>
         <if test="null != createTime and '' != createTime">
@@ -79,8 +100,8 @@
             #{userStatus},
         </if>
 
-        <if test="null != groupID and '' != groupID">
-            #{groupID},
+        <if test="0 != groupId">
+            #{groupId},
         </if>
         <if test="null != createTime and '' != createTime">
             #{createTime,jdbcType=TIMESTAMP},
@@ -112,9 +133,7 @@
             <if test="null != userSex">
                 USER_SEX = #{userSex},
             </if>
-            <if test="null != groupId">
-                GROUP_ID = #{groupId},
-            </if>
+
             UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
         </set>
         WHERE USER_ID = #{userId}

@@ -11,7 +11,7 @@ import java.util.Map;
 
 /**
  * 用户管理Mapper。
- * @author lidan
+ * @author hengsir
  * @createTime 2017年6月13日上午19:44:23
  * @version 1.0.0
  */
@@ -30,7 +30,7 @@ public interface TUserMapper {
      * @param user 用户信息过滤条件
      * @return 用户信息列表
      */
-    public List<UserOrg> findByUser(User user);
+    public List<User> findByUser(User user);
 
 
     /**
