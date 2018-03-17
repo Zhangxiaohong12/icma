@@ -115,9 +115,9 @@ public class ItemController implements InitializingBean{
         }
         if (jsonMap.size() > 0) {
             /*暂时这样获取路径，需要优化。*/
-            String classLoaderPath = this.getClass().getResource("/").getPath();
+            String classLoaderPath = this.getClass().getResource("").getPath();
             String filePath =
-                classLoaderPath.substring(0, classLoaderPath.indexOf("WEB-INF")) + "select" +
+                classLoaderPath.substring(0, classLoaderPath.indexOf("target"))+"src/main/resources/static/" + "select" +
                 File.separatorChar + "item";
             for (Map.Entry<String, List<Map<String, Object>>> entry : jsonMap.entrySet()) {
                 List<Map<String, Object>> list = entry.getValue();

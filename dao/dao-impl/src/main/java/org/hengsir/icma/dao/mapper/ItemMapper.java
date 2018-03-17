@@ -29,6 +29,8 @@ public interface ItemMapper {
      */
     Item read(@Param("id") int id);
 
+    Item getByGate(@Param("gate") String gate);
+
     /**
      * 根据条件获取数据 -- 混合数据。
      *

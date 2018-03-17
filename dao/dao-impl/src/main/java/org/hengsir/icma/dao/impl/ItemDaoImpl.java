@@ -61,7 +61,7 @@ public class ItemDaoImpl implements ItemWriteDao {
     @Override
     public Item addItem(Item item) {
         itemMapper.addItem(item);
-        return itemMapper.read(item.getId());
+        return itemMapper.getByGate(item.getCategory());
     }
 
     @Override

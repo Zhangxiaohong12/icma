@@ -14,7 +14,7 @@ public class ItemDetail implements Model<Integer> {
     /**
      * 主键。
      */
-    private int id;
+    private Integer id;
 
     /**
      * 代码。
@@ -51,11 +51,11 @@ public class ItemDetail implements Model<Integer> {
         return serialVersionUID;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

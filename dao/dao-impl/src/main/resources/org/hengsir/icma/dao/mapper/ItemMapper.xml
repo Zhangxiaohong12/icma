@@ -31,6 +31,11 @@
         ORDER BY ID DESC
     </select>
 
+    <select id="getByGate" resultMap="itemResult" useCache="false" parameterType="java.lang.String">
+        SELECT * FROM T_ITEM
+        WHERE CATEGORY = #{gate}
+    </select>
+
     <select id="findById" resultMap="itemResult" useCache="false">
         SELECT T.*,TD.ID AS TD_ID,TD.CATEGORY AS TD_CATEGORY,TD.CODE AS TD_CODE,TD.SUPPER_CODE AS
         TD_SUPPEER_CODE,
