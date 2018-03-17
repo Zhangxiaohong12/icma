@@ -32,7 +32,7 @@ public class Role implements Model<Integer> {
     /**
      * 角色状态。
      */
-    private int roleStatus;
+    private String roleStatus;
 
     /**
      * 创建人员。
@@ -75,7 +75,7 @@ public class Role implements Model<Integer> {
         this.isAdmin = isAdmin;
     }
 
-    public int getRoleId() {
+    public Integer getRoleId() {
         return roleId;
     }
 
@@ -99,11 +99,11 @@ public class Role implements Model<Integer> {
         this.roleDesc = roleDesc;
     }
 
-    public int getRoleStatus() {
+    public String getRoleStatus() {
         return roleStatus;
     }
 
-    public void setRoleStatus(int roleStatus) {
+    public void setRoleStatus(String roleStatus) {
         this.roleStatus = roleStatus;
     }
 

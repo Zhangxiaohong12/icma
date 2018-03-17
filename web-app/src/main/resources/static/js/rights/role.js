@@ -3,14 +3,14 @@ $(function() {
         if (roleForm.valid()) { //验证通过
             $("#btnSave").attr("disabled", true);
             Shade.blockUI($("#roleBody"));
-            $.post("/rights/role/add",
+            $.post("/role/add",
                 $("#addFrom").serialize(),
                 function (data) {
                     $("#btnSave").attr("disabled", false);
                     Shade.unblockUI($("#roleBody"));
                     if (data.result == true) {
                         BootboxExt.alert("新增成功", function (res) {
-                            location.href = "/rights/role/search";
+                            location.href = "/role/search";
                         });
                     } else {
                         BootboxExt.alert("新增失败", function (res) {
@@ -24,14 +24,14 @@ $(function() {
         if (roleForm.valid()) { //验证通过
             $("#btnUpdate").attr("disabled", true);
             Shade.blockUI($("#roleBody"));
-            $.post("/rights/role/update",
+            $.post("/role/update",
                 $("#updateFrom").serialize(),
                 function (data) {
                     $("#btnUpdate").attr("disabled", false);
                     Shade.unblockUI($("#roleBody"));
                     if (data.result == true) {
                         BootboxExt.alert("修改成功", function (res) {
-                            location.href = "/rights/role/search";
+                            location.href = "/role/search";
                         });
                     } else {
                         BootboxExt.alert("修改失败", function (res) {
@@ -68,146 +68,25 @@ $(function() {
         }
 
         var roleId = $("#roleId").val();
-        $.get("/rights/right-role-relation/add", { rightArr:rightArr, roleId: roleId},
+        $.get("/role_right/add", { rightArr:rightArr, roleId: roleId},
             function(data){  //此处是回调函数 接收从后台传回的值
                 $("#tree-btnSave").attr("disabled", false);
                Shade.unblockUI($("#roleBody"));
                 if(data.result == true){
                     BootboxExt.alert("分配成功", function (res) {
-                        location.href = "/rights/role/search";
+                        location.href = "/role/search";
                     });
                 }
             }, "json");
     });
 });
 
-/**
- * 商户弹出框查询。
- */
-function refreshAlertMchData() {
-    $("#mchInfoTable").bootstrapTable('refresh', {
-        url: '/mch/info/search-list',
-        queryParams: queryMchInfoParams
-    });
-}
-
-/**
- * 商户弹出框参数。
- * @param params
- * @returns {{pageSize, pageNumber, mid: (*|jQuery), midShortName: (*|jQuery), midName: (*|jQuery)}}
- */
-function queryMchInfoParams(params) {
-    var temp = {   //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
-        pageSize: params.pageSize,   //页面大小
-        pageNumber: params.pageNumber,  //页码
-        mid: $("#midSearch").val(),
-        midShortName: $("#midShortNameSearch").val(),
-        midName: $("#midNameSearch").val()
-    };
-    return temp;
-}
-
-/**
- * 商户弹出框重置。
- */
-function cleanMchInfoQuery() {
-    $("#midSearch").val('');
-    $("#midShortNameSearch").val('');
-    $("#midNameSearch").val('');
-    refreshAlertMchData();
-}
-
-/**
- * 选中商户信息提交。
- */
-function selectMchInfo() {
-    var selectInfo = $("#mchInfoTable").bootstrapTable('getSelections')[0];
-    if (selectInfo == null || selectInfo.length < 1) {
-        BootboxExt.alert("请选择一个商户");
-        return;
-    }
-    if ($("#merchantId").val() != (selectInfo == undefined ? "" : selectInfo.mid)) {
-        $("#subMidShortName").val("");
-        $("#subMid").val("");
-    }
-    $('#mchInfoModal').modal('hide');
-    $("#merchantName").val(selectInfo == undefined ? "" : selectInfo.midShortName);
-    $("#merchantId").val(selectInfo == undefined ? "" : selectInfo.mid);
-    $('#merchantName').valid();
-    $("#tid").val("");
-}
-
-/**
- * 清空选择商户。
- */
-function clearMchInfoTable() {
-    $("#merchantId").val("");
-    $("#merchantName").val("");
-}
 
 
-/**
- * 初始化商户表格数据。
- */
-function initMchInfoTable() {
-    //先销毁表格
-    $('#mchInfoTable').bootstrapTable('destroy');
-    //初始化表格,动态从服务器加载数据
-    $("#mchInfoTable").bootstrapTable({
-        method: "GET",  //使用get请求到服务器获取数据
-        url: '/mch/info/search-list', //获取数据的Servlet地址
-        striped: true,  //表格显示条纹
-        showRefresh: true,  //显示刷新按钮
-        pagination: true,                   //是否显示分页（*）
-        pageNumber: 1,
-        pageSize: 10,
-        pageList: [10, 25, 50, 100],
-        sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
-        queryParamsType: '',
-        queryParams: queryMchInfoParams,
-        singleSelect: true,
-        uniqueId: "mid",
-        columns: [
-            {
-                checkbox: true,
-                formatter: midFormatter
-            }, {
-                field: 'mid',
-                title: '商户号'
-            }, {
-                field: 'midShortName',
-                title: '商户简称'
-            }, {
-                field: 'midName',
-                title: '商户名称'
-            }],
-        onLoadError: function () {  //加载失败时执行
-            BootboxExt.alert("加载数据失败", {time: 1500, icon: 2});
-        }
-    });
-}
-
-/**
- * 是否选中商户。
- * @param value
- * @param row
- * @param index
- * @returns {*}
- */
-function midFormatter(value, row, index) {
-    if (row.mid === $("#merchantId").val()) {
-        return {
-            disabled: false,//设置是否可用
-            checked: true//设置选中
-        };
-    }
-    return value;
-}
-
-function treeRole(roleId,sysId){
+function treeRole(roleId){
     $("#roleId").val(roleId);
     var checkId = new Array();
-    $.get("/rights/right-role-relation/getRoleRelRight", {roleId: roleId},
+    $.get("/role_right/getRoleRelRight", {roleId: roleId},
         function(data){  //此处是回调函数 接收从后台传回的值
             var dataArr = data.result.split(",");
             for (var j = 0; j < dataArr.length; j++) {
@@ -231,7 +110,7 @@ function treeRole(roleId,sysId){
     }).jstree({
         "core" : {
             "data":{
-                "url":'/rights/right/getRightTree/'+sysId,
+                "url":'/right/getRightTree/',
                 "dataType":"json",
                 "cache":false
             },
@@ -301,7 +180,7 @@ function viewRole(roleId) {
             "animation": 0,
             'data' : {
                 'url' : function (node) {
-                    return '/rights/right/viewRightTree/'+roleId;
+                    return '/right/viewRightTree/'+roleId;
                 }
             }
         },
@@ -327,11 +206,11 @@ function viewRole(roleId) {
 function deleteRole(id) {
     BootboxExt.confirm("确认删除吗？", function (res) {
         if (res) {
-            $.get("/rights/role/remove", { id: id}, function (data)
+            $.get("/role/remove", { id: id}, function (data)
             {
                 if(data.result == true){
                     BootboxExt.alert("删除成功", function (res) {
-                        location.href = "/rights/role/search";
+                        location.href = "/role/search";
                     });
                 }else{
                     BootboxExt.alert("删除失败", function (res) {
@@ -346,8 +225,6 @@ var roleVo = new Object();
 function setSearchParam() {
     roleVo.roleName = $("#roleName").val();
     roleVo.roleStatus = $("#roleStatus").val();
-    roleVo.sysId = $("#sysId").val();
-    roleVo.merchantId = $("#merchantId").val();
     roleVo.createTimeBegin = $("#createTimeBegin").val();
     roleVo.craeteTimeEnd = $("#craeteTimeEnd").val();
 }

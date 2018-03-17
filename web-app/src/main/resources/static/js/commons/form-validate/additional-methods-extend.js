@@ -107,7 +107,7 @@ jQuery.validator.addMethod("newCharacterNo", function (value, element) {
 
 //编码类
 jQuery.validator.addMethod("newCharacterNo2", function (value, element) {
-    var reg = /^(?![_\-]+$)[0-9A-Za-z_\-]+$/;
+    var reg = /^(?![_:\-]+$)[0-9A-Za-z_:\-]+$/;
     return this.optional(element) || (reg.test(value));
 }, "请输入数字、字母或者“-”，“_”符号");
 

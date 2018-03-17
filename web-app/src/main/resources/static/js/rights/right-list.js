@@ -1,11 +1,11 @@
 function deleteRight(rightId) {
     BootboxExt.confirm("确认删除吗？", function (res) {
         if (res) {
-            $.get("/rights/right/delete", { rightId: rightId}, function (data)
+            $.get("/right/delete", { rightId: rightId}, function (data)
             {
                 if(data.result == true){
                     BootboxExt.alert("删除成功", function (res) {
-                        location.href = "/rights/right/search";
+                        location.href = "/right/search";
                     });
                 }else{
                     BootboxExt.alert("删除失败", function (res) {

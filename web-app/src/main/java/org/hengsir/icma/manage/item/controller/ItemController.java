@@ -44,7 +44,7 @@ import java.util.Map;
  */
 @RequestMapping("/item")
 @Controller
-public class ItemController {
+public class ItemController implements InitializingBean{
     //日志
     private static Logger logger = LoggerFactory.getLogger(ItemController.class);
 
@@ -66,7 +66,7 @@ public class ItemController {
      * @return 查询页面
      */
     @RequestMapping(value = "/search")
-    //@RequiresPermissions("item_search")
+    @RequiresPermissions("item:search")
     public ModelAndView search(
             ItemVo itemDto, @RequestParam(value = "pageNum", defaultValue = "1") int index,
             @RequestParam(value = "pageSize", defaultValue = "10") int size) {
@@ -85,7 +85,7 @@ public class ItemController {
      * @return 详细页面
      */
     @RequestMapping(value = "/detail")
-    //@RequiresPermissions("itemDetail_search")
+    @RequiresPermissions("itemDetail:search")
     public ModelAndView detail(@Param("id") int id) {
         ModelAndView modelAndView = new ModelAndView();
         ItemVo itemDto = itemDao.findById(id);
@@ -94,7 +94,8 @@ public class ItemController {
         return modelAndView;
     }
 
-    /*public void afterPropertiesSet() throws Exception {
+    @Override
+    public void afterPropertiesSet() throws Exception {
         List<ItemVo> items = itemDao.findByCategory(null);
         ItemCenter.putItem(items);//将字典放入内存中
         Map<String, List<Map<String, Object>>> jsonMap = new HashMap<>();
@@ -113,7 +114,7 @@ public class ItemController {
             }
         }
         if (jsonMap.size() > 0) {
-            *//*暂时这样获取路径，需要优化。*//*
+            /*暂时这样获取路径，需要优化。*/
             String classLoaderPath = this.getClass().getResource("/").getPath();
             String filePath =
                 classLoaderPath.substring(0, classLoaderPath.indexOf("WEB-INF")) + "select" +
@@ -130,7 +131,7 @@ public class ItemController {
                 }
             }
         }
-    }*/
+    }
 
     /**
      * 数据字典增加页面。
@@ -138,7 +139,7 @@ public class ItemController {
      * @return 需要的条件视图
      */
     @RequestMapping(value = "/toadd-item", method = {RequestMethod.GET})
-    //@RequiresPermissions("item_add")
+    @RequiresPermissions("item:add")
     public ModelAndView toaddItem() {
         ModelAndView modelAndView = new ModelAndView();
         List<Item> list = itemDao.read();
@@ -200,7 +201,7 @@ public class ItemController {
      * @return 需要的条件视图
      */
     @RequestMapping(value = "/toupdate-item", method = {RequestMethod.GET})
-    //@RequiresPermissions("item_update")
+    @RequiresPermissions("item:update")
     public ModelAndView toupdateItem(@Param("id") int id) {
         ModelAndView modelAndView = new ModelAndView();
         ItemVo itemDto = itemDao.findById(id);
@@ -243,11 +244,10 @@ public class ItemController {
     /**
      * 删除数据字典。
      *
-     * @author 潘丽芳
      */
     @RequestMapping(value = "/delete-itemDetail", method = {RequestMethod.GET})
     @ResponseBody
-    //@RequiresPermissions("itemDetail_delete")
+    @RequiresPermissions("itemDetail:delete")
     public Object deleteItemDetail(@Param("id") int id) {
         JSONObject jsonObject = new JSONObject();
         boolean flag = itemDetailService.deleteItemDetailById(id);
@@ -261,7 +261,7 @@ public class ItemController {
      */
     @RequestMapping(value = "/todelete-item-itemDetail", method = {RequestMethod.GET})
     @ResponseBody
-    //@RequiresPermissions("item_delete")
+    @RequiresPermissions("item:delete")
     public Object todeleteItemAndItemDetail(@Param("id") int id) {
         JSONObject jsonObject = new JSONObject();
         boolean flag = false;
@@ -280,7 +280,7 @@ public class ItemController {
      */
     @RequestMapping(value = "/delete-item-itemDetail", method = {RequestMethod.GET})
     @ResponseBody
-    //@RequiresPermissions("item_delete")
+    @RequiresPermissions("item:delete")
     public Object deleteItemAndItemDetail(@Param("id") int id) {
         JSONObject jsonObject = new JSONObject();
         boolean flag = false;
@@ -313,7 +313,7 @@ public class ItemController {
      * @return 需要的条件视图
      */
     @RequestMapping(value = "/toadd-itemDetail", method = {RequestMethod.GET})
-    //@RequiresPermissions("itemDetail_add")
+    @RequiresPermissions("itemDetail:add")
     public ModelAndView toaddItemDetail(int id) {
         ModelAndView modelAndView = new ModelAndView();
         ItemVo itemDto = itemDao.findById(id);
@@ -348,9 +348,9 @@ public class ItemController {
      * @return 需要的条件视图
      */
     @RequestMapping(value = "/toupdate-itemDetailSingle", method = {RequestMethod.GET})
-    //@RequiresPermissions("itemDetail_update")
+    @RequiresPermissions("itemDetail:update")
     public ModelAndView toupdateItemDetailSingel(
-            @Param("id") int id, @Param("itemId") Long itemId) {
+            @Param("id") int id, @Param("itemId") int itemId) {
         ModelAndView modelAndView = new ModelAndView();
         ItemDetail itemDetail = itemDetailDao.findItemDetailById(id);
         modelAndView.setViewName("/system-data/item-detail-update");

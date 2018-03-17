@@ -44,14 +44,14 @@ $(function () {
 		if (addForm.valid()) { //验证通过
             $("#btnSave").attr("disabled", true);
             Shade.blockUI($("#rightBody"));
-			$.post("/rights/right/add",
+			$.post("/right/add",
 					$("#addForm").serialize(),
 					function(data){
                         $("#btnSave").attr("disabled", false);
                         Shade.unblockUI($("#rightBody"));
 				if(data.result == "success"){
 					BootboxExt.alert("新增成功",function(res){
-						location.href="/rights/right/search";
+						location.href="/right/search";
 					});
 				}else if(data.result == "isHas"){
 				    BootboxExt.alert("该权限编号已存在");
@@ -68,14 +68,14 @@ $(function () {
 		if (addForm.valid()) { //验证通过
             $("#btnUpdate").attr("disabled", true);
             Shade.blockUI($("#rightBody"));
-			$.post("/rights/right/update",
+			$.post("/right/update",
 					$("#updateForm").serialize(),
 					function(data){
                         $("#btnUpdate").attr("disabled", false);
                         Shade.unblockUI($("#rightBody"));
 				if(data.result == true){
 					BootboxExt.alert("修改成功",function(res){
-						location.href="/rights/right/search";
+						location.href="/right/search";
 					});
 				}else{
 					BootboxExt.alert("修改失败",function(res){

@@ -70,7 +70,7 @@ public class LeftMenuServiceImpl implements LeftMenuService {
      * @param menus 所有菜单
      */
     private void fillModelList(List<LeftMenu> menus) {
-        modelList = new ArrayList<LeftMenu>();
+        modelList = new ArrayList<>();
         if (menus != null && menus.size() > 0) {
             for (int i = 0; i < menus.size(); i++) {
                 LeftMenu menu = menus.get(i);
@@ -84,7 +84,7 @@ public class LeftMenuServiceImpl implements LeftMenuService {
      * menuList：有模块的菜单
      */
     private void splitModelMenu() {
-        menuList = new ArrayList<LeftMenu>();
+        menuList = new ArrayList<>();
         for (int i = 0;i < modelList.size();i++) {
             LeftMenu menu = modelList.get(i);
             if (null == menu.getMenuHref() || "".equals(menu.getMenuHref())) {
@@ -308,7 +308,7 @@ public class LeftMenuServiceImpl implements LeftMenuService {
     }
 
     @Override
-    public boolean delete(Long id) {
+    public boolean delete(int id) {
         try {
             leftMenuWriteDao.delete(id);
             return true;

@@ -14,12 +14,11 @@
     </resultMap>
 
     <insert id="create" parameterType="org.hengsir.icma.entity.LeftMenu">
-        INSERT INTO T_MENU (ID, ICON, CODE, NAME, HREF, SUPER_CODE, SORT, CREATE_BY, CREATE_TIME,SYS_ID)
-        VALUES (#{id}, #{icon},
-        #{code}, #{name},
-        #{href}, #{superCode},
-        #{sort}, #{createBy},
-        #{createTime, jdbcType=TIMESTAMP},#{sysId})
+        INSERT INTO T_MENU (MENU_ID, MENU_ICON, MENU_CODE, MENU_NAME, MENU_HREF, SUPER_CODE, CREATE_TIME)
+        VALUES (#{menuId}, #{menuIcon},
+        #{menuCode}, #{menuName},
+        #{menuHref}, #{menuSuperCode},
+        #{createTime, jdbcType=TIMESTAMP}
     </insert>
 
     <select id="findAll" resultMap="LeftMenuResult" useCache="false">
@@ -27,7 +26,7 @@
     </select>
 
     <select id="findAllLoseHome" resultMap="LeftMenuResult" useCache="false">
-        SELECT * FROM T_MENU WHERE CODE != 'home' ORDER BY SORT
+        SELECT * FROM T_MENU WHERE MENU_CODE != 'home' ORDER BY MENU_ID
     </select>
 
     <select id="findLeftMenus" resultMap="LeftMenuResult" parameterType="java.lang.Integer">
@@ -41,22 +40,20 @@
 
     <update id="update" parameterType="org.hengsir.icma.entity.LeftMenu">
         UPDATE T_MENU
-        SET ICON=#{icon},
-        CODE=#{code},
-        NAME=#{name},
-        HREF=#{href},
-        SUPER_CODE=#{superCode},
-        SORT=#{sort},
+        SET MENU_ICON=#{menuIcon},
+        MENU_CODE=#{menuCode},
+        MENU_NAME=#{menuName},
+        MENU_HREF=#{menuHref},
+        SUPER_CODE=#{menuSuperCode},
         UPDATE_BY=#{updateBy},
         UPDATE_TIME=#{updateTime, jdbcType=TIMESTAMP},
-        SYS_ID=#{sysId}
-        WHERE ID = #{id}
+        WHERE MENU_ID = #{menuId}
     </update>
 
-    <delete id="delete" parameterType="java.lang.Long">
+    <delete id="delete" parameterType="java.lang.Integer">
         DELETE
         FROM T_MENU
-        WHERE ID = #{id}
+        WHERE MENU_ID = #{menuId}
     </delete>
 
     <select id="findLeftMenusBy" parameterType="org.hengsir.icma.entity.LeftMenu" resultMap="LeftMenuResult"
@@ -67,7 +64,7 @@
                 AND MENU_NAME LIKE CONCAT(CONCAT('%', #{menuName}),'%')
             </if>
             <if test="null != menuCode and '' != menuCode">
-                AND CODE LIKE CONCAT(CONCAT('%', #{menuCode}),'%')
+                AND MENU_CODE LIKE CONCAT(CONCAT('%', #{menuCode}),'%')
             </if>
             <if test="null != menuSuperCode and '' != menuSuperCode">
                 AND SUPER_CODE = #{menuSuperCode} OR MENU_CODE = #{menuSuperCode}
@@ -79,16 +76,16 @@
         SELECT * FROM T_MENU WHERE MENU_HREF IS NULL
     </select>
 
-    <select id="findLeftMenuById" parameterType="java.lang.Long" resultMap="LeftMenuResult" useCache="false">
-        SELECT * FROM T_MENU WHERE MENU_ID=#{id}
+    <select id="findLeftMenuById" parameterType="java.lang.Integer" resultMap="LeftMenuResult" useCache="false">
+        SELECT * FROM T_MENU WHERE MENU_ID=#{menuId}
     </select>
 
     <select id="findSonMenus" parameterType="java.lang.String" resultMap="LeftMenuResult" useCache="false">
-        SELECT * FROM T_MENU WHERE SUPER_CODE=#{superCode}
+        SELECT * FROM T_MENU WHERE SUPER_CODE=#{menuSuperCode}
     </select>
 
     <select id="findLeftMenuBySuperCode" parameterType="java.lang.String" resultMap="LeftMenuResult" useCache="false">
-        SELECT * FROM T_MENU WHERE MENU_CODE=#{code}
+        SELECT * FROM T_MENU WHERE MENU_CODE=#{menuCode}
     </select>
 
     <select id="findAllSonMenus" resultMap="LeftMenuResult" useCache="false">
@@ -96,7 +93,7 @@
     </select>
 
     <select id="findMenuByCodeExit" resultMap="LeftMenuResult" useCache="false" parameterType="java.lang.String">
-        SELECT * FROM T_MENU WHERE MENU_CODE = #{code}
+        SELECT * FROM T_MENU WHERE MENU_CODE = #{menuCode}
     </select>
 
 </mapper>

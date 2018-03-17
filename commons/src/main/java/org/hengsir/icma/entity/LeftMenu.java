@@ -129,4 +129,6 @@ public class LeftMenu implements Model {
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
+
+
 }

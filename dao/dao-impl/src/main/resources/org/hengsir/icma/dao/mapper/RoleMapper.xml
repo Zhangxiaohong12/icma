@@ -64,15 +64,16 @@
 
     <insert id="create"  parameterType="org.hengsir.icma.entity.Role">
         INSERT INTO T_ROLE
-        ( ROLE_NAME, ROLE_DESC, ROLE_STATUS, ROLE_OPERATOR,ROLE_CODE,CREATE_TIME,UPDATE_TIME)
+        ( ROLE_NAME, ROLE_DESC, ROLE_CODE,
+        ROLE_STATUS, ROLE_OPERATOR,CREATE_TIME)
         VALUES (
         #{roleName},
         #{roleDesc},
+        #{roleCode},
         #{roleStatus},
         #{roleOperator},
-        #{roleCode},
-        now(),
-        now())
+        #{createTime,jdbcType=TIMESTAMP}
+        )
     </insert>
 
 

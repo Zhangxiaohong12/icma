@@ -52,18 +52,18 @@ public class Right implements Model<Integer> {
     /**
      * 是否菜单权限(1是菜单权限)。
      */
-    private int isMenuRight;
+    private String isMenuRight;
 
     /**
      * 权限的父ID。
      */
-    private Integer parentRightId;
+    private String parentRightId;
 
     /**
      * 权限的父菜单ID
      * 所属父菜单的权限ID。
      */
-    private Integer parentMenuId;
+    private String parentMenuId;
 
     /**
      * 菜单名称
@@ -78,12 +78,8 @@ public class Right implements Model<Integer> {
         this.menuId = menuId;
     }
 
-    public void setParentRightId(Integer parentRightId) {
-        this.parentRightId = parentRightId;
-    }
-
-    public void setParentMenuId(Integer parentMenuId) {
-        this.parentMenuId = parentMenuId;
+    public Integer getMenuId() {
+        return menuId;
     }
 
     public String getMenuName() {
@@ -100,10 +96,6 @@ public class Right implements Model<Integer> {
 
     public Integer getRightId() {
         return rightId;
-    }
-
-    public void setRightId(int rightId) {
-        this.rightId = rightId;
     }
 
     public String getRightCode() {
@@ -146,35 +138,27 @@ public class Right implements Model<Integer> {
         this.rightName = rightName;
     }
 
-    public int getMenuId() {
-        return menuId;
-    }
-
-    public void setMenuId(int menuId) {
-        this.menuId = menuId;
-    }
-
-    public int getIsMenuRight() {
+    public String getIsMenuRight() {
         return isMenuRight;
     }
 
-    public void setIsMenuRight(int isMenuRight) {
+    public void setIsMenuRight(String isMenuRight) {
         this.isMenuRight = isMenuRight;
     }
 
-    public int getParentRightId() {
+    public String getParentRightId() {
         return parentRightId;
     }
 
-    public void setParentRightId(int parentRightId) {
+    public void setParentRightId(String parentRightId) {
         this.parentRightId = parentRightId;
     }
 
-    public int getParentMenuId() {
+    public String getParentMenuId() {
         return parentMenuId;
     }
 
-    public void setParentMenuId(int parentMenuId) {
+    public void setParentMenuId(String parentMenuId) {
         this.parentMenuId = parentMenuId;
     }
 

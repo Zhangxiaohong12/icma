@@ -20,14 +20,14 @@
 	      		<a href='javascript:void(0);'>新增</a>
 	      	</li>
 	     </ul>
-	     <form id="addForm"  class="form-horizontal" role="form" th:action="@{add}"  method="post">
-
+	     <form id="addForm"  class="form-horizontal">
+             <!--th:action="@{/right/add}"  method="post"-->
               <div class="form-group" >
                 <label class="col-sm-4 control-label">
                     权限编码<font color="#FF0000">*</font>
                 </label>
                 <div class="col-sm-6">
-                  <input type="text" class="form-control" name="rightCode" id="rightCode" value="" placeholder="请输入权限编码(例如：user-add)"/>
+                  <input type="text" class="form-control" name="rightCode" id="rightCode" value="" placeholder="请输入权限编码(例如：user:add)"/>
                 </div>
               </div>
 
@@ -101,7 +101,7 @@
                 "animation": 0,
                 'data': {
                     'url': function (node) {
-                        return '/system-data/menu/getMenuTree';
+                        return '/menu/getMenuTree';
                     }
                 }
             },

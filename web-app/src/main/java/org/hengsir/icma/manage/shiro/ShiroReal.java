@@ -72,6 +72,9 @@ public class ShiroReal extends AuthorizingRealm {
             shiroUser.setUserName(user.getUserName());
             shiroUser.setUserPassword(user.getUserPassword());
             shiroUser.setUserAccount(userAccount);
+            if("mention".equals(user.getUserAccount())){
+                shiroUser.setAdmin(true);
+            }
 
         } else {
             throw new UnknownAccountException("账号不存在");

@@ -66,15 +66,14 @@ public class RoleDaoImpl implements RoleWriteDao {
     }
 
     @Override
-    public Role create(Role role) {
-        Role ro = null;
+    public Boolean create(Role role) {
         try {
             roleMapper.create(role);
-            ro  = roleMapper.findById(role.getRoleId());
+            return true;
         } catch (Exception exception) {
             logger.error("create right find error!",exception);
         }
-        return ro;
+        return false;
     }
 
     @Override

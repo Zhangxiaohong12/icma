@@ -40,21 +40,21 @@ public interface LeftMenuMapper {
      * @param id 菜单id
      * @return 菜单对象
      */
-    public LeftMenu findLeftMenuById(@Param("id") int id);
+    public LeftMenu findLeftMenuById(@Param("menuId") int id);
 
     /**
      * 根据父菜单名称查找其对应的所有子菜单。
      * @param superCode 菜单的父级编码
      * @return 此菜单的所有子菜单
      */
-    public List<LeftMenu> findSonMenus(@Param("superCode") String superCode);
+    public List<LeftMenu> findSonMenus(@Param("menuSuperCode") String superCode);
 
     /**
      * 通过编码找到菜单对象。
      * @param code 菜单编码
      * @return 菜单对象
      */
-    public LeftMenu findLeftMenuBySuperCode(@Param("code") String code);
+    public LeftMenu findLeftMenuBySuperCode(@Param("menuCode") String code);
 
     /**
      * 查询所有的子菜单。
@@ -84,7 +84,7 @@ public interface LeftMenuMapper {
      * 通过id删除菜单。
      * @param id 菜单id
      */
-    public void delete(@Param("id") Long id);
+    public void delete(@Param("menuId") int id);
 
     /**
      * 修改菜单的权限。
@@ -97,7 +97,7 @@ public interface LeftMenuMapper {
      * @param code 编码
      * @return 菜单集合
      */
-    public List<LeftMenu> findMenuByCodeExit(@Param("code") String code);
+    public List<LeftMenu> findMenuByCodeExit(@Param("menuCode") String code);
 
     /**
      * 获取有权限的菜单。

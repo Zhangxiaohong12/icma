@@ -16,7 +16,7 @@ public interface RoleService {
      * 增加角色。
      * @param role 角色管理
      */
-    public Role create(Role role);
+    public Boolean create(Role role);
 
     /**
      * 删除角色。

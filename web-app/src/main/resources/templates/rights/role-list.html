@@ -21,12 +21,12 @@
                 <a href='javascript:void(0);'>查询</a>
             </li>
             <li class="btn-group">
-                <shiro:hasPermission name="role_add">
+                <shiro:hasPermission name="role:add">
                     <a href="toadd" class='btn blue '><span>新增</span></a>
                 </shiro:hasPermission>
             </li>
         </ul>
-        <shiro:hasPermission name="role_search">
+        <shiro:hasPermission name="role:search">
             <form th:action="@{search}" method="POST" id="roleFrom">
                 <!-- 搜索内容start -->
                 <div class="row">
@@ -35,77 +35,32 @@
                             <label>角色名称（%）</label>
                             <div class="input-icon right">
                                 <i class="icon-edit"></i>
-                                <input type="text" class="form-control" id="roleName" name="roleName" th:value="${roleVo.roleName}" placeholder="请输入你要搜索的角色名称"/>
+                                <input type="text" class="form-control" id="roleName" name="roleName" th:value="${role.roleName}" placeholder="请输入你要搜索的角色名称"/>
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <div class="col-md-3">
+                    <!--<div class="col-md-3">
                         <div class="form-group">
                             <label>角色状态</label>
                             <div class="input-icon">
-                                <select name="roleStatus" id="roleStatus" class="form-control" data-type="select" data-category="ROLE_STATUS" th:data-value="${roleVo.roleStatus}"></select>
+                                <select name="roleStatus" id="roleStatus" class="form-control" data-type="select" data-category="role:STATUS" th:data-value="${role.roleStatus}"></select>
                             </div>
                         </div>
-                    </div>
+                    </div>-->
 
                     <!--<div class="col-md-3">
                         <div class="form-group">
                             <label >所属商户</label>
-                            <select class="select2_category form-control select2me" name="merchantId" id="merchantId" data-type="select" data-placeholder="Choose a org" tabindex="1" th:data-value="${roleVo.merchantId}">
+                            <select class="select2_category form-control select2me" name="merchantId" id="merchantId" data-type="select" data-placeholder="Choose a org" tabindex="1" th:data-value="${role.merchantId}">
                                 <option value="">请选择</option>
                                 <option th:each="MchInfo : ${mchInfo}" th:value="${MchInfo.mid}"
                                         th:text="${MchInfo.midName}"  ></option>
                             </select>
                         </div>
                     </div>-->
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label>所属商户</label>
-                            <div class="input-group">
-                                <input type="text" id="merchantName" name="merchantName" class="form-control"
-                                        placeholder="请选择商户" th:value="${roleVo.merchantName}" th:data-value="${roleVo.merchantName}" readonly>
-                                <input type="hidden" id="merchantId" name="merchantId" th:data-value="${roleVo.merchantId}" th:value="${roleVo.merchantId}" class="form-control" readonly>
-                                <span class="input-group-btn" style="vertical-align:baseline">
-                        <button type="button" class="btn btn-default" onclick="clearMchInfoTable();">
-                             <i class="icon-remove"></i>
-                            </button>
-                                    <button type="button" class="btn blue btn-default" data-toggle="modal" data-target="#mchInfoModal" onclick="initMchInfoTable();">
-                             选择 <i class="icon-plus"></i>
-                            </button>
-					    </span>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label>所属应用系统</label>
-                            <select class="select2_category form-control select2me" name="sysId" id="sysId" data-type="select" data-placeholder="Choose a org" tabindex="1" th:data-value="${roleVo.sysId}">
-                                <option value="">请选择</option>
-                                <option th:each="SysApp : ${sysApp}" th:value="${SysApp.id}"
-                                        th:text="${SysApp.name}" th:selected="(${roleVo.sysId} == ${SysApp.id})"></option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>创建日期</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" th:value="${roleVo.createTimeBegin}" name="createTimeBegin" id="createTimeBegin" maxlength="19" placeholder="请选择开始时间" readonly/>
-                                <span class="input-group-btn">
-                                <button class="btn default date-reset" id="createTimeBeginClear" type="button"><i class="icon-remove"></i></button>
-                            </span>
-                                <span class="input-group-addon">至</span>
-                                <input type="text" class="form-control" th:value="${roleVo.createTimeEnd}" name="createTimeEnd" id="createTimeEnd" maxlength="19" placeholder="请选择结束时间" readonly/>
-                                <span class="input-group-btn">
-                                <button class="btn default date-reset" id="createTimeEndClear" type="button"><i class="icon-remove"></i></button>
-                            </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
                 <div class="row form-group">
                     <div class="col-md-5"></div>
@@ -128,14 +83,11 @@
                                 <th>角色名称</th>
                                 <th>角色编号</th>
                                 <th>角色描述</th>
-                                <th>角色状态</th>
-                                <th>商户简称</th>
-                                <th>子商户简称</th>
-                                <th>所属应用系统</th>
+                                <!--<th>角色状态</th>-->
                                 <th>创建人员</th>
                                 <th>创建时间</th>
                                 <th>修改时间</th>
-                                <shiro:hasAnyPermissions name="role_update,role_delete,role_allotRights,role_lookRights">
+                                <shiro:hasAnyPermissions name="role:update,role:delete,role:lookRights,role:giveRights">
                                     <th style="width:205px;">操作</th>
                                 </shiro:hasAnyPermissions>
                             </tr>
@@ -145,28 +97,25 @@
                                 <td th:text="${role.roleName}"></td>
                                 <td th:text="${role.roleCode}"></td>
                                 <td th:text="${role.roleDesc}"></td>
-                                <td sl:type="ROLE_STATUS" sl:text="${role.roleStatus}"></td>
-                                <td th:text="${role.merchantName}"></td>
-                                <td th:text="${role.subMidName}"></td>
-                                <td th:text="${role.sysName}"></td>
+                                <!--<td sl:type="role:STATUS" sl:text="${role.roleStatus}"></td>-->
                                 <td th:text="${role.roleOperator}"></td>
                                 <td th:text="${#calendars.format(role.createTime,'yyyy-MM-dd HH:mm:ss')}"></td>
                                 <td th:text="${#calendars.format(role.updateTime,'yyyy-MM-dd HH:mm:ss')}"></td>
-                                <shiro:hasAnyPermissions name="role_update,role_delete,role_allotRights,role_lookRights">
+                                <shiro:hasAnyPermissions name="role:update,role:delete,role:lookRights,role:giveRights">
                                     <td>
-                                        <shiro:hasPermission name="role_update">
-                                            <a class='btn blue btn-xs ' th:if="${role.roleType} != 0" th:href="@{toUpdate(id=${role.roleId})}">修改</a>
+                                        <shiro:hasPermission name="role:update">
+                                            <a class='btn blue btn-xs ' th:href="@{toUpdate(id=${role.roleId})}">修改</a>
                                         </shiro:hasPermission>
 
-                                        <shiro:hasPermission name="role_delete">
-                                            <a class='btn red btn-xs' th:if="${role.roleType} != 0" th:onclick="'javascript:deleteRole(\''+${role.roleId}+'\')'">删除</a>
+                                        <shiro:hasPermission name="role:delete">
+                                            <a class='btn red btn-xs' th:onclick="'javascript:deleteRole(\''+${role.roleId}+'\')'">删除</a>
                                         </shiro:hasPermission>
 
-                                        <shiro:hasPermission name="role_allotRights">
-                                            <a class="btn default btn-xs" th:if="${role.roleType} != 0" data-toggle="modal" data-target="#tree-modal" th:onclick="'javascript:treeRole(\''+${role.roleId}+'\',\''+${role.sysId}+'\')'">分配权限</a>
+                                        <shiro:hasPermission name="role:giveRights">
+                                            <a class="btn default btn-xs"  data-toggle="modal" data-target="#tree-modal" th:onclick="'javascript:treeRole(\''+${role.roleId}+'\')'">分配权限</a>
                                         </shiro:hasPermission>
 
-                                        <shiro:hasPermission name="role_lookRights">
+                                        <shiro:hasPermission name="role:lookRights">
                                             <a class="btn default btn-xs" data-toggle="modal" data-target="#view-modal" th:onclick="'javascript:viewRole(\''+${role.roleId}+'\')'">查看权限</a>
                                         </shiro:hasPermission>
                                     </td>

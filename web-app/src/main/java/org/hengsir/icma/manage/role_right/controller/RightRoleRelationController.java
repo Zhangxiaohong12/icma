@@ -19,7 +19,7 @@ import java.util.List;
  * 角色增加权限。
  */
 @Controller
-@RequestMapping("/role_right/right-role-relation")
+@RequestMapping("/role_right")
 public class RightRoleRelationController {
 
 

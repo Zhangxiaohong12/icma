@@ -21,7 +21,8 @@
 
     <select id="findAllRight" resultMap="RightResult" useCache="false">
         SELECT
-        <include refid="Base_Column_List"/>
+        RIGHT_ID,RIGHT_CODE,RIGHT_DESC,CREATE_TIME,UPDATE_TIME,RIGHT_NAME,
+                MENU_ID,IS_MENU_RIGHT,PARENT_RIGHT_ID,PARENT_MENU_ID
         FROM T_RIGHT ORDER BY CREATE_TIME DESC
     </select>
 
@@ -31,7 +32,8 @@
 
     <select id="findByRight" resultMap="RightResult" useCache="false">
         SELECT
-        <include refid="Base_Column_List"/>
+        RIGHT_ID,RIGHT_CODE,RIGHT_DESC,CREATE_TIME,UPDATE_TIME,RIGHT_NAME,
+        MENU_ID,IS_MENU_RIGHT,PARENT_RIGHT_ID,PARENT_MENU_ID
         FROM T_RIGHT
         <where>
             <if test="null != rightCode and '' != rightCode">
@@ -59,7 +61,7 @@
         </foreach>
     </select>
 
-    <select id="findById" parameterType="java.lang.String" resultMap="RightResult" useCache="false">
+    <select id="findById" parameterType="java.lang.Integer" resultMap="RightResult" useCache="false">
         SELECT
         <include refid="Base_Column_List"/>
         FROM T_RIGHT WHERE
@@ -84,10 +86,10 @@
         <if test="null != rightDesc and '' != rightDesc">
             RIGHT_DESC,
         </if>
-        <if test="null != createTime and '' != createTime">
+        <if test="null != createTime ">
             CREATE_TIME,
         </if>
-        <if test="null != updateTime and '' != updateTime">
+        <if test="null != updateTime">
             UPDATE_TIME,
         </if>
         RIGHT_NAME,
@@ -105,10 +107,10 @@
         <if test="null != rightDesc and '' != rightDesc">
             #{rightDesc},
         </if>
-        <if test="null != createTime and '' != createTime">
+        <if test="null != createTime">
             #{createTime, jdbcType=TIMESTAMP},
         </if>
-        <if test="null != updateTime and '' != updateTime">
+        <if test="null != updateTime">
             #{updateTime, jdbcType=TIMESTAMP},
         </if>
         #{rightName},
@@ -127,9 +129,6 @@
     <update id="update" parameterType="org.hengsir.icma.entity.Right">
         UPDATE T_RIGHT
         <set>
-            <if test="null != rightCode">
-                RIGHT_CODE = #{rightCode},
-            </if>
             <if test="null != rightName">
                 RIGHT_NAME = #{rightName},
             </if>
@@ -180,7 +179,7 @@
     <!--菜单中的修改权限-->
 
     <!--菜单中的删除权限-->
-    <delete id="deleteRightByMenuId" parameterType="java.lang.String">
+    <delete id="deleteRightByMenuId" parameterType="java.lang.Integer">
                 DELETE FROM T_RIGHT WHERE MENU_ID = #{menuId} OR PARENT_MENU_ID = #{menuId}
 
     </delete>

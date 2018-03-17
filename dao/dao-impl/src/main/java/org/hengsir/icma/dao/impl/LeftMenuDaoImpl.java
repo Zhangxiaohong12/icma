@@ -111,7 +111,7 @@ public class LeftMenuDaoImpl implements LeftMenuWriteDao {
     }
 
     @Override
-    public boolean delete(Long id) {
+    public boolean delete(int id) {
         try {
             leftMenuMapper.delete(id);
             return true;

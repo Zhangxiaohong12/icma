@@ -625,7 +625,7 @@ function checkStatus() {
  category = $("#uCategory").val().trim(); //修改时获取
  }
  if("" != category && null != category){
- $.post("/system-data/item/valid-item-category",{category: category,num:Math.random()},
+ $.post("/item/valid-item-category",{category: category,num:Math.random()},
  function(data){
  if(data.result == true){
  categoryExitFlag = true;
@@ -669,7 +669,7 @@ $(function () {
                 Shade.blockUI($("#itemBody"));
                 var category = $("#category").val().trim();  //新增时获取的当前的值
                 if ("" != category && null != category) {
-                    $.post("/system-data/item/valid-item-category", {category: category, num: Math.random()},
+                    $.post("/item/valid-item-category", {category: category, num: Math.random()},
                         function (data) {
                             $("#btnSave").attr("disabled",false);
                             Shade.unblockUI($("#itemBody"));
@@ -699,7 +699,7 @@ $(function () {
                 var category = $("#uCategory").val().trim();
                 if ("" != category && null != category) {
                     if (rCategory != category) { //比较是否是原来未修改的值
-                        $.post("/system-data/item/valid-item-category", {category: category, num: Math.random()},
+                        $.post("/item/valid-item-category", {category: category, num: Math.random()},
                             function (data) {
                                 $("#btnUpdate").attr("disabled",true);
                                 Shade.unblockUI($("#itemBody"));
@@ -746,14 +746,14 @@ function addItemAndItemDetail() {
     optJsonArry();
     var aForm = $("#itemForm").serialize();
     var fdata = aForm + "&itemDetailStr=" + JSON.stringify(myRows);
-    $.post("/system-data/item/add-item",
+    $.post("/item/add-item",
         fdata,
         function(data){
             $("#btnSave").attr("disabled",false);
             Shade.unblockUI($("#itemBody"));
             if(data.result == true){
                 BootboxExt.alert("新增成功",function(res){
-                    location.href="/system-data/item/search";
+                    location.href="/item/search";
                 });
             }else{
                 BootboxExt.alert("新增失败");
@@ -787,14 +787,14 @@ function updateItemAndItemDetail() {
     optJsonArry();
     var aForm = $("#itemForm").serialize();
     var fdata = aForm + "&itemDetailStr=" + JSON.stringify(myRows);
-    $.post("/system-data/item/update-item",
+    $.post("/item/update-item",
         fdata,
         function(data){
             $("#btnUpdate").attr("disabled",false);
             Shade.unblockUI($("#itemBody"));
             if(data.result == true){
                 BootboxExt.alert("修改成功",function(res){
-                    location.href="/system-data/item/search";
+                    location.href="/item/search";
                 });
             }else{
                 BootboxExt.alert("修改失败");

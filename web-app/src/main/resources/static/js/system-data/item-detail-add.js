@@ -1,8 +1,8 @@
 function deleteItem(itemId) {
-    $.post("/system-data/item/delete-item-itemDetail", {id: itemId}, function (data) {
+    $.post("/item/delete-item-itemDetail", {id: itemId}, function (data) {
         if (data.result == true) {
             BootboxExt.alert("删除成功", function (res) {
-                location.href = "/system-data/item/search";
+                location.href = "/item/search";
             });
         } else {
             BootboxExt.alert("删除失败", function (res) {
@@ -76,14 +76,14 @@ $(function () {
             if (itemDetailForm.valid()) {
                 $("#btnSave").attr("disabled",true);
                 Shade.blockUI($("#itemDetailBody"));
-                $.post("/system-data/item/add-item-detail",
+                $.post("/item/add-item-detail",
                     $("#itemDetailForm").serialize(),
                     function (data) {
                         $("#btnSave").attr("disabled",false);
                         Shade.unblockUI($("#itemDetailBody"));
                         if (data.result == true) {
                             BootboxExt.alert("新增成功", function (res) {
-                                //location.href = "/system-data/item/detail?id=" + itemId;
+                                //location.href = "/item/detail?id=" + itemId;
                                 history.back();
                                 //location.reload();
                                 //location.replace(document.referrer)
@@ -109,12 +109,12 @@ $(function () {
             if (itemDetailForm.valid()) {
                 $("#btnUpdate").attr("disabled",true);
                 Shade.blockUI($("#itemDetailBody"));
-                $.post("/system-data/item/update-item-detailSingle", $("#itemDetailForm").serialize(), function (data) {
+                $.post("/item/update-item-detailSingle", $("#itemDetailForm").serialize(), function (data) {
                     $("#btnUpdate").attr("disabled",false);
                     Shade.unblockUI($("#itemDetailBody"));
                     if (data.result == true) {
                         BootboxExt.alert("修改成功", function (res) {
-                            //location.href = "/system-data/item/detail?id=" + itemId;
+                            //location.href = "/item/detail?id=" + itemId;
                             window.history.back();
                         });
                     } else {

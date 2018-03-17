@@ -32,7 +32,7 @@ public class RoleServiceImpl implements RoleService {
     private RoleDao roleDao;
 
     @Override
-    public Role create(Role role) {
+    public Boolean create(Role role) {
         return roleWriteDao.create(role);
     }
 

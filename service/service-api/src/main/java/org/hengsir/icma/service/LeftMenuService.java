@@ -38,7 +38,7 @@ public interface LeftMenuService {
      * @param id 菜单的id
      * @return true： 修改成功,false： 修改失败
      */
-    public boolean delete(Long id);
+    public boolean delete(int id);
 
     /**
      * 修改菜单的权限。
