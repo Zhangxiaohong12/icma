@@ -36,7 +36,7 @@
         WHERE CATEGORY = #{gate}
     </select>
 
-    <select id="findById" resultMap="itemResult" useCache="false">
+    <select id="findById" resultMap="itemResult" parameterType="java.lang.Integer" useCache="false">
         SELECT T.*,TD.ID AS TD_ID,TD.CATEGORY AS TD_CATEGORY,TD.CODE AS TD_CODE,TD.SUPPER_CODE AS
         TD_SUPPEER_CODE,
         TD.NAME AS TD_NAME,TD.DESCRIPTION AS TD_DESCRIPTION,TD.STATUS AS TD_STATUS,TD.ORDER_ID AS ID_ORDER_ID

@@ -1,5 +1,6 @@
 package org.hengsir.icma.dao;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.apache.ibatis.annotations.Param;
 import org.hengsir.icma.entity.ItemDetail;
 
@@ -15,7 +16,7 @@ public interface ItemDetailWriteDao extends ItemDetailDao {
      *
      * @param itemDetail 数据字典详情参数
      */
-    ItemDetail addItemDetail(ItemDetail itemDetail);
+    Boolean addItemDetail(ItemDetail itemDetail);
 
     /**
      * 修改数据字典。

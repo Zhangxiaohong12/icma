@@ -39,12 +39,12 @@ import java.util.Map;
 /**
  * Controller：数据字典。
  *
- * @author lijiguang 2017年5月20日
+ * @author hengsir 2017年5月20日
  * @version 1.0.0
  */
 @RequestMapping("/item")
 @Controller
-public class ItemController implements InitializingBean{
+public class ItemController implements InitializingBean {
     //日志
     private static Logger logger = LoggerFactory.getLogger(ItemController.class);
 
@@ -102,7 +102,7 @@ public class ItemController implements InitializingBean{
         for (ItemVo itemDto : items) {
             String gateGory = itemDto.getCategory();
             List<Map<String, Object>> jsonList = jsonMap.computeIfAbsent(
-                gateGory, k -> new ArrayList<>());
+                    gateGory, k -> new ArrayList<>());
             for (int j = 0; j < itemDto.getItemDetails().size(); j++) {
                 Map<String, Object> map = new HashMap<>();
                 ItemDetail itd = itemDto.getItemDetails().get(j);
@@ -117,15 +117,15 @@ public class ItemController implements InitializingBean{
             /*暂时这样获取路径，需要优化。*/
             String classLoaderPath = this.getClass().getResource("").getPath();
             String filePath =
-                classLoaderPath.substring(0, classLoaderPath.indexOf("target"))+"src/main/resources/static/" + "select" +
-                File.separatorChar + "item";
+                    classLoaderPath.substring(0, classLoaderPath.indexOf("target")) + "src/main/resources/static/" + "select" +
+                            File.separatorChar + "item";
             for (Map.Entry<String, List<Map<String, Object>>> entry : jsonMap.entrySet()) {
                 List<Map<String, Object>> list = entry.getValue();
                 String data = JSON.toJSONString(list);
                 try {
                     FileUtils.writeStringToFile(
-                        new File(filePath + File.separatorChar + entry.getKey() + ".txt"), data,
-                        "UTF-8");
+                            new File(filePath + File.separatorChar + entry.getKey() + ".txt"), data,
+                            "UTF-8");
                 } catch (IOException exception) {
                     logger.error("{}", exception);
                 }
@@ -162,9 +162,9 @@ public class ItemController implements InitializingBean{
         boolean flag = false;
         try {
             Item item = convertItem(itemVo.getCategory(), itemVo.getName(), itemVo.getDescription(),
-                                    itemVo.getStatus(), itemVo.getOrderId());
+                    itemVo.getStatus(), itemVo.getOrderId());
             List<ItemDetail> list = convertItemDetailByJsonArray(
-                itemVo.getCategory(), itemVo.getItemDetailStr());
+                    itemVo.getCategory(), itemVo.getItemDetailStr());
             Item itemFlag = itemService.addItem(item);
             flag = addItemAndItemDetails(itemFlag, list);
         } catch (Exception ex) {
@@ -223,10 +223,10 @@ public class ItemController implements InitializingBean{
         boolean flag = false;
         try {
             Item item = convertItem(itemVo.getCategory(), itemVo.getName(), itemVo.getDescription(),
-                                    itemVo.getStatus(), itemVo.getOrderId());
+                    itemVo.getStatus(), itemVo.getOrderId());
             item.setId(itemVo.getId());
             List<ItemDetail> list = convertItemDetailByJsonArray(
-                itemVo.getCategory(), itemVo.getItemDetailStr());
+                    itemVo.getCategory(), itemVo.getItemDetailStr());
             boolean itemFlag = itemService.updateItem(item);
             Item itemExit = itemDao.findById(item.getId());
             if (itemFlag) {
@@ -243,7 +243,6 @@ public class ItemController implements InitializingBean{
 
     /**
      * 删除数据字典。
-     *
      */
     @RequestMapping(value = "/delete-itemDetail", method = {RequestMethod.GET})
     @ResponseBody
@@ -333,11 +332,7 @@ public class ItemController implements InitializingBean{
     @ResponseBody
     public Object addItemDetail(ItemDetail itemDetail) {
         JSONObject jsonObject = new JSONObject();
-        ItemDetail detail = itemDetailService.addItemDetail(itemDetail);
-        boolean flag = false;
-        if (null != detail) {
-            flag = true;
-        }
+        boolean flag = itemDetailService.addItemDetail(itemDetail);
         jsonObject.accumulate("result", flag);
         return jsonObject;
     }
@@ -390,13 +385,9 @@ public class ItemController implements InitializingBean{
         if (null != itemFlag) {
             if (list.size() > 0 && null != list) {
                 for (ItemDetail detail : list) {
-                    if (0 != detail.getId() && !"".equals(detail.getId())) {
-                        if (0 == detail.getId()) {
-                            ItemDetail itemDetail1 = itemDetailService.addItemDetail(detail);
-                            if (null != itemDetail1) {
-                                addNum++;
-                            }
-                        }
+                    boolean f = itemDetailService.addItemDetail(detail);
+                    if (f) {
+                        addNum++;
                     }
                 }
             } else {
@@ -428,8 +419,8 @@ public class ItemController implements InitializingBean{
                     String category = itemFlag.getCategory();
                     for (ItemDetail detail : list) {
                         detail.setCategory(category);
-                        ItemDetail itemDetail1 = itemDetailService.addItemDetail(detail);
-                        if (null != itemDetail1) {
+                        boolean f = itemDetailService.addItemDetail(detail);
+                        if (f) {
                             addNum++;
                         }
                     }
@@ -458,7 +449,7 @@ public class ItemController implements InitializingBean{
      * @return 数据字典对象
      */
     public Item convertItem(
-        String category, String name, String description, String status, int orderId) {
+            String category, String name, String description, String status, int orderId) {
         Item item = new Item();
         item.setCategory(category);
         item.setName(name);
@@ -477,7 +468,7 @@ public class ItemController implements InitializingBean{
      * @throws Exception 异常
      */
     public List<ItemDetail> convertItemDetailByJsonArray(String category, String itemDetails)
-        throws Exception {
+            throws Exception {
         List<ItemDetail> list = new ArrayList<>();
         String decodedItemDetail = URLDecoder.decode(itemDetails, "utf-8");
         JSONArray jsonArray = JSONArray.fromObject(decodedItemDetail);//解析json数组

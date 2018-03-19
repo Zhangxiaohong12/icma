@@ -15,7 +15,7 @@ public interface ItemDetailService {
      *
      * @param itemDetail 数据字典详情参数
      */
-    ItemDetail addItemDetail(ItemDetail itemDetail);
+    Boolean addItemDetail(ItemDetail itemDetail);
 
     /**
      * 修改数据字典。

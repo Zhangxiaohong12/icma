@@ -7,6 +7,7 @@ import org.hengsir.icma.entity.LeftMenu;
 import org.hengsir.icma.manage.scan.ShiroRealService;
 import org.hengsir.icma.manage.shiro.ShiroUser;
 import org.hengsir.icma.service.LeftMenuService;
+import org.hengsir.icma.utils.ItemUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,6 +69,7 @@ public class MenuHandlerInterceptor implements HandlerInterceptor {
                     //菜单导航
                     request.setAttribute("locationMenu", menuHtmlArr[1]);
                 }
+                request.setAttribute("ItemUtil", new ItemUtil());
 
             }
         } catch (Exception exception) {

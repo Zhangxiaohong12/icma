@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 /**
  * 基础数据-->选录数据--业务实现层。
  *
- * @author lijiguang 2017年5月20日
+ * @author hengsir 2017年5月20日
  */
 @Service
 public class ItemServiceimpl implements ItemService {

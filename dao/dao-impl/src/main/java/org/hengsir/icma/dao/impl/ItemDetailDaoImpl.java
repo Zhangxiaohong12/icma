@@ -39,9 +39,15 @@ public class ItemDetailDaoImpl implements ItemDetailWriteDao {
     }
 
     @Override
-    public ItemDetail addItemDetail(ItemDetail itemDetail) {
-        itemDetailMapper.addItemDetail(itemDetail);
-        return itemDetailMapper.findItemDetailById(itemDetail.getId());
+    public Boolean addItemDetail(ItemDetail itemDetail) {
+        try{
+            itemDetailMapper.addItemDetail(itemDetail);
+            return true;
+        }catch (Exception e){
+            logger.error("新增数据字典详情失败",e);
+            return false;
+        }
+
     }
 
 

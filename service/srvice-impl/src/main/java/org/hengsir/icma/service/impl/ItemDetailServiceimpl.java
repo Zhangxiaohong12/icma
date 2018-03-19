@@ -22,7 +22,7 @@ public class ItemDetailServiceimpl implements ItemDetailService {
     private ItemDetailWriteDao itemDetailWriteDao;
 
     @Override
-    public ItemDetail addItemDetail(ItemDetail itemDetail) {
+    public Boolean addItemDetail(ItemDetail itemDetail) {
         return itemDetailWriteDao.addItemDetail(itemDetail);
     }
 

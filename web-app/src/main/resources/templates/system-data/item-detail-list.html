@@ -60,7 +60,7 @@
                         <th style="width: 20%">名称</th>
                         <th style="width: 20%">描述</th>
                         <th style="width: 20%">状态</th>
-                        <shiro:hasAnyPermissions name="itemDetail_update,itemDetail_delete">
+                        <shiro:hasAnyPermissions name="itemDetail:update,itemDetail:delete">
                             <th>操作</th>
                         </shiro:hasAnyPermissions>
                     </tr>
@@ -70,14 +70,14 @@
                         <td th:text="${item.code}"></td>
                         <td th:text="${item.name}"></td>
                         <td th:text="${item.description}"></td>
-                        <td sl:type="STATUS" sl:text="${item.status}"></td>
-                        <shiro:hasAnyPermissions name="itemDetail_update,itemDetail_delete">
+                        <td th:text="${ItemUtil.getName(item.status,'STATUS')}"></td>
+                        <shiro:hasAnyPermissions name="itemDetail:update,itemDetail:delete">
                             <td>
-                                <shiro:hasPermission name="itemDetail_update">
+                                <shiro:hasPermission name="itemDetail:update">
                                     <a class='btn blue btn-xs'
                                             th:href="@{toupdate-itemDetailSingle(id=${item.id},itemId=${itemDTO.id})}">修改</a>
                                 </shiro:hasPermission>
-                                <shiro:hasPermission name="itemDetail_delete">
+                                <shiro:hasPermission name="itemDetail:delete">
                                     <a class='btn red btn-xs' th:onclick="'javascript:deleteItemDetail(\''+${item.id}+'\');'">删除</a>
                                 </shiro:hasPermission>
                             </td>

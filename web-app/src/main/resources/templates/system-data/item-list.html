@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-        xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+        xmlns:shiro="http://www.pollix.at/thymeleaf/shiro" xmlns:sl="http://www.w3.org/1999/xhtml">
 <head>
     <title th:text="${pageTitle}"></title>
     <head th:include="/commons/head::header"/>
@@ -94,7 +94,7 @@
                                 <td th:text="${itemDto.category}"></td>
                                 <td th:text="${itemDto.name}"></td>
                                 <td th:text="${itemDto.description}"></td>
-                                <td sl:type="STATUS" sl:text="${itemDto.status}"></td>
+                                <td th:text="${ItemUtil.getName(itemDto.status,'STATUS')}"></td>
                                 <td th:text="${itemDto.orderId}"></td>
                                 <!--<shiro:hasAnyPermissions name="itemDetail_search,item_update,item_delete">-->
                                     <td>
