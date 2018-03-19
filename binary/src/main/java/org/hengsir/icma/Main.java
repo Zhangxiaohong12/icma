@@ -1,14 +1,11 @@
 package org.hengsir.icma;
 
-import org.hengsir.icma.utils.pageHelper.PageHelper;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Properties;
 
 /**
  * @author hengsir
@@ -16,7 +13,6 @@ import java.util.Properties;
  */
 @SpringBootApplication
 @MapperScan("org.hengsir.icma.dao.mapper")
-//@ComponentScan(basePackages = {"org.hengsir.icma","org.springframework.boot.autoconfigure.validation"})
 public class Main {
     public static void main(String[] args) {
         SpringApplication.run(Main.class, args);

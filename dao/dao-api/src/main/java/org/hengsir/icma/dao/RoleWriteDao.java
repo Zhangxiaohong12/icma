@@ -5,7 +5,7 @@ import org.hengsir.icma.entity.Role;
 
 /**
  *角色读写接口。
- * @author yuanyaping
+ * @author hengsir
  * @createTime 2017年11月23日
  * @version 1.0.0
  */

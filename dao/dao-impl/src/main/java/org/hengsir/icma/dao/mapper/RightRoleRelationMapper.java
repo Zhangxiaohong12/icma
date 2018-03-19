@@ -8,7 +8,7 @@ import java.util.List;
 
 /**
  * 角色对应权限Mapper。
- * @author yuanyaping
+ * @author hengsir
  * @createTime 2017年11月23日
  * @version 1.0.0
  */

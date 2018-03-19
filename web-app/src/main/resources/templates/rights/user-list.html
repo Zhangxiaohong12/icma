@@ -32,7 +32,7 @@
         <shiro:hasPermission name="user:search">
             <form th:action="@{search}" method="post" id="userFrom">
                 <!-- 搜索内容start -->
-                <!--<div class="row">
+                <div class="row">
                     <div class="col-md-3">
                         <div class="form-group">
                             <label>用户名称（%）</label>
@@ -63,13 +63,13 @@
                         <div class="form-group">
                             <label>用户性别</label>
                             <div class="input-icon">
-                                <select name="userSex" id="userSex" class="form-control" data-type="select" data-category="USER_SEX" th:data-value="${user.userSex}"></select>
+                                <select name="userSex" id="userSex" class="form-control" data-type="select" data-category="SEX" th:data-value="${user.userSex}"></select>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <!--<div class="col-md-6">
                         <div class="form-group">
-                            <label>所属商户</label>
+                            <label>学校</label>
                             <div class="input-group">
                                 <input type="text" id="midShortName" name="midShortName" class="form-control" th:value="${midShortName}" th:data-value="${midShortName}" placeholder="请选择商户" readonly>
                                 <input type="hidden" th:value="${user.merchantId}" th:data-value="${user.merchantId}" id="merchantId" name="merchantId" class="form-control" readonly>
@@ -86,7 +86,24 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>所属子商户</label>
+                            <label>院校/系别</label>
+                            <div class="input-group">
+                                <input type="text" id="midShortName" name="midShortName" class="form-control" th:value="${midShortName}" th:data-value="${midShortName}" placeholder="请选择商户" readonly>
+                                <input type="hidden" th:value="${user.merchantId}" th:data-value="${user.merchantId}" id="merchantId" name="merchantId" class="form-control" readonly>
+                                <span class="input-group-btn" style="vertical-align:baseline">
+                               <button type="button" class="btn btn-default" onclick="clearMchInfoTable();">
+                                    <i class="icon-remove"></i>
+                                </button>
+                                <button type="button" class="btn blue btn-default" data-toggle="modal" data-target="#mchInfoModal" onclick="initMchInfoTable();">
+                                 选择 <i class="icon-plus"></i>
+                                </button>
+                            </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>班级</label>
                             <div class="input-group">
                                 <input type="text" id="subMidShortName" name="subMidShortName" class="form-control" th:value="${subMidShortName}" th:data-value="${subMidShortName}" placeholder="请选择子商户" readonly>
                                 <input type="hidden" th:value="${user.subMid}" th:data-value="${user.subMid}" id="subMid" name="subMid" class="form-control" readonly>
@@ -100,34 +117,9 @@
                             </span>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label>所属应用系统</label>
-                            <select class="select2_category form-control select2me" name="sysId" id="sysId" data-placeholder="Choose a org" tabindex="1">
-                                <option value="">请选择</option>
-                                <option th:each="SysApp : ${sysApp}" th:value="${SysApp.id}"
-                                        th:text="${SysApp.name}" th:selected="(${user.sysId} == ${SysApp.id})"></option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>创建日期</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" th:value="${user.createTimeBegin}" name="createTimeBegin" id="createTimeBegin" maxlength="19" placeholder="请选择开始时间" readonly/>
-                                <span class="input-group-btn">
-                                     <button class="btn default date-reset" id="createTimeBeginClear" type="button"><i class="icon-remove"></i></button>
-                               </span>
-                                <span class="input-group-addon">至</span>
-                                <input type="text" class="form-control" th:value="${user.createTimeEnd}" name="createTimeEnd" id="createTimeEnd" maxlength="19" placeholder="请选择结束时间" readonly/>
-                                <span class="input-group-btn">
-                                      <button class="btn default date-reset" id="createTimeEndClear" type="button"><i class="icon-remove"></i></button>
-                               </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>-->
+                    </div>-->
+
+                </div>
 
                 <div class="row form-group">
                     <div class="col-md-5"></div>
@@ -149,10 +141,12 @@
                             <tr>
                                 <th style="width: 10%">用户名称</th>
                                 <th style="width: 10%">用户账号</th>
-                                <!--<th style="width: 5%">用户性别</th>-->
+                                <th style="width: 5%">用户性别</th>
                                 <th style="width: 5%">身份证号</th>
-                                <!--<th style="width: 10%">用户状态</th>-->
-                                <!--<th style="width: 10%">所属机构</th>-->
+                                <th style="width: 10%">用户状态</th>
+                                <th style="width: 10%">班级</th>
+                                <th style="width: 10%">系别/院校</th>
+                                <th style="width: 10%">学校</th>
                                 <th style="width: 10%">创建时间</th>
                                 <th style="width: 10%">修改时间</th>
                                 <shiro:hasAnyPermissions name="user:update,user:delete">
@@ -164,9 +158,12 @@
                             <tr th:each="user : ${list}">
                                 <td th:text="${user.userName}"></td>
                                 <td th:text="${user.userAccount}"></td>
-                                <!--<td sl:type="USER_SEX" sl:text="${user.userSex}"></td>-->
-                                <td th:text="${user.idCard}"></td>
-                                <!--<td sl:type="USER_STATUS" sl:text="${user.userStatus}"></td>-->
+                                <td th:text="${ItemUtil.getName(user.userSex,'SEX')}"></td>
+                                <td th:text="${user.userIdCard}"></td>
+                                <td th:text="${ItemUtil.getName(user.userStatus,'USER_STATUS')}"></td>
+                                <td th:text="${user.theClass.className}"></td>
+                                <td th:text="${user.xiBie.xiBieName}"></td>
+                                <td th:text="${user.school.schoolName}"></td>
                                 <td th:text="${#calendars.format(user.createTime,'yyyy-MM-dd HH:mm:ss')}"></td>
                                 <td th:text="${#calendars.format(user.updateTime,'yyyy-MM-dd HH:mm:ss')}"></td>
                                 <shiro:hasAnyPermissions name="user:update,user:delete">
@@ -177,18 +174,13 @@
                                         <shiro:hasPermission name="user:delete">
                                             <a data-toggle="modal" href="#static" class='btn red btn-xs' th:onclick="'javascript:deleteUser(\''+${user.userId}+'\');'" style="margin-left: 5px;">删除</a>
                                         </shiro:hasPermission>
-                                        <shiro:hasPermission name="userManage_allotRole">
-                                            <a class="btn default btn-xs" data-toggle="modal" data-target="#myModal" th:onclick="'javascript:initRoleTables(\''+${user.userId}+'\',\''+${user.sysId}+'\');'">分配角色</a>
+                                        <shiro:hasPermission name="user:giveRole">
+                                            <a class="btn default btn-xs" data-toggle="modal" data-target="#myModal" th:onclick="'javascript:initRoleTables(\''+${user.userId}+'\');'">分配角色</a>
                                         </shiro:hasPermission>
-                                        <shiro:hasPermission name="userManage_lookRole">
+                                        <shiro:hasPermission name="user:lookRole">
                                             <a class="btn default btn-xs" data-toggle="modal" data-target="#view-modal" th:onclick="'javascript:viewRoleTables(\''+${user.userId}+'\');'">查看角色</a>
                                         </shiro:hasPermission>
-                                        <shiro:hasPermission name="tidGroup_allotRight">
-                                            <a th:if="${user.sysId} == 2" class="btn default btn-xs" data-toggle="modal" data-target="#myModal-tidGroup" th:onclick="'javascript:initTidGroupTables(\''+${user.userId}+'\',\''+${user.merchantId}+'\',\''+${user.subMid}+'\');'">分配终端组权限</a>
-                                        </shiro:hasPermission>
-                                        <shiro:hasPermission name="tidGroup_lookRight">
-                                            <a th:if="${user.sysId} == 2" class="btn default btn-xs" data-toggle="modal" data-target="#view-modal-tidGroup" th:onclick="'javascript:viewTidGroupTables(\''+${user.userId}+'\');'">查看终端组权限</a>
-                                        </shiro:hasPermission>
+
                                     </td>
                                 </shiro:hasAnyPermissions>
 

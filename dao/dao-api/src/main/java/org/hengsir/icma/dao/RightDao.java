@@ -8,7 +8,7 @@ import java.util.List;
 
 /**
  * 权限只读接口。
- * @author yuanyaping
+ * @author hengsir
  * @createTime 2017年11月23日
  * @version 1.0.0
  */
@@ -77,4 +77,6 @@ public interface RightDao {
      * @return 权限信息
      */
     Right findByCode(String rightCode);
+
+
 }

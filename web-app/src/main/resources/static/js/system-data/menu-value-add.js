@@ -38,7 +38,7 @@ var Obj = {
 
 function changeIcon(icon){
     document.getElementById("icons").innerHTML=icon;
-    document.getElementById("icon").value=icon;
+    document.getElementById("menuIcon").value=icon;
 }
 
 function changeMenu(menu){
@@ -46,62 +46,9 @@ function changeMenu(menu){
     //比较选中的值和它本身的code值看是否相等
     if(superCode == menu){
         BootboxExt.alert("请误选择自己做菜单 默认为不修改");
-        document.getElementById("superCode").value=document.getElementById("superCode2").value;
+        document.getElementById("menuSuperCode").value=document.getElementById("superCode2").value;
     }else{
-        document.getElementById("superCode").value=menu;
-    }
-    findUpdateSysAPPId();
-}
-
-//初始化选择权限的状态
-function initUpdateSysId(){
-    var sysId = $("#sysId").val();
-    var code = $("#superCode").val();
-    if(code != null && code != ""){
-        $("#sysId1").attr("disabled",true);
-    }else{
-        $("#sysId1").attr("disabled",false);
-    }
-    if(sysId != null && sysId != ""){
-        $("#sysId1").val($("#sysId").val());
-        updateSysIdFlag = true;
-    }else{
-        updateSysIdFlag = false;
-    }
-}
-
-//在修改页面，修改父菜单时，判断权限是否可选
-var updateAppId = 0;
-var updateSysIdFlag = false;
-function findUpdateSysAPPId(){
-    updateAppId = 1;
-    var code = $("#superCode").val();
-    if(code != null && code != ""){
-        $.post("/system-data/menu/find-left-menu-sysApp",{code: code},
-            function(data){
-                $("#sysId1").val(data.sysApp.id);
-                $("#sysId").val(data.sysApp.id);
-            });
-        $("#sysId1").attr("disabled",true);
-        updateSysIdFlag = true;
-    }else{
-        $("#sysId1").val("");
-        $("#sysId").val("");
-        $("#sysId1").attr("disabled",false);
-        updateSysIdFlag = false;
-    }
-}
-
-function findUpdateSysAPPId2(){
-    updateAppId = 2;
-    var sysId1 = $("#sysId1").val();
-    if(sysId1 != null && sysId1 != ""){
-        $("#sysId").val($("#sysId1").val());
-        updateSysIdFlag = true;
-    }else{
-        $("#sysId1").val("");
-        $("#sysId").val("");
-        updateSysIdFlag = false;
+        document.getElementById("menuSuperCode").value=menu;
     }
 }
 
@@ -110,37 +57,10 @@ var addAppIdNum = 1;
 var addSysIdFlag = false;
 function findAddSysAPPId(){
     addAppIdNum = 1;
-    var code = $("#superCode").val();
-    if(code != null && code != ""){
-        $.post("/system-data/menu/find-left-menu-sysApp",{code: code},
-            function(data){
-                $("#sysId1").val(data.id);
-                $("#sysId").val(data.id);
-            },"json");
-        $("#sysId1").attr("disabled",true);
-        addSysIdFlag = true;
+    var code = $("#menuSuperCode").val();
 
-
-    }else{
-        $("#sysId1").val("");
-        $("#sysId").val("");
-        $("#sysId1").attr("disabled",false);
-        addSysIdFlag = false;
-    }
 }
 
-function findAddSysAPPId2(){
-    addAppIdNum = 2;
-    var sysId1 = $("#sysId1").val();
-    if(sysId1 != null && sysId1 != ""){
-        $("#sysId").val($("#sysId1").val());
-        addSysIdFlag = true;
-    }else{
-        $("#sysId1").val("");
-        $("#sysId").val("");
-        addSysIdFlag = false;
-    }
-}
 
 $(function() {
     //初始化显示图标的方法
@@ -206,20 +126,12 @@ leftMenuForm.validate({
 $(function () {
     $("#btnSave").click(function () {
         if (leftMenuForm.valid()) { //验证通过
-            if(addAppIdNum == 1){
-                findAddSysAPPId();   //父菜单选项改变时
-            }else{
-                findAddSysAPPId2();  //选择权限改变时
-            }
-            if(!addSysIdFlag){
-                BootboxExt.alert("请选择系统权限");
-                return;
-            }
+
             var code = $("#code").val().trim();
             if("" != code && null !=code){
                 $("#btnSave").attr("disabled",true);
                 Shade.blockUI($("#menuBody"));
-                $.post("/system-data/menu/valid-left-menu-Code",{code: code},
+                $.post("/menu/valid-left-menu-Code",{code: code},
                     function(data){
                         $("#btnSave").attr("disabled",false);
                         Shade.unblockUI($("#menuBody"));
@@ -228,12 +140,12 @@ $(function () {
                             return;
                         }else if(data.result == false){
                             //查询编码不存在！！;
-                            $.post("/system-data/menu/add-left-menu",
+                            $.post("/menu/add-left-menu",
                                 $("#leftMenuForm").serialize(),
                                 function(data){
                                     if(data.result == true){
                                         BootboxExt.alert("新增成功",function(res){
-                                            location.href="/system-data/menu/search";
+                                            location.href="/menu/search";
                                         });
                                     }else{
                                         BootboxExt.alert("新增失败",function(res) {
@@ -253,22 +165,9 @@ $(function () {
         }
     });
 
-    initUpdateSysId();
     $("#btnUpdate").click(function () {
         if (leftMenuForm.valid()) { //验证通过
-            //updateAppId = 0：父菜单选项和选择权限都未改变时，1：父菜单选项改变时 ，2：选择权限改变时
-            if(updateAppId == 1){
-                findUpdateSysAPPId();  //父菜单选项改变时
-            }else if(updateAppId == 2){
-                findUpdateSysAPPId2(); //选择权限改变时
-            }else{
-                updateSysIdFlag = true;
-            }
 
-            if(!updateSysIdFlag){
-                BootboxExt.alert("请选择系统权限");
-                return;
-            }
             var rCode = $("#rCode").val();
             var code = $("#uCode").val();
             if("" != code && null !=code){
@@ -276,7 +175,7 @@ $(function () {
                 if(rCode != code){
                     $("#btnUpdate").attr("disabled",true);
                     Shade.blockUI($("#menuBody"));
-                    $.post("/system-data/menu/valid-left-menu-Code",{code: code},
+                    $.post("/menu/valid-left-menu-Code",{code: code},
                         function(data){
                             $("#btnUpdate").attr("disabled",false);
                             Shade.unblockUI($("#menuBody"));
@@ -286,14 +185,14 @@ $(function () {
                             }else if(data.result == false){
                                 $("#btnUpdate").attr("disabled",true);
                                 Shade.blockUI($("#menuBody"));
-                                $.post("/system-data/menu/update-left-menu",
+                                $.post("/menu/update-left-menu",
                                     $("#leftMenuForm").serialize(),
                                     function(data){
                                         $("#btnUpdate").attr("disabled",false);
                                         Shade.unblockUI($("#menuBody"));
                                         if(data.result == true){
                                             BootboxExt.alert("修改成功",function(res){
-                                                location.href="/system-data/menu/search";
+                                                location.href="/menu/search";
                                             });
                                         }else{
                                             BootboxExt.alert("修改失败",function(res){
@@ -310,14 +209,14 @@ $(function () {
                 }else if (rCode == code){
                     $("#btnUpdate").attr("disabled",true);
                     Shade.blockUI($("#menuBody"));
-                    $.post("/system-data/menu/update-left-menu",
+                    $.post("/menu/update-left-menu",
                         $("#leftMenuForm").serialize(),
                         function(data){
                             $("#btnUpdate").attr("disabled",false);
                             Shade.unblockUI($("#menuBody"));
                             if(data.result == true){
                                 BootboxExt.alert("修改成功",function(res){
-                                    location.href="/system-data/menu/search";
+                                    location.href="/menu/search";
                                 });
                             }else{
                                 BootboxExt.alert("修改失败",function(res){
@@ -331,7 +230,6 @@ $(function () {
             }else{
                 BootboxExt.alert("请输入编码");
             }
-            updateSysIdFlag = false;
         }
     });
 });

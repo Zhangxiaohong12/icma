@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * 用户对应角色实现类。
- * @author yuanyaping
+ * @author hengsir
  * @createTime 2017年11月24日
  * @version 1.0.0
  */

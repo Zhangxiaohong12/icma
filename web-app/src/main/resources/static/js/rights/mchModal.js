@@ -1,20 +1,20 @@
 /**
  * 初始化表格数据。
  */
-function initTable() {
-    var midStr = $("#merchantId").val();
-    if (midStr == null || midStr == "") {
+function initXiBieTable() {
+    var schoolId = $("#schoolId").val();
+    if (schoolId == null || schoolId == "") {
         //$('#myModal').modal('hide');
-        BootboxExt.alert("请先选择商户");
+        BootboxExt.alert("请先选择学校");
         return;
     }
-    $('#subMchModal').modal('show');
+    $('#schoolModal').modal('show');
     //先销毁表格
     $('#item_info_table').bootstrapTable('destroy');
     //初始化表格,动态从服务器加载数据
     $("#item_info_table").bootstrapTable({
         method: "GET",  //使用get请求到服务器获取数据
-        url: '/mch/sub/search-list', //获取数据的Servlet地址
+        url: '/sxc/search-list', //获取数据的Servlet地址
         striped: true,  //表格显示条纹
         showRefresh: true,  //显示刷新按钮
         pagination: true,                   //是否显示分页（*）

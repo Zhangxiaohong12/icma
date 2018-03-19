@@ -56,7 +56,15 @@ public class LeftMenu implements Model {
      */
     private Date updateTime;
 
+    private String superName;
 
+    public String getSuperName() {
+        return superName;
+    }
+
+    public void setSuperName(String superName) {
+        this.superName = superName;
+    }
 
     public Integer getMenuId() {
         return menuId;

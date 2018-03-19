@@ -5,7 +5,7 @@ import org.hengsir.icma.entity.Right;
 
 /**
  * 权限管理写操作的业务处理类。
- * @author yuanyaping
+ * @author hengsir
  * @createTime 2017年11月23日
  * @version 1.0.0
 */

@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.hengsir.icma.dao.mapper.SXCMapper">
+
+    <resultMap id="schoolResult" type="org.hengsir.icma.entity.School">
+        <result property="id" column="ID"/>
+        <result property="schoolName" column="SCHOOL_NAME"/>
+        <result property="schoolCode" column="SCHOOL_CODE"/>
+    </resultMap>
+
+    <resultMap id="xiBieResult" type="org.hengsir.icma.entity.XiBie">
+        <result property="id" column="ID"/>
+        <result property="xiBieName" column="XI_BIE_NAME"/>
+        <result property="schoolId" column="SCHOOL_ID"/>
+    </resultMap>
+
+    <resultMap id="classResult" type="org.hengsir.icma.entity.Class">
+        <result property="id" column="ID"/>
+        <result property="className" column="CLASS_NAME"/>
+        <result property="xiBieId" column="XI_BIE_ID"/>
+    </resultMap>
+
+    <insert id="createSchool" parameterType="org.hengsir.icma.entity.School">
+        INSERT INTO T_SCHOOL
+        (SCHOOL_NAME,SCHOOL_CODE)
+        VALUES
+        (#{schoolName},#{schoolCode})
+    </insert>
+
+    <insert id="createXiBie" parameterType="org.hengsir.icma.entity.XiBie">
+        INSERT INTO T_XI_BIE
+        (XI_BIE_NAME,SCHOOL_ID)
+        VALUES
+        (#{xiBieName},#{schoolId})
+    </insert>
+
+    <insert id="createClass" parameterType="org.hengsir.icma.entity.Class">
+        INSERT INTO T_CLASS
+        (CLASS_NAME,XI_BIE_ID)
+        VALUES
+        (#{className},#{xiBieId})
+    </insert>
+
+    <update id="updateSchool" parameterType="org.hengsir.icma.entity.School">
+        UPDATE T_SCHOOL
+        <set>
+            <if test="null != #{schoolName} and '' != #{schoolName}">
+                SCHOOL_NAME = #{schoolName},
+            </if>
+            <if test="null != #{schoolCode} and '' != #{schoolCode}">
+                SCHOOL_CODE = #{schoolCode},
+            </if>
+        </set>
+        WHERE ID = #{id}
+
+    </update>
+
+    <update id="updateXiBie" parameterType="org.hengsir.icma.entity.XiBie">
+        UPDATE T_XI_BIE
+        <set>
+            <if test="null != #{xiBieName} and '' != #{xiBieName}">
+                XI_BIE_NAME = #{xiBieName},
+            </if>
+            <if test="null != #{schoolId} and '' != #{schoolId}">
+                SCHOOL_ID = #{schoolId},
+            </if>
+        </set>
+        WHERE ID = #{id}
+
+    </update>
+
+    <update id="updateClass" parameterType="org.hengsir.icma.entity.Class">
+        UPDATE T_CLASS
+        <set>
+            <if test="null != #{className} and '' != #{className}">
+                CLASS_NAME = #{className},
+            </if>
+            <if test="null != #{xiBieId} and '' != #{xiBieId}">
+                XI_BIE_ID = #{xiBieId},
+            </if>
+        </set>
+        WHERE ID = #{id}
+
+    </update>
+
+    <delete id="deleteSchool" parameterType="java.lang.Integer">
+        DELETE FROM T_SCHOOL WHERE ID = #{schoolId}
+    </delete>
+
+    <delete id="deleteXiBie" parameterType="java.lang.Integer">
+        DELETE FROM T_XI_BIE WHERE ID = #{xiBieId}
+    </delete>
+
+    <delete id="deleteClass" parameterType="java.lang.Integer">
+        DELETE FROM T_CLASS WHERE ID = #{classId}
+    </delete>
+
+    <select id="findSchool" resultMap="schoolResult" parameterType="org.hengsir.icma.entity.School" useCache="false">
+        SELECT * FROM T_SCHOOL
+        <where>
+            <if test="null != schoolName and '' != schoolName">
+                AND SCHOOL_NAME LIKE CONCAT(CONCAT('%', #{schoolName}),'%')
+            </if>
+            <if test="null != schoolCode and '' != schoolCode">
+                AND SCHOOL_CODE = #{schoolCode}
+            </if>
+        </where>
+        ORDER BY SCHOOL_CODE
+    </select>
+
+    <select id="findXiBie" resultMap="xiBieResult" parameterType="org.hengsir.icma.entity.XiBie" useCache="false">
+        SELECT * FROM T_XI_BIE
+        <where>
+            <if test="null != xiBieName and '' != xiBieName">
+                AND XI_BIE_NAME LIKE CONCAT(CONCAT('%', #{xiBieName}),'%')
+            </if>
+            <if test="null != schoolId and '' != schoolId">
+                AND SCHOOL_ID = #{schoolId}
+            </if>
+        </where>
+        ORDER BY ID
+    </select>
+
+    <select id="findClass" resultMap="classResult" parameterType="org.hengsir.icma.entity.Class" useCache="false">
+        SELECT * FROM T_CLASS
+        <where>
+            <if test="null != className and '' != className">
+                AND CLASS_NAME LIKE CONCAT(CONCAT('%', #{className}),'%')
+            </if>
+            <if test="null != xiBieId and '' != xiBieId">
+                AND XI_BIE_ID = #{xiBieId}
+            </if>
+        </where>
+        ORDER BY ID
+    </select>
+    
+    <select id="findAllSchool" useCache="false" resultMap="schoolResult">
+        SELECT * FROM T_SCHOOL ORDER BY SCHOOL_CODE
+    </select>
+
+    <select id="findAllXiBie" useCache="false" resultMap="xiBieResult">
+        SELECT * FROM T_XI_BIE ORDER BY ID
+    </select>
+
+    <select id="findAllClass" useCache="false" resultMap="classResult">
+        SELECT * FROM T_CLASS ORDER BY ID
+    </select>
+
+</mapper>

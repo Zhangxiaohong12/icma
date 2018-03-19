@@ -8,7 +8,7 @@ import java.util.List;
 
 /**
  * 菜单只读接口。
- * @author yuanyaping
+ * @author hengsir
  * @createTime 2017年12月1日
  * @version 1.0.0
  */
@@ -41,6 +41,7 @@ public interface LeftMenuDao {
      */
     public LeftMenu findLeftMenuById(int id);
 
+    LeftMenu findMenuByName(String menuName);
 
     /**
      * 通过菜单对象查找菜单集合。

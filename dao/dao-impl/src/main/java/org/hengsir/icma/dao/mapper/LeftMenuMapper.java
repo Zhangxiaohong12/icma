@@ -10,7 +10,7 @@ import java.util.List;
 
 /**
  * 菜单Mapper。
- * @author yuanyaping
+ * @author hengsir
  * @createTime 2017年12月1日
  * @version 1.0.0
  */
@@ -41,6 +41,8 @@ public interface LeftMenuMapper {
      * @return 菜单对象
      */
     public LeftMenu findLeftMenuById(@Param("menuId") int id);
+
+    LeftMenu findMenuByName(@Param("menuName") String name);
 
     /**
      * 根据父菜单名称查找其对应的所有子菜单。

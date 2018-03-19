@@ -5,7 +5,7 @@
 
   /**
    * 菜单读写接口。
-   * @author yuanyaping
+   * @author hengsir
    * @createTime 2017年12月1日
    * @version 1.0.0
    */
@@ -15,7 +15,7 @@
        * @param leftMenu 菜单对象
        * @return 新增的菜单对象
        */
-      public LeftMenu create(LeftMenu leftMenu);
+      public Boolean create(LeftMenu leftMenu);
 
       /**
        * 修改菜单。

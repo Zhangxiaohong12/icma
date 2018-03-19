@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * 权限管理写操作实现类。
- * @author yuanyaping
+ * @author hengsir
  * @createTime 2017年11月23日
  * @version 1.0.0
  */

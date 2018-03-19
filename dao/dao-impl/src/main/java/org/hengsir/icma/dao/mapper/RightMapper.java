@@ -10,7 +10,7 @@ import java.util.List;
 
 /**
  * 权限管理Mapper。
- * @author yuanyaping
+ * @author hengsir
  * @createTime 2017年11月23日
  * @version 1.0.0
  */

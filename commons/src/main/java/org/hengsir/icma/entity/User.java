@@ -51,79 +51,24 @@ public class User implements Model<String> {
     /**
      * 所属机构
      */
-    private Group group;
+    private School school;
 
-    private int groupId;
+    private int schoolId;
 
-    private Group parentGroup;
+    private XiBie xiBie;
 
-    private int parentGroupId;
+    private int xiBieId;
 
-    private Group grandGroup;
+    private Class theClass;
 
-    private int grandGroupId;
+    private int classId;
 
-    public int getGroupId() {
-        return groupId;
-    }
 
-    public void setGroupId(int groupId) {
-        this.groupId = groupId;
-    }
-
-    public int getParentGroupId() {
-        return parentGroupId;
-    }
-
-    public void setParentGroupId(int parentGroupId) {
-        this.parentGroupId = parentGroupId;
-    }
-
-    public int getGrandGroupId() {
-        return grandGroupId;
-    }
-
-    public void setGrandGroupId(int grandGroupId) {
-        this.grandGroupId = grandGroupId;
-    }
-
-    public Group getGroup() {
-        return group;
-    }
-
-    public void setGroup(Group group) {
-        this.group = group;
-    }
-
-    public Group getParentGroup() {
-        return parentGroup;
-    }
-
-    public void setParentGroup(Group parentGroup) {
-        this.parentGroup = parentGroup;
-    }
-
-    public Group getGrandGroup() {
-        return grandGroup;
-    }
-
-    public void setGrandGroup(Group grandGroup) {
-        this.grandGroup = grandGroup;
-    }
-
-    public String getUserIdCard() {
-        return userIdCard;
-    }
-
-    public void setUserIdCard(String userIdCard) {
-        this.userIdCard = userIdCard;
-    }
-
-    public Integer getUserId() {
+    public int getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(int userId) {
         this.userId = userId;
     }
 
@@ -191,16 +136,60 @@ public class User implements Model<String> {
         this.userSex = userSex;
     }
 
-    public String getIdCard() {
+    public String getUserIdCard() {
         return userIdCard;
     }
 
-    public void setIdCard(String idCard) {
-        this.userIdCard = idCard;
+    public void setUserIdCard(String userIdCard) {
+        this.userIdCard = userIdCard;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public School getSchool() {
+        return school;
+    }
+
+    public void setSchool(School school) {
+        this.school = school;
+    }
+
+    public int getSchoolId() {
+        return schoolId;
+    }
+
+    public void setSchoolId(int schoolId) {
+        this.schoolId = schoolId;
+    }
+
+    public XiBie getXiBie() {
+        return xiBie;
+    }
+
+    public void setXiBie(XiBie xiBie) {
+        this.xiBie = xiBie;
+    }
+
+    public int getXiBieId() {
+        return xiBieId;
+    }
+
+    public void setXiBieId(int xiBieId) {
+        this.xiBieId = xiBieId;
+    }
+
+    public Class getTheClass() {
+        return theClass;
+    }
+
+    public void setTheClass(Class theClass) {
+        this.theClass = theClass;
+    }
+
+    public int getClassId() {
+        return classId;
+    }
+
+    public void setClassId(int classId) {
+        this.classId = classId;
     }
 
     @Override

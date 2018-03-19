@@ -14,11 +14,18 @@
     </resultMap>
 
     <insert id="create" parameterType="org.hengsir.icma.entity.LeftMenu">
-        INSERT INTO T_MENU (MENU_ID, MENU_ICON, MENU_CODE, MENU_NAME, MENU_HREF, SUPER_CODE, CREATE_TIME)
-        VALUES (#{menuId}, #{menuIcon},
+        INSERT INTO T_MENU (MENU_ICON, MENU_CODE, MENU_NAME, MENU_HREF,
+        <if test="null != menuSuperCode and '' != menuSuperCode">
+            SUPER_CODE,
+        </if>
+        CREATE_TIME)
+        VALUES ( #{menuIcon},
         #{menuCode}, #{menuName},
-        #{menuHref}, #{menuSuperCode},
-        #{createTime, jdbcType=TIMESTAMP}
+        #{menuHref},
+        <if test="null != menuSuperCode and '' != menuSuperCode">
+            #{menuSuperCode},
+        </if>
+        #{createTime, jdbcType=TIMESTAMP})
     </insert>
 
     <select id="findAll" resultMap="LeftMenuResult" useCache="false">
@@ -27,6 +34,10 @@
 
     <select id="findAllLoseHome" resultMap="LeftMenuResult" useCache="false">
         SELECT * FROM T_MENU WHERE MENU_CODE != 'home' ORDER BY MENU_ID
+    </select>
+
+    <select id="findMenuByName" resultMap="LeftMenuResult" useCache="false" parameterType="java.lang.String">
+        SELECT * FROM T_MENU WHERE MENU_NAME = #{menuName}
     </select>
 
     <select id="findLeftMenus" resultMap="LeftMenuResult" parameterType="java.lang.Integer">
@@ -40,13 +51,15 @@
 
     <update id="update" parameterType="org.hengsir.icma.entity.LeftMenu">
         UPDATE T_MENU
-        SET MENU_ICON=#{menuIcon},
-        MENU_CODE=#{menuCode},
-        MENU_NAME=#{menuName},
-        MENU_HREF=#{menuHref},
-        SUPER_CODE=#{menuSuperCode},
-        UPDATE_BY=#{updateBy},
-        UPDATE_TIME=#{updateTime, jdbcType=TIMESTAMP},
+        <set>
+            MENU_ICON=#{menuIcon},
+            MENU_CODE=#{menuCode},
+            MENU_NAME=#{menuName},
+            MENU_HREF=#{menuHref},
+            SUPER_CODE=#{menuSuperCode},
+            UPDATE_BY=#{updateBy},
+            UPDATE_TIME=#{updateTime, jdbcType=TIMESTAMP}
+        </set>
         WHERE MENU_ID = #{menuId}
     </update>
 

@@ -69,6 +69,11 @@ public class LeftMenuDaoImpl implements LeftMenuWriteDao {
     }
 
     @Override
+    public LeftMenu findMenuByName(String menuName) {
+        return leftMenuMapper.findMenuByName(menuName);
+    }
+
+    @Override
     public List<LeftMenu> findLeftMenusBy(LeftMenu leftMenu) {
         return leftMenuMapper.findLeftMenusBy(leftMenu);
     }
@@ -94,9 +99,14 @@ public class LeftMenuDaoImpl implements LeftMenuWriteDao {
     }
 
     @Override
-    public LeftMenu create(LeftMenu leftMenu) {
-        leftMenuMapper.create(leftMenu);
-        return leftMenuMapper.findLeftMenuById(leftMenu.getMenuId());
+    public Boolean create(LeftMenu leftMenu) {
+        try {
+            leftMenuMapper.create(leftMenu);
+            return true;
+        }catch (Exception e) {
+            logger.error("新增菜单失败");
+            return false;
+        }
     }
 
     @Override

@@ -8,7 +8,7 @@ import java.util.Date;
 
 /**
  * 权限管理实体类。
- * @author yuanyaping
+ * @author hengsir
  * @createTime 2017年11月23日
  * @version 1.0.0
  */

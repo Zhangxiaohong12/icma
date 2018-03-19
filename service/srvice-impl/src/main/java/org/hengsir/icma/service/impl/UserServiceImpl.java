@@ -1,6 +1,7 @@
 package org.hengsir.icma.service.impl;
 
 import org.hengsir.icma.dao.UserDao;
+import org.hengsir.icma.dao.UserWriteDao;
 import org.hengsir.icma.entity.Right;
 import org.hengsir.icma.entity.Role;
 import org.hengsir.icma.entity.User;
@@ -15,6 +16,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserDao userDao;
+
+    @Autowired
+    UserWriteDao userWriteDao;
 
     @Override
     public User findUserByAccount(String userAccount) {
@@ -39,6 +43,21 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean updatePass(User user) {
         return false;
+    }
+
+    @Override
+    public boolean create(User user) {
+        return userWriteDao.create(user);
+    }
+
+    @Override
+    public boolean update(User user) {
+        return userWriteDao.update(user);
+    }
+
+    @Override
+    public boolean delete(int id) {
+        return userWriteDao.delete(id);
     }
 
 

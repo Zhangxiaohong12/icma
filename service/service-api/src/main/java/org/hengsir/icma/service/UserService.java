@@ -39,4 +39,10 @@ public interface UserService {
      *  修改密码
      */
     boolean updatePass(User user);
+
+    boolean create(User user);
+
+    boolean update(User user);
+
+    boolean delete(int id);
 }

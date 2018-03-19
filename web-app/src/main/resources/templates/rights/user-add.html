@@ -54,22 +54,7 @@
                      <input type="password" class="form-control" name="userComfirmPassword" id="userComfirmPassword" value="" placeholder="请输入确认密码"/>
                  </div>
              </div>
-             <div class="form-group" >
-                 <label class="col-sm-4 control-label">
-                     手机号&nbsp;&nbsp;<font color="#FF0000">*</font>
-                 </label>
-                 <div class="col-sm-6">
-                     <input type="text" class="form-control" name="mobile" id="mobile" value="" placeholder="请输入手机号"/>
-                 </div>
-             </div>
-             <div class="form-group" >
-                 <label class="col-sm-4 control-label">
-                     邮箱&nbsp;&nbsp;
-                 </label>
-                 <div class="col-sm-6">
-                     <input type="text" class="form-control" name="email" id="email" value="" placeholder="请输入邮箱"/>
-                 </div>
-             </div>
+
              <div class="form-group" >
                  <label class="col-sm-4 control-label">
                      用户性别<font color="#FF0000">*</font>
@@ -81,17 +66,17 @@
              <div id="mchDiv">
              <div class="form-group">
                  <label class="col-sm-4 control-label">
-                     商户<span style="color:#FF0000">*</span>
+                     学校<span style="color:#FF0000">*</span>
                  </label>
                  <div class="col-lg-6">
                      <div class="input-group">
-                         <input type="text" id="midShortName" name="midShortName" class="form-control" placeholder="请选择商户" readonly>
-                         <input type="hidden" id="merchantId" name="merchantId" class="form-control" readonly>
+                         <input type="text" id="schoolName" name="schoolName" class="form-control" placeholder="请选择学校" readonly>
+                         <input type="hidden" id="schoolId" name="schoolId" class="form-control" readonly>
                          <span class="input-group-btn" style="vertical-align:baseline">
-                        <button type="button" class="btn btn-default" onclick="clearMchInfoTable();">
+                        <button type="button" class="btn btn-default" onclick="clearSchoolTable();">
                              <i class="icon-remove"></i>
                             </button>
-                            <button type="button" class="btn blue btn-default" data-toggle="modal" data-target="#mchInfoModal" onclick="initMchInfoTable();">
+                            <button type="button" class="btn blue btn-default" data-toggle="modal" data-target="#mchInfoModal" onclick="initSchoolTable();">
                              选择 <i class="icon-plus"></i>
                             </button>
 					    </span>
@@ -100,17 +85,36 @@
              </div>
              <div class="form-group">
                  <label class="col-sm-4 control-label">
-                     子商户
+                     系别/院校
                  </label>
                  <div class="col-lg-6">
                      <div class="input-group">
-                         <input type="text" id="subMidShortName" name="subMidShortName" class="form-control" placeholder="请选择子商户" readonly>
-                         <input type="hidden" id="subMid" name="subMid" class="form-control" readonly>
+                         <input type="text" id="xiBieName" name="xiBieName" class="form-control" placeholder="请选择系别/院校" readonly>
+                         <input type="hidden" id="xiBieId" name="xiBieId" class="form-control" readonly>
                          <span class="input-group-btn" style="vertical-align:baseline">
-                            <button type="button" class="btn btn-default" onclick="clearSubMchInfo();">
+                            <button type="button" class="btn btn-default" onclick="clearXiBie();">
                              <i class="icon-remove"></i>
                             </button>
-                            <button type="button" class="btn blue btn-default" data-toggle="modal" onclick="initTable();">
+                            <button type="button" class="btn blue btn-default" data-toggle="modal" onclick="initXiBieTable();">
+                             选择 <i class="icon-plus"></i>
+                            </button>
+					    </span>
+                     </div>
+                 </div>
+             </div>
+             <div class="form-group">
+                 <label class="col-sm-4 control-label">
+                     班级
+                 </label>
+                 <div class="col-lg-6">
+                     <div class="input-group">
+                         <input type="text" id="className" name="className" class="form-control" placeholder="请选择班级" readonly>
+                         <input type="hidden" id="classId" name="classId" class="form-control" readonly>
+                         <span class="input-group-btn" style="vertical-align:baseline">
+                            <button type="button" class="btn btn-default" onclick="clearClass();">
+                             <i class="icon-remove"></i>
+                            </button>
+                            <button type="button" class="btn blue btn-default" data-toggle="modal" onclick="initClassTable();">
                              选择 <i class="icon-plus"></i>
                             </button>
 					    </span>
@@ -118,19 +122,6 @@
                  </div>
              </div>
              </div>
-             <div class="form-group" >
-                 <label class="col-sm-4 control-label">
-                     所属应用系统<font color="#FF0000">*</font>
-                 </label>
-                 <div class="col-sm-6">
-                     <select class="select2_category form-control" name="sysId" id="sysId" data-placeholder="Choose a menu" tabindex="1" onclick="mchDiv()">
-                         <option value="">请选择</option>
-                         <option th:each="SysApp : ${sysApp}" th:value="${SysApp.id}" th:text="${SysApp.name}" ></option>
-                     </select>
-
-                 </div>
-             </div>
-
               <div class="form-group">
                 <div class="col-sm-offset-4 col-sm-6">
                    <button style="margin-left:50px;" onclick="history.go(-1)" type="button" class="btn  default  btn-info btn-search">取消</button>
@@ -159,7 +150,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="mchInfoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="schoolModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -222,7 +213,70 @@
     </div>
 </div>
 
-<div class="modal fade" id="subMchModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="xiBieModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                </button>
+                <h4 class="modal-title" id="subMchModalLabel">子商户信息</h4>
+            </div>
+            <div class="modal-body" style="height: auto;max-height: 600px;overflow-y:auto;overflow-x:auto">
+                <form method="post" id="subMchInfoShowFrom">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label>子商户号</label>
+                                <div class="input-icon right">
+                                    <i class="icon-edit"></i>
+                                    <input id="subMidSearch" type="text" class="form-control" placeholder="请输入子商户号">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label>子商户简称（%）</label>
+                                <div class="input-icon right">
+                                    <i class="icon-edit"></i>
+                                    <input id="subMidShortNameSearch" type="text" class="form-control" placeholder="请输入子商户简称">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label>子商户名称（%）</label>
+                                <div class="input-icon right">
+                                    <i class="icon-edit"></i>
+                                    <input id="subMidNameSearch" type="text" class="form-control" placeholder="请输入子商户名称">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-md-5"></div>
+                        <div class="form-inline">
+                            <button onclick="refreshAlertSubMchData()" type="button"
+                                    class="btn btn-primary">查询
+                            </button>
+                            <button onclick="cleanSubMchInfoQuery()" type="button"
+                                    class="btn btn-primary">重置
+                            </button>
+                        </div>
+                        <div class="col-md-5"></div>
+                    </div>
+                </form>
+                <table id="item_info_table" class="table table-striped table-bordered table-hover"></table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="selectItem();">提交</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="classModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">

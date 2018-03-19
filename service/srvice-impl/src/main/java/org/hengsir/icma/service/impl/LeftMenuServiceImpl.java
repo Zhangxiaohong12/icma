@@ -292,7 +292,7 @@ public class LeftMenuServiceImpl implements LeftMenuService {
     }
 
     @Override
-    public LeftMenu create(LeftMenu leftMenu) {
+    public Boolean create(LeftMenu leftMenu) {
         return leftMenuWriteDao.create(leftMenu);
     }
 

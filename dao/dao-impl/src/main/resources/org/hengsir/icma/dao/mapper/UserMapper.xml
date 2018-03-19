@@ -14,22 +14,25 @@
         <result property="userStatus" column="USER_STATUS"/>
         <result property="userSex" column="USER_SEX"/>
         <result property="userIdCard" column="USER_IDCARD"/>
-        <result property="groupId" column="GROUP_ID"/>
-        <result property="parentGroupId" column="PARENT_GROUP_ID"/>
-        <result property="grandGroupId" column="GRAND_GROUP_ID"/>
-        <!--<association property="group" javaType="org.hengsir.icma.entity.Group">
-            <result property="groupId" column="GROUP_ID"/>
-            <result property="parentGroupId" column="PARENT_GROUP_ID"/>
-            <result property="groupName" column="CLASS_NAME"/>
-        </association>-->
-
+        <result property="classId" column="CLASS_ID"/>
+        <result property="schoolId" column="SCHOOL_ID"/>
+        <result property="xiBieId" column="XI_BIE_ID"/>
+        <association property="school" javaType="org.hengsir.icma.entity.School">
+            <result property="id" column="SCHOOL_ID"/>
+            <result property="schoolName" column="SCHOOL_NAME"/>
+            <result property="schoolCode" column="SCHOOL_CODE"/>
+        </association>
+        <association property="theClass" javaType="org.hengsir.icma.entity.Class">
+            <result property="id" column="CLASS_ID"/>
+            <result property="className" column="CLASS_NAME"/>
+            <result property="xiBieId" column="XI_BIE_ID"/>
+        </association>
+        <association property="xiBie" javaType="org.hengsir.icma.entity.XiBie">
+            <result property="id" column="XI_BIE_ID"/>
+            <result property="xiBieName" column="XI_BIE_NAME"/>
+            <result property="schoolId" column="SCHOOL_ID"/>
+        </association>
     </resultMap>
-
-
-    <sql id="user_propertis">
-        USER_ID,USER_NAME,USER_ACCOUNT,USER_PASSWORD,USER_IDCARD,PERSON_ID,CREATE_TIME,UPDATE_TIME,
-        USER_STATUS,USER_SEX,GROUP_ID
-    </sql>
 
     <!--根据帐号查询用户-->
     <select id="findUserByAccount" parameterType="java.lang.String" resultMap="userMap">
@@ -40,13 +43,7 @@
 
     <!--根据id查询用户-->
     <select id="findUserById" parameterType="java.lang.Integer" resultMap="userMap">
-        SELECT A.*,B.GROUP_NAME AS CLASS_NAME,C.GROUP_NAME AS XI_BIE,C.GROUP_ID AS PARENT_GROUP_ID,D.GROUP_NAME AS SCHOOL_NAME,D.GROUP_ID AS GRAND_GROUP_ID FROM T_USER A,T_GROUP B,T_GROUP C,T_GROUP D
-        WHERE
-        A.GROUP_ID = B.GROUP_ID
-        AND B.PARENT_GROUP_ID = C.GROUP_ID
-        AND C.PARENT_GROUP_ID = D.GROUP_ID
-        AND
-            USER_ID = #{userId}
+
     </select>
 
     <select id="findAllUser" resultMap="userMap" useCache="false">
@@ -55,18 +52,22 @@
     </select>
 
     <select id="findByUser" resultMap="userMap" useCache="false">
-        SELECT A.*,C.GROUP_ID AS PARENT_GROUP_ID,D.GROUP_ID AS GRAND_GROUP_ID FROM T_USER A,T_GROUP B,T_GROUP C,T_GROUP
-        D
+        SELECT A.*,C.CLASS_NAME ,X.XI_BIE_NAME , S.SCHOOL_NAME,S.ID AS SCHOOL_ID,S.SCHOOL_CODE FROM T_USER A,T_CLASS C,T_XI_BIE X,T_SCHOOL S
         <where>
-            A.GROUP_ID = B.GROUP_ID AND B.PARENT_GROUP_ID = C.GROUP_ID AND C.PARENT_GROUP_ID = D.GROUP_ID
-            <if test="0 != groupId">
-                AND A.GROUP_ID = #{groupId}
+            AND C.ID = A.CLASS_ID
+            AND X.ID = C.XI_BIE_ID
+            AND S.ID = X.SCHOOL_ID
+            <if test="0 != classId">
+                AND A.CLASS_ID = #{classId}
+
             </if>
-            <if test="0 != parentGroupId">
-                AND C.GROUP_ID = #{parentGroupId}
+            <if test="0 != xiBieId">
+
+                AND C.XI_BIE_ID = #{xiBieId}
             </if>
-            <if test="0 != grandGroupId">
-                AND D.GROUP_ID = #{grandGroupId}
+            <if test="0 != schoolId">
+
+                AND X.SCHOOL_ID = #{schoolId}
             </if>
             <if test="null != userName and '' != userName">
                 AND A.USER_NAME LIKE CONCAT(CONCAT('%', #{userName}),'%')
@@ -93,8 +94,8 @@
         <if test="null != userStatus and '' != userStatus">
             USER_STATUS,
         </if>
-        <if test="0 != groupId">
-            GROUP_ID,
+        <if test="0 != classId">
+            CLASS_ID,
         </if>
         CREATE_TIME,
         <if test="null != updateTime and '' != updateTime">
@@ -109,8 +110,8 @@
             #{userStatus},
         </if>
 
-        <if test="null != groupId and '' != groupId">
-            #{groupId},
+        <if test="null != classId and '' != classId">
+            #{class},
         </if>
         #{createTime,jdbcType=TIMESTAMP},
         <if test="null != updateTime and '' != updateTime">

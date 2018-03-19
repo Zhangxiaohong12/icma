@@ -1,5 +1,5 @@
 /**
- * Created by yuanyaping on 2017/7/17.
+ * Created by hengsir on 2017/7/17.
  */
 
 var registrationFroms = $('form');

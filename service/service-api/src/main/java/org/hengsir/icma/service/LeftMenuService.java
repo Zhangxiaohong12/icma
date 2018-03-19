@@ -24,7 +24,7 @@ public interface LeftMenuService {
      * @param leftMenu 菜单
      * @return 新增的对象
      */
-    public LeftMenu create(LeftMenu leftMenu);
+    public Boolean create(LeftMenu leftMenu);
 
     /**
      * 修改菜单。

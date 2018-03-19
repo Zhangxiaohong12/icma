@@ -7,7 +7,7 @@ import java.util.Set;
 
 /**
  * 角色管理写操作的业务处理类。
- * @author yuanyaping
+ * @author hengsir
  * @createTime 2017年11月24日
  * @version 1.0.0
  */

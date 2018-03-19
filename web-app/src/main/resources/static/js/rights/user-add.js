@@ -66,17 +66,7 @@ addForm.validate({
 
 $(function () {
     $("#btnSave").click(function () {
-        var sysId = $("#sysId").val();
-        if (sysId == "2") {
-            var mid = $("#merchantId").val();
-            if (null == mid || "" == mid) {
-                BootboxExt.alert("请选择商户");
-                return;
-            }
-        } else {
-            $("#merchantId").val("");
-            $("#subMid").val("");
-        }
+
         var pwd = $("#userPassword").val();
         var comfirmPwd = $("#userComfirmPassword").val();
         if (pwd != comfirmPwd) {
@@ -89,14 +79,14 @@ $(function () {
         if (addForm.valid()) { //验证通过
             $("#btnSave").attr("disabled", true);
             Shade.blockUI($("#userBody"));
-            $.post("/rights/user/add",
+            $.post("/user/add",
                 $("#addForm").serialize(),
                 function (data) {
                     $("#btnSave").attr("disabled", false);
                     Shade.unblockUI($("#userBody"));
                     if (data.result == true) {
                         BootboxExt.alert("新增成功", function (res) {
-                            location.href = "/rights/user/search";
+                            location.href = "/user/search";
                         });
                     } else if (data.result == false) {
                         BootboxExt.alert("新增失败", function (res) {
@@ -121,28 +111,18 @@ $(function () {
     });
 
     $("#btnUpdate").click(function () {
-        var sysId = $("#sysId").val();
-        if (sysId == "2") {
-            var mid = $("#merchantId").val();
-            if (null == mid || "" == mid) {
-                BootboxExt.alert("请选择商户");
-                return;
-            }
-        } else {
-            $("#merchantId").val("");
-            $("#subMid").val("");
-        }
+
         if (addForm.valid()) { //验证通过
             $("#btnUpdate").attr("disabled", true);
             Shade.blockUI($("#userBody"));
-            $.post("/rights/user/update",
+            $.post("/user/update",
                 $("#updateForm").serialize(),
                 function (data) {
                     $("#btnUpdate").attr("disabled", false);
                     Shade.unblockUI($("#userBody"));
                     if (data.result == true) {
                         BootboxExt.alert("修改成功", function (res) {
-                            location.href = "/rights/user/search";
+                            location.href = "/user/search";
                         });
                     } else if (data.result == false) {
                         BootboxExt.alert("修改失败", function (res) {
@@ -173,7 +153,7 @@ $(function () {
  */
 function returnSearch() {
     Shade.blockUI($("#tidBoby"));
-    window.location.href = "/rights/user/search";
+    window.location.href = "/user/search";
 }
 
 function mchDiv() {

@@ -1,6 +1,6 @@
 /*Begin --菜单查询页面的js*/
 function deleteMenu(menuId) {
-    $.get("/system-data/menu/todelete-left-menu", { id: menuId}, function (data)
+    $.get("/menu/todelete-left-menu", { id: menuId}, function (data)
     {
         var menu='';
         if(null != data && "" != data){
@@ -23,11 +23,11 @@ function deleteMenu(menuId) {
         }
         BootboxExt.confirm(message, function (res) {
             if (res) {
-                $.get("/system-data/menu/delete-left-menu", { id: menuId}, function (data)
+                $.get("/menu/delete-left-menu", { id: menuId}, function (data)
                 {
                     if(data.result == true){
                         BootboxExt.alert("删除成功",function(res){
-                            location.href="/system-data/menu/search";
+                            location.href="/menu/search";
                         });
                     }else{
                         BootboxExt.alert("删除失败", function (res) {
