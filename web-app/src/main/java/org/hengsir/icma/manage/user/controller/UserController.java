@@ -5,6 +5,7 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.hengsir.icma.dao.UserDao;
 import org.hengsir.icma.entity.User;
+import org.hengsir.icma.entity.UserVo;
 import org.hengsir.icma.manage.shiro.ShiroUser;
 import org.hengsir.icma.service.UserService;
 import org.hengsir.icma.utils.MD5Util;
@@ -39,10 +40,10 @@ public class UserController {
 
     @RequestMapping("/search")
     @RequiresPermissions("user:search")
-    public ModelAndView search(User user,@RequestParam(value = "pageNum", defaultValue = "1") int index,
+    public ModelAndView search(UserVo userVo, @RequestParam(value = "pageNum", defaultValue = "1") int index,
                                @RequestParam(value = "pageSize", defaultValue = "10") int size){
         ModelAndView modelAndView = new ModelAndView();
-        Page<User> page =  userDao.findByUser(user,new Page<>(index,size));
+        Page<User> page =  userDao.findByUser(userVo,new Page<>(index,size));
         modelAndView.setViewName("/rights/user-list");
         //生成分页
         modelAndView.addObject("pageHtml", PageHtmlUtil.initHtml(page));

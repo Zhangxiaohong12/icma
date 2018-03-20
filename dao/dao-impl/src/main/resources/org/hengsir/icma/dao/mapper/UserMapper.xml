@@ -52,20 +52,19 @@
     </select>
 
     <select id="findByUser" resultMap="userMap" useCache="false">
-        SELECT A.*,C.CLASS_NAME ,X.XI_BIE_NAME , S.SCHOOL_NAME,S.ID AS SCHOOL_ID,S.SCHOOL_CODE FROM T_USER A,T_CLASS C,T_XI_BIE X,T_SCHOOL S
+        SELECT A.*,C.CLASS_NAME ,X.XI_BIE_NAME,X.ID AS XI_BIE_ID , S.SCHOOL_NAME,S.ID AS SCHOOL_ID,S.SCHOOL_CODE FROM T_USER A,T_CLASS C,T_XI_BIE X,T_SCHOOL S
         <where>
             AND C.ID = A.CLASS_ID
             AND X.ID = C.XI_BIE_ID
             AND S.ID = X.SCHOOL_ID
-            <if test="0 != classId">
+            <if test="null != classId and 0 != classId">
                 AND A.CLASS_ID = #{classId}
-
             </if>
-            <if test="0 != xiBieId">
+            <if test="null != xiBieId and 0 != xiBieId">
 
                 AND C.XI_BIE_ID = #{xiBieId}
             </if>
-            <if test="0 != schoolId">
+            <if test="null != schoolId and 0 != schoolId">
 
                 AND X.SCHOOL_ID = #{schoolId}
             </if>
@@ -74,6 +73,15 @@
             </if>
             <if test="null != userAccount and '' != userAccount">
                 AND A.USER_ACCOUNT LIKE CONCAT(CONCAT('%', #{userAccount}),'%')
+            </if>
+            <if test="null != schoolName and '' != schoolName">
+                AND S.SCHOOL_NAME LIKE CONCAT(CONCAT('%', #{schoolName}),'%')
+            </if>
+            <if test="null != xiBieName and '' != xiBieName">
+                AND X.XI_BIE_NAME LIKE CONCAT(CONCAT('%', #{xiBieName}),'%')
+            </if>
+            <if test="null != className and '' != className">
+                AND C.CLASS_NAME LIKE CONCAT(CONCAT('%', #{className}),'%')
             </if>
             <if test="null != userSex and '' != userSex">
                 AND A.USER_SEX = #{userSex}
@@ -94,7 +102,7 @@
         <if test="null != userStatus and '' != userStatus">
             USER_STATUS,
         </if>
-        <if test="0 != classId">
+        <if test="null != classId and 0 != classId">
             CLASS_ID,
         </if>
         CREATE_TIME,
@@ -110,7 +118,7 @@
             #{userStatus},
         </if>
 
-        <if test="null != classId and '' != classId">
+        <if test="null != classId and 0 != classId">
             #{class},
         </if>
         #{createTime,jdbcType=TIMESTAMP},
@@ -137,6 +145,9 @@
             </if>
             <if test="null != userStatus">
                 USER_STATUS = #{userStatus},
+            </if>
+            <if test="null != classId and 0 != classId">
+                CLASS_ID = #{classId},
             </if>
             <if test="null != userSex">
                 USER_SEX = #{userSex},

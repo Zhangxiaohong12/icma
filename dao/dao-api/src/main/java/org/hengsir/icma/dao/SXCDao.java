@@ -21,6 +21,8 @@ public interface SXCDao {
 
     List<School> findAllSchool();
 
+    List<School> findSchool(School school);
+
     List<XiBie> findXiBieByXi(XiBie xiBie);
 
     List<XiBie> findAllXiBie();

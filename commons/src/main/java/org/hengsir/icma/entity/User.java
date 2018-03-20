@@ -53,15 +53,15 @@ public class User implements Model<String> {
      */
     private School school;
 
-    private int schoolId;
+    private Integer schoolId;
 
     private XiBie xiBie;
 
-    private int xiBieId;
+    private Integer xiBieId;
 
     private Class theClass;
 
-    private int classId;
+    private Integer classId;
 
 
     public int getUserId() {
@@ -152,11 +152,11 @@ public class User implements Model<String> {
         this.school = school;
     }
 
-    public int getSchoolId() {
+    public Integer getSchoolId() {
         return schoolId;
     }
 
-    public void setSchoolId(int schoolId) {
+    public void setSchoolId(Integer schoolId) {
         this.schoolId = schoolId;
     }
 
@@ -168,11 +168,11 @@ public class User implements Model<String> {
         this.xiBie = xiBie;
     }
 
-    public int getXiBieId() {
+    public Integer getXiBieId() {
         return xiBieId;
     }
 
-    public void setXiBieId(int xiBieId) {
+    public void setXiBieId(Integer xiBieId) {
         this.xiBieId = xiBieId;
     }
 
@@ -184,11 +184,11 @@ public class User implements Model<String> {
         this.theClass = theClass;
     }
 
-    public int getClassId() {
+    public Integer getClassId() {
         return classId;
     }
 
-    public void setClassId(int classId) {
+    public void setClassId(Integer classId) {
         this.classId = classId;
     }
 

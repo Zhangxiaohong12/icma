@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--查询条件-->
+<div class="row">
+    <div class="col-md-4">
+        <div class="form-group">
+            <label>学校</label>
+            <div class="input-group">
+                <input type="text" id="schoolName" name="schoolName" class="form-control"
+                       placeholder="请选择学校" th:value="${user.school.schoolName}" th:data-value="${user.school.schoolName}" readonly>
+                <input type="hidden" th:value="${user.schoolId}" th:data-value="${user.schoolId}" id="schoolId" name="schoolId" class="form-control" readonly>
+                <span class="input-group-btn" style="vertical-align:baseline">
+                        <button type="button" class="btn btn-default" onclick="clearSchool();">
+                             <i class="icon-remove"></i>
+                            </button>
+                                    <button type="button" class="btn blue btn-default" data-toggle="modal" data-target="#schoolModal" onclick="initSchoolTable();">
+                             选择 <i class="icon-plus"></i>
+                            </button>
+					    </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="form-group">
+            <label>系别/院校</label>
+            <div class="input-group">
+                <input type="text" id="xiBieName" name="xiBieName" class="form-control"
+                       placeholder="请选择系别" th:value="${user.xiBie.xiBieName}" th:data-value="${user.xiBie.xiBieName}" readonly>
+                <input type="hidden" th:value="${user.xiBieId}" th:data-value="${user.xiBieId}" id="xiBieId" name="xiBieId" class="form-control" readonly>
+                <span class="input-group-btn" style="vertical-align:baseline">
+                        <button type="button" class="btn btn-default" onclick="clearXiBie();">
+                             <i class="icon-remove"></i>
+                            </button>
+                                    <button type="button" class="btn blue btn-default" data-toggle="modal" onclick="initXiBieTable();">
+                             选择 <i class="icon-plus"></i>
+                            </button>
+					    </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="form-group">
+            <label>班级</label>
+            <div class="input-group">
+                <input type="text" id="className" name="className" class="form-control"
+                       placeholder="请选择班级" th:data-value="${user.theClass.className}" th:value="${user.theClass.className}" readonly>
+                <input type="hidden" id="classId" name="classId" th:value="${user.classId}" th:data-value="${user.classId}" class="form-control" readonly>
+                <span class="input-group-btn" style="vertical-align:baseline">
+                        <button type="button" class="btn btn-default" onclick="clearClass();">
+                             <i class="icon-remove"></i>
+                            </button>
+                                    <button type="button" class="btn blue btn-default" data-toggle="modal" onclick="initClassTable();">
+                             选择 <i class="icon-plus"></i>
+                            </button>
+					    </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--表格html-->
+<!--学校开始-->
+<div class="modal fade" id="schoolModal" tabindex="-1" role="dialog" aria-labelledby="schoolModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                </button>
+                <h4 class="modal-title" id="schoolModalLabel">学校信息</h4>
+            </div>
+            <div class="modal-body" style="height: auto;max-height: 600px;overflow-y:auto;overflow-x:auto">
+                <form method="post" id="schoolShowFrom">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label>学校代码</label>
+                                <div class="input-icon right">
+                                    <i class="icon-edit"></i>
+                                    <input id="schoolCodeSearch" type="text" class="form-control" placeholder="请输入学校代码">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label>学校名称（%）</label>
+                                <div class="input-icon right">
+                                    <i class="icon-edit"></i>
+                                    <input id="schoolNameSearch" type="text" class="form-control" placeholder="请输入学校名称">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-md-5"></div>
+                        <div class="form-inline">
+                            <button onclick="refreshAlertSchoolData()" type="button"
+                                    class="btn btn-primary">查询
+                            </button>
+                            <button onclick="cleanSchoolQuery()" type="button"
+                                    class="btn btn-primary">重置
+                            </button>
+                        </div>
+                        <div class="col-md-5"></div>
+                    </div>
+                </form>
+                <table id="schoolTable" class="table table-striped table-bordered table-hover"></table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="selectSchool();">提交</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--学校结束-->
+
+<!--系别开始-->
+<div class="modal fade" id="xiBieModal" tabindex="-1" role="dialog" aria-labelledby="xiBieModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                </button>
+                <h4 class="modal-title" id="xiBieModalLabel">系别/院系信息</h4>
+            </div>
+            <div class="modal-body" style="height: auto;max-height: 600px;overflow-y:auto;overflow-x:auto">
+                <form method="post" id="xiBieShowFrom">
+                    <div class="row">
+
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label>系别名称（%）</label>
+                                <div class="input-icon right">
+                                    <i class="icon-edit"></i>
+                                    <input id="xiBieNameSearch" type="text" class="form-control" placeholder="请输入系别名称">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-md-5"></div>
+                        <div class="form-inline">
+                            <button onclick="refreshAlertXiBieData()" type="button"
+                                    class="btn btn-primary">查询
+                            </button>
+                            <button onclick="cleanXiBieQuery()" type="button"
+                                    class="btn btn-primary">重置
+                            </button>
+                        </div>
+                        <div class="col-md-5"></div>
+                    </div>
+                </form>
+                <table id="xiBieTable" class="table table-striped table-bordered table-hover"></table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="selectXiBie();">提交</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--系别结束-->
+
+<!--班级开始-->
+<div class="modal fade" id="classModal" tabindex="-1" role="dialog" aria-labelledby="classModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                </button>
+                <h4 class="modal-title" id="classModalLabel">班级信息</h4>
+            </div>
+            <div class="modal-body" style="height: auto;max-height: 600px;overflow-y:auto;overflow-x:auto">
+                <form method="post" id="classShowFrom">
+                    <div class="row">
+
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label>班级名称（%）</label>
+                                <div class="input-icon right">
+                                    <i class="icon-edit"></i>
+                                    <input id="classNameSearch" type="text" class="form-control" placeholder="请输入班级名称">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-md-5"></div>
+                        <div class="form-inline">
+                            <button onclick="refreshAlertClassData()" type="button"
+                                    class="btn btn-primary">查询
+                            </button>
+                            <button onclick="cleanClassQuery()" type="button"
+                                    class="btn btn-primary">重置
+                            </button>
+                        </div>
+                        <div class="col-md-5"></div>
+                    </div>
+                </form>
+                <table id="classTable" class="table table-striped table-bordered table-hover"></table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="selectClass();">提交</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--班级结束-->
+
+
+<!--输入编辑框-->
+<!--学校开始-->
+<div class="form-group">
+    <label class="col-sm-4 control-label">
+        学校<span style="color:#FF0000">*</span>
+    </label>
+    <div class="col-lg-6">
+        <div class="input-group">
+            <input type="text" id="schoolName" name="schoolName" class="form-control" placeholder="请选择学校" readonly>
+            <input type="hidden" id="schoolId" name="schoolId" class="form-control" readonly>
+            <span class="input-group-btn" style="vertical-align:baseline">
+                        <button type="button" class="btn btn-default" onclick="clearSchool();">
+                             <i class="icon-remove"></i>
+                            </button>
+                            <button type="button" class="btn blue btn-default" data-toggle="modal"
+                                    data-target="#schoolModal" onclick="initSchoolTable();">
+                             选择 <i class="icon-plus"></i>
+                            </button>
+					    </span>
+        </div>
+    </div>
+</div>
+<!--学校结束-->
+
+<!--系别开始-->
+<div class="form-group">
+    <label class="col-sm-4 control-label">
+        系别/院校<span style="color:#FF0000">*</span>
+    </label>
+    <div class="col-lg-6">
+        <div class="input-group">
+            <input type="text" id="xiBieName" name="xiBieName" class="form-control" placeholder="请选择系别" readonly>
+            <input type="hidden" id="xiBieId" name="xiBieId" class="form-control" readonly>
+            <span class="input-group-btn" style="vertical-align:baseline">
+                        <button type="button" class="btn btn-default" onclick="clearXiBie();">
+                             <i class="icon-remove"></i>
+                            </button>
+                            <button type="button" class="btn blue btn-default" data-toggle="modal"
+                                    data-target="#xiBieModal" onclick="initXiBieTable();">
+                             选择 <i class="icon-plus"></i>
+                            </button>
+					    </span>
+        </div>
+    </div>
+</div>
+<!--系别结束-->
+
+<!--班级开始-->
+<div class="form-group">
+    <label class="col-sm-4 control-label">
+        班级<span style="color:#FF0000">*</span>
+    </label>
+    <div class="col-lg-6">
+        <div class="input-group">
+            <input type="text" id="className" name="className" class="form-control" placeholder="请选择班级" readonly>
+            <input type="hidden" id="classId" name="classId" class="form-control" readonly>
+            <span class="input-group-btn" style="vertical-align:baseline">
+                        <button type="button" class="btn btn-default" onclick="clearClass();">
+                             <i class="icon-remove"></i>
+                            </button>
+                            <button type="button" class="btn blue btn-default" data-toggle="modal"
+                                    data-target="#classModal" onclick="initClassTable();">
+                             选择 <i class="icon-plus"></i>
+                            </button>
+					    </span>
+        </div>
+    </div>
+</div>
+<!--班级结束-->
+</body>
+</html>

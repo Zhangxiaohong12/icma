@@ -12,12 +12,26 @@
         <result property="id" column="ID"/>
         <result property="xiBieName" column="XI_BIE_NAME"/>
         <result property="schoolId" column="SCHOOL_ID"/>
+        <association property="school" javaType="org.hengsir.icma.entity.School">
+            <result property="id" column="SCHOOL_ID"/>
+            <result property="schoolName" column="SCHOOL_NAME"/>
+            <result property="schoolCode" column="SCHOOL_CODE"/>
+        </association>
     </resultMap>
 
     <resultMap id="classResult" type="org.hengsir.icma.entity.Class">
         <result property="id" column="ID"/>
         <result property="className" column="CLASS_NAME"/>
         <result property="xiBieId" column="XI_BIE_ID"/>
+        <association property="xiBie" javaType="org.hengsir.icma.entity.XiBie">
+            <result property="id" column="XI_BIE_ID"/>
+            <result property="xiBieName" column="XI_BIE_NAME"/>
+            <result property="schoolId" column="SCHOOL_ID"/>
+            <association property="school" javaType="org.hengsir.icma.entity.School">
+                <result property="schoolName" column="SCHOOL_NAME"/>
+                <result property="schoolCode" column="SCHOOL_CODE"/>
+            </association>
+        </association>
     </resultMap>
 
     <insert id="createSchool" parameterType="org.hengsir.icma.entity.School">
@@ -109,31 +123,52 @@
     </select>
 
     <select id="findXiBie" resultMap="xiBieResult" parameterType="org.hengsir.icma.entity.XiBie" useCache="false">
-        SELECT * FROM T_XI_BIE
+        SELECT X.*,S.SCHOOL_NAME,S.SCHOOL_CODE FROM T_XI_BIE X,T_SCHOOL S
         <where>
+            AND X.SCHOOL_ID = S.ID
             <if test="null != xiBieName and '' != xiBieName">
                 AND XI_BIE_NAME LIKE CONCAT(CONCAT('%', #{xiBieName}),'%')
             </if>
-            <if test="null != schoolId and '' != schoolId">
-                AND SCHOOL_ID = #{schoolId}
+            <if test="null != schoolId and 0 != schoolId">
+                AND X.SCHOOL_ID = #{schoolId}
+            </if>
+            <if test="null != schoolName and '' != schoolName">
+                AND S.SCHOOL_NAME LIKE CONCAT(CONCAT('%', #{schoolName}),'%')
+            </if>
+            <if test="null != schoolCode and '' != schoolCode">
+                AND S.SCHOOL_CODE = #{schoolCode}
             </if>
         </where>
         ORDER BY ID
     </select>
 
     <select id="findClass" resultMap="classResult" parameterType="org.hengsir.icma.entity.Class" useCache="false">
-        SELECT * FROM T_CLASS
+        SELECT C.*,X.XI_BIE_NAME,X.SCHOOL_ID,S.SCHOOL_NAME,S.SCHOOL_CODE FROM T_CLASS C,T_XI_BIE X,T_SCHOOL S
         <where>
+            AND C.XI_BIE_ID = X.ID
+            AND X.SCHOOL_ID = S.ID
             <if test="null != className and '' != className">
                 AND CLASS_NAME LIKE CONCAT(CONCAT('%', #{className}),'%')
             </if>
-            <if test="null != xiBieId and '' != xiBieId">
-                AND XI_BIE_ID = #{xiBieId}
+            <if test="null != xiBieId and 0 != xiBieId">
+                AND C.XI_BIE_ID = #{xiBieId}
+            </if>
+            <if test="null != xiBieName and '' != xiBieName">
+                AND X.XI_BIE_NAME LIKE CONCAT(CONCAT('%', #{xiBieName}),'%')
+            </if>
+            <if test="null != schoolId and 0 != schoolId">
+                AND S.ID = #{schoolId}
+            </if>
+            <if test="null != schoolName and '' != schoolName">
+                AND S.SCHOOL_NAME LIKE CONCAT(CONCAT('%', #{schoolName}),'%')
+            </if>
+            <if test="null != schoolCode and '' != schoolCode">
+                AND S.SCHOOL_CODE = #{schoolCode}
             </if>
         </where>
         ORDER BY ID
     </select>
-    
+
     <select id="findAllSchool" useCache="false" resultMap="schoolResult">
         SELECT * FROM T_SCHOOL ORDER BY SCHOOL_CODE
     </select>

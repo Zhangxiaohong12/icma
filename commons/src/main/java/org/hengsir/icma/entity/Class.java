@@ -9,6 +9,16 @@ public class Class {
     private String className;
     private int xiBieId;
 
+    private XiBie xiBie;
+
+    public XiBie getXiBie() {
+        return xiBie;
+    }
+
+    public void setXiBie(XiBie xiBie) {
+        this.xiBie = xiBie;
+    }
+
     public int getId() {
         return id;
     }

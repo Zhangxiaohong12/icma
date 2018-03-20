@@ -153,6 +153,11 @@ public class SXCDaoImpl implements SXCWriteDao{
     }
 
     @Override
+    public List<School> findSchool(School school) {
+        return sxcMapper.findSchool(school);
+    }
+
+    @Override
     public List<XiBie> findXiBieByXi(XiBie xiBie) {
         return sxcMapper.findXiBie(xiBie);
     }

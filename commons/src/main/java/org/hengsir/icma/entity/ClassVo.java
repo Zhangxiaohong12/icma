@@ -1,32 +1,21 @@
 package org.hengsir.icma.entity;
 
-import java.util.List;
-
 /**
  * @author hengsir
- * @date 2018/3/19 上午10:19
+ * @date 2018/3/20 下午4:20
  */
-public class School {
-    private int id;
+public class ClassVo extends Class {
+    private String xiBieName;
     private String schoolName;
+    private Integer schoolId;
     private String schoolCode;
 
-    private List<XiBie> xiBieList;
-
-    public List<XiBie> getXiBieList() {
-        return xiBieList;
+    public String getXiBieName() {
+        return xiBieName;
     }
 
-    public void setXiBieList(List<XiBie> xiBieList) {
-        this.xiBieList = xiBieList;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    public void setXiBieName(String xiBieName) {
+        this.xiBieName = xiBieName;
     }
 
     public String getSchoolName() {
@@ -35,6 +24,14 @@ public class School {
 
     public void setSchoolName(String schoolName) {
         this.schoolName = schoolName;
+    }
+
+    public Integer getSchoolId() {
+        return schoolId;
+    }
+
+    public void setSchoolId(Integer schoolId) {
+        this.schoolId = schoolId;
     }
 
     public String getSchoolCode() {
