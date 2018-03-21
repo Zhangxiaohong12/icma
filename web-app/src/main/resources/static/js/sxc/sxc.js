@@ -104,6 +104,26 @@ function initXiBieTable() {
         }
     });
 }
+
+/**
+ * 清空选中系别
+ */
+function clearXiBie() {
+    $("#xiBieId").val("");
+    $("#xiBieName").val("");
+    clearClass();
+}
+
+
+/**
+ * 系别弹出框重置。
+ */
+function cleanXiBieQuery() {
+    $("#schoolCodeSearch").val('');
+    $("#schoolNameSearch").val('');
+    $("#xiBieNameSearch").val('');
+    refreshAlertXiBieData();
+}
 /**-------------------------------------------系别弹框结束-----------------------------------------------------------------------------------*/
 
 
@@ -215,6 +235,26 @@ function initSchoolTable() {
     });
 }
 
+/**
+ * 清空选中学校
+ */
+function clearSchool() {
+    $("#schoolId").val("");
+    $("#schoolName").val("");
+    clearXiBie();
+    clearClass();
+}
+
+/**
+ * 学校弹出框重置。
+ */
+function cleanSchoolQuery() {
+    $("#schoolCodeSearch").val('');
+    $("#schoolNameSearch").val('');
+    refreshAlertSchoolData();
+}
+
+
 /**-------------------------------------------学校弹框结束-----------------------------------------------------------------------------------*/
 
 
@@ -325,52 +365,12 @@ function initClassTable() {
     });
 }
 
-/**-------------------------------------------班级弹框结束-----------------------------------------------------------------------------------*/
-
-/**
- * 清空选中学校
- */
-function clearSchool() {
-    $("#schoolId").val("");
-    $("#schoolName").val("");
-    clearXiBie();
-    clearClass();
-}
-
-/**
- * 清空选中系别
- */
-function clearXiBie() {
-    $("#xiBieId").val("");
-    $("#xiBieName").val("");
-    clearClass();
-}
-
 /**
  * 清空选中班级
  */
 function clearClass() {
     $("#classId").val("");
     $("#className").val("");
-}
-
-/**
- * 学校弹出框重置。
- */
-function cleanSchoolQuery() {
-    $("#schoolCodeSearch").val('');
-    $("#schoolNameSearch").val('');
-    refreshAlertSchoolData();
-}
-
-/**
- * 系别弹出框重置。
- */
-function cleanXiBieQuery() {
-    $("#schoolCodeSearch").val('');
-    $("#schoolNameSearch").val('');
-    $("#xiBieNameSearch").val('');
-    refreshAlertXiBieData();
 }
 
 /**
@@ -381,3 +381,10 @@ function cleanClassQuery() {
     $("#classNameSearch").val('');
     refreshAlertClassData();
 }
+
+
+/**-------------------------------------------班级弹框结束-----------------------------------------------------------------------------------*/
+
+
+
+

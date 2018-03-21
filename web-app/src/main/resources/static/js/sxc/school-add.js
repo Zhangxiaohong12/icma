@@ -11,9 +11,8 @@ schoolForm.validate({
             stringMaxLength: 50
         },
         schoolName: {
-
             required: true,
-            newCharacterNo2: true,
+            chcharacter: true,
             stringMaxLength: 50
         }
     },
@@ -43,13 +42,13 @@ $(function () {
             var schoolCode = $("#schoolCode").val().trim();
             if ("" != schoolCode && null != schoolCode) {
                 $("#btnSave").attr("disabled", true);
-                Shade.blockUI($("#menuBody"));
-                $.post("/sxc/school/validSchoolCode", {code: code},
+                Shade.blockUI($("#schoolBody"));
+                $.post("/sxc/school/validSchoolCode", {schoolCode: schoolCode},
                     function (data) {
                         $("#btnSave").attr("disabled", false);
                         Shade.unblockUI($("#schoolBody"));
                         if (data.result == true) {
-                            BootboxExt.alert("编码已存在");
+                            BootboxExt.alert("学校代码已存在");
                             return;
                         } else if (data.result == false) {
                             //查询编码不存在！！;

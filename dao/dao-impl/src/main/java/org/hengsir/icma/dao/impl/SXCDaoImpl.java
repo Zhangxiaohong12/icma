@@ -176,4 +176,19 @@ public class SXCDaoImpl implements SXCWriteDao{
     public List<Class> findAllClass() {
         return sxcMapper.findAllClass();
     }
+
+    @Override
+    public Class findClassById(int id) {
+        return sxcMapper.findClassById(id);
+    }
+
+    @Override
+    public XiBie findXiBieById(int id) {
+        return sxcMapper.findXiBieById(id);
+    }
+
+    @Override
+    public School findSchoolById(int id) {
+        return sxcMapper.findSchoolById(id);
+    }
 }

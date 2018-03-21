@@ -7,7 +7,7 @@ import java.util.List;
  * @date 2018/3/19 上午10:19
  */
 public class School {
-    private int id;
+    private Integer id;
     private String schoolName;
     private String schoolCode;
 
@@ -21,11 +21,11 @@ public class School {
         this.xiBieList = xiBieList;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

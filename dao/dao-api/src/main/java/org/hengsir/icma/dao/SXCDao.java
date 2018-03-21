@@ -30,4 +30,10 @@ public interface SXCDao {
     List<Class> findClassByC(Class c);
 
     List<Class> findAllClass();
+
+    Class findClassById(int id);
+
+    XiBie findXiBieById(int id);
+
+    School findSchoolById(int id);
 }

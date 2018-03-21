@@ -49,31 +49,31 @@ public class SXCController {
             @RequestParam(value = "pageSize", defaultValue = "10") int size) {
         ModelAndView model = new ModelAndView();
         Page<School> page = sxcDao.findSchool(school, new Page<>(index, size));
-        model.setViewName("/system-data/school-list");
+        model.setViewName("/sxc/school-list");
         model.addObject("pageHtml", PageHtmlUtil.initHtml(page));
         model.addObject("list", page.getResult());
         return model;
     }
 
 
-    @RequestMapping(value = "/school/search-list",method = RequestMethod.GET)
+    @RequestMapping(value = "/school/search-list", method = RequestMethod.GET)
     @ResponseBody
-    public Object searchSchoolList(@RequestParam(defaultValue = "0")Integer schoolId,String schoolName, String schoolCode, String pageNumber, String pageSize) {
+    public Object searchSchoolList(@RequestParam(defaultValue = "0") Integer schoolId, String schoolName, String schoolCode, String pageNumber, String pageSize) {
         School school = new School();
         school.setSchoolCode(schoolCode);
         school.setSchoolName(schoolName);
         Page<School> page = sxcDao.findSchool(school, new Page<>(Integer.parseInt(pageNumber), Integer.parseInt(pageSize)));
         List<School> schools = page.getResult();
         JSONArray jsonData = new JSONArray();
-        for (School s : schools){
+        for (School s : schools) {
             boolean flag = false;
-            if(s.getId() == schoolId){
+            if (s.getId() == schoolId) {
                 flag = true;
             }
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("schoolId",s.getId());
-            jsonObject.put("schoolName",s.getSchoolName());
-            jsonObject.put("schoolCode",s.getSchoolCode());
+            jsonObject.put("schoolId", s.getId());
+            jsonObject.put("schoolName", s.getSchoolName());
+            jsonObject.put("schoolCode", s.getSchoolCode());
             jsonObject.put("checked", flag);
             jsonData.add(jsonObject);
         }
@@ -98,30 +98,30 @@ public class SXCController {
             @RequestParam(value = "pageSize", defaultValue = "10") int size) {
         ModelAndView model = new ModelAndView();
         Page<XiBie> page = sxcDao.findXiBie(xiBieVo, new Page<>(index, size));
-        model.setViewName("/system-data/xiBie-list");
+        model.setViewName("/sxc/xiBie-list");
         model.addObject("pageHtml", PageHtmlUtil.initHtml(page));
         model.addObject("list", page.getResult());
         return model;
     }
 
-    @RequestMapping(value = "/xiBie/search-list",method = RequestMethod.GET)
+    @RequestMapping(value = "/xiBie/search-list", method = RequestMethod.GET)
     @ResponseBody
-    public Object searchXiBieList(@RequestParam(defaultValue = "0")Integer schoolId,@RequestParam(defaultValue = "0")Integer xiBieId,String xiBieName, String pageNumber, String pageSize) {
+    public Object searchXiBieList(@RequestParam(defaultValue = "0") Integer schoolId, @RequestParam(defaultValue = "0") Integer xiBieId, String xiBieName, String pageNumber, String pageSize) {
         XiBieVo xi = new XiBieVo();
         xi.setSchoolId(schoolId);
         xi.setXiBieName(xiBieName);
         Page<XiBie> page = sxcDao.findXiBie(xi, new Page<>(Integer.parseInt(pageNumber), Integer.parseInt(pageSize)));
         List<XiBie> xiBies = page.getResult();
         JSONArray jsonData = new JSONArray();
-        for (XiBie x : xiBies){
+        for (XiBie x : xiBies) {
             boolean flag = false;
-            if(x.getId() == xiBieId){
+            if (x.getId() == xiBieId) {
                 flag = true;
             }
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("xiBieId",x.getId());
-            jsonObject.put("xiBieName",x.getXiBieName());
-            jsonObject.put("schoolName",x.getSchool().getSchoolName());
+            jsonObject.put("xiBieId", x.getId());
+            jsonObject.put("xiBieName", x.getXiBieName());
+            jsonObject.put("schoolName", x.getSchool().getSchoolName());
             jsonObject.put("checked", flag);
             jsonData.add(jsonObject);
         }
@@ -146,15 +146,15 @@ public class SXCController {
             @RequestParam(value = "pageSize", defaultValue = "10") int size) {
         ModelAndView model = new ModelAndView();
         Page<Class> page = sxcDao.findClass(classVo, new Page<>(index, size));
-        model.setViewName("/system-data/class-list");
+        model.setViewName("/sxc/class-list");
         model.addObject("pageHtml", PageHtmlUtil.initHtml(page));
         model.addObject("list", page.getResult());
         return model;
     }
 
-    @RequestMapping(value = "/class/search-list",method = RequestMethod.GET)
+    @RequestMapping(value = "/class/search-list", method = RequestMethod.GET)
     @ResponseBody
-    public Object searchClassList(@RequestParam(defaultValue = "0")Integer schoolId,@RequestParam(defaultValue = "0")Integer xiBieId, @RequestParam(defaultValue = "0")Integer classId,String className, String pageNumber, String pageSize) {
+    public Object searchClassList(@RequestParam(defaultValue = "0") Integer schoolId, @RequestParam(defaultValue = "0") Integer xiBieId, @RequestParam(defaultValue = "0") Integer classId, String className, String pageNumber, String pageSize) {
         ClassVo classVo = new ClassVo();
         classVo.setSchoolId(schoolId);
         classVo.setXiBieId(xiBieId);
@@ -163,16 +163,16 @@ public class SXCController {
         Page<Class> page = sxcDao.findClass(classVo, new Page<>(Integer.parseInt(pageNumber), Integer.parseInt(pageSize)));
         List<Class> classes = page.getResult();
         JSONArray jsonData = new JSONArray();
-        for (Class x : classes){
+        for (Class x : classes) {
             boolean flag = false;
-            if(x.getId() == xiBieId){
+            if (x.getId() == xiBieId) {
                 flag = true;
             }
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("classId",x.getId());
-            jsonObject.put("className",x.getClassName());
-            jsonObject.put("xiBieName",x.getXiBie().getXiBieName());
-            jsonObject.put("schoolName",x.getXiBie().getSchool().getSchoolName());
+            jsonObject.put("classId", x.getId());
+            jsonObject.put("className", x.getClassName());
+            jsonObject.put("xiBieName", x.getXiBie().getXiBieName());
+            jsonObject.put("schoolName", x.getXiBie().getSchool().getSchoolName());
             jsonObject.put("checked", flag);
             jsonData.add(jsonObject);
         }
@@ -184,14 +184,126 @@ public class SXCController {
 
     /**
      * 跳转到学校添加页面
+     *
      * @return
      */
     @RequestMapping("/school/to-add")
     @RequiresPermissions("school:add")
-    public ModelAndView toAddSchool(){
+    public ModelAndView toAddSchool() {
         ModelAndView model = new ModelAndView();
-        model.setViewName("/system-data/school-add");
+        model.setViewName("/sxc/school-add");
         return model;
+    }
+
+
+    /**
+     * 新增学校
+     *
+     * @param school
+     * @return
+     */
+    @RequestMapping(value = "/school/add", method = RequestMethod.POST)
+    @ResponseBody
+    public Object addSchool(School school) {
+        boolean flag = sxcService.createSchool(school);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.accumulate("result", flag);
+        return jsonObject;
+    }
+
+    /**
+     * 跳转学校修改页面
+     *
+     * @return
+     */
+    @RequestMapping("/school/to-update")
+    @RequiresPermissions("school:update")
+    public ModelAndView toUpdateSchool(Integer id) {
+        ModelAndView model = new ModelAndView();
+        School school = sxcDao.findSchoolById(id);
+        model.setViewName("/sxc/school-update");
+        model.addObject("school", school);
+        return model;
+    }
+
+    @RequestMapping(value = "/school/update", method = RequestMethod.POST)
+    @ResponseBody
+    public Object updateSchool(School school) {
+        boolean flag = sxcService.updateSchool(school);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.accumulate("result", flag);
+        return jsonObject;
+    }
+
+    @RequestMapping("/school/delete")
+    @ResponseBody
+    public Object deleteSchool(Integer id) {
+        boolean flag = sxcService.deleteSchool(id);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.accumulate("result", flag);
+        return jsonObject;
+    }
+
+    /**
+     * 跳转到系别添加页面
+     *
+     * @return
+     */
+    @RequestMapping("/xiBie/to-add")
+    @RequiresPermissions("xiBie:add")
+    public ModelAndView toAddXiBie() {
+        ModelAndView model = new ModelAndView();
+        model.setViewName("/sxc/xiBie-add");
+        return model;
+    }
+
+
+    /**
+     * 新增系别
+     *
+     * @param xiBieVo
+     * @return
+     */
+    @RequestMapping(value = "/xiBie/add", method = RequestMethod.POST)
+    @ResponseBody
+    public Object addXiBie(XiBieVo xiBieVo) {
+        boolean flag = sxcService.createXiBie(xiBieVo);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.accumulate("result", flag);
+        return jsonObject;
+    }
+
+    /**
+     * 跳转系别修改页面
+     *
+     * @return
+     */
+    @RequestMapping("/xiBie/to-update")
+    @RequiresPermissions("xiBie:update")
+    public ModelAndView toUpdateXiBie(Integer id) {
+        ModelAndView model = new ModelAndView();
+        XiBie xiBie = sxcDao.findXiBieById(id);
+        model.setViewName("/sxc/xiBie-update");
+        model.addObject("xiBie", xiBie);
+        return model;
+    }
+
+    @RequestMapping(value = "/xiBie/update", method = RequestMethod.POST)
+    @ResponseBody
+    public Object updateXiBie(XiBieVo xiBieVo) {
+        boolean flag = sxcService.updateXiBie(xiBieVo);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.accumulate("result", flag);
+        return jsonObject;
+    }
+
+    @RequestMapping("/xiBie/delete")
+    @ResponseBody
+    public Object deletexiBie(Integer id) {
+        boolean flag = sxcService.deleteXiBie(id);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.accumulate("result", flag);
+        return jsonObject;
     }
 
     /**

@@ -60,4 +60,10 @@ public interface SXCMapper {
 
     List<Class> findAllClass();
 
+    School findSchoolById(@Param("id")int id);
+
+    XiBie findXiBieById(@Param("id")int id);
+
+    Class findClassById(@Param("id")int id);
+
 }

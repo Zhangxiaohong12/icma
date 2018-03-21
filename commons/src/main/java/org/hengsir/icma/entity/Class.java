@@ -5,25 +5,17 @@ package org.hengsir.icma.entity;
  * @date 2018/3/19 上午10:20
  */
 public class Class {
-    private int id;
+    private Integer id;
     private String className;
-    private int xiBieId;
+    private Integer xiBieId;
 
     private XiBie xiBie;
 
-    public XiBie getXiBie() {
-        return xiBie;
-    }
-
-    public void setXiBie(XiBie xiBie) {
-        this.xiBie = xiBie;
-    }
-
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -35,11 +27,19 @@ public class Class {
         this.className = className;
     }
 
-    public int getXiBieId() {
+    public Integer getXiBieId() {
         return xiBieId;
     }
 
-    public void setXiBieId(int xieBieId) {
-        this.xiBieId = xieBieId;
+    public void setXiBieId(Integer xiBieId) {
+        this.xiBieId = xiBieId;
+    }
+
+    public XiBie getXiBie() {
+        return xiBie;
+    }
+
+    public void setXiBie(XiBie xiBie) {
+        this.xiBie = xiBie;
     }
 }

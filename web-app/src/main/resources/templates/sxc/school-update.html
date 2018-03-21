@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${pageTitle}"></title>
+	<head th:include="/commons/head::header" />
+    <link th:href="@{/metronic/css/pages/error.css}" rel="stylesheet" type="text/css"/>
+    <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css"/>-->
+    <link rel="stylesheet" th:href="@{/css/style.min.css}">
+</head>
+<body class="page-header-fixed" id="schoolBody">
+<div th:replace="/commons/page_head::pageHead"></div>
+<div class="clearfix"></div>
+<div class="page-container">
+	<div th:replace="/commons/page_sidebar::pageSidebar"></div>
+	<div class="page-content">
+	     <ul class="page-breadcrumb breadcrumb">
+	      	<li th:utext="${locationMenu}"></li>
+	      	<li>
+	      		<i class='icon-angle-right'></i>
+	      		<a href='javascript:void(0);'>修改</a>
+	      	</li>
+	     </ul>                                                        
+	     <form class="form-horizontal" role="form" id="schoolForm" th:method="post" th:object="${school}">
+             <div class="form-group" >
+                 <label class="col-sm-4 control-label">
+                     学校代码<font color="#FF0000">*</font>
+                 </label>
+                 <div class="col-sm-6">
+                     <input type="text" class="form-control" th:field="*{schoolCode}"  name="schoolCode" id="schoolCode" readonly/>
+                     <input type="hidden" th:field="*{id}" name="id">
+                 </div>
+                 <div class="cos-sm-2"></div>
+             </div>
+             <div class="form-group">
+                 <label class="col-sm-4 control-label" >
+                     学校名称<font color="#FF0000">*</font>
+                 </label>
+                 <div class="col-sm-6">
+                     <input type="text" class="form-control" th:field="*{schoolName}" name="schoolName" id="schoolName" placeholder="请输入学校名称"/>
+                 </div>
+             </div>
+
+             <div class="form-group">
+                 <div class="col-sm-offset-4 col-sm-6">
+                     <button style="background-color:gray;" onclick="history.go(-1)" type="button" class="btn btn-info btn-search">取消</button>
+                     <button  style="margin-left:30px;background-color:#0362FD;" type="button" class="btn btn-info btn-search" id="btnUpdate">提交</button>
+                 </div>
+             </div>
+            </form>
+	</div>
+</div>
+
+    <div th:replace="/commons/scripts::scripts"/></div>
+    <div th:replace="/commons/foot::foot"></div>
+
+</body>
+<script type="text/javascript" th:src="@{/js/sxc/school-add.js}" charset="utf-8"></script>
+<script type="text/javascript" th:src="@{/js/commons/form-validate/additional-methods-extend.js}" charset="utf-8"></script>
+</html>

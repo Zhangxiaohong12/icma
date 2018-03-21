@@ -24,47 +24,37 @@
                 <a href='javascript:void(0);'>查询</a>
             </li>
             <li class="btn-group">
-                <shiro:hasPermission name="xiBie:add">
-                    <a href="toadd-xiBie" class='btn blue '><span>新增</span></a>
+                <shiro:hasPermission name="school:add">
+                    <a href="to-add" class='btn blue '><span>新增</span></a>
                 </shiro:hasPermission>
             </li>
         </ul>
-        <shiro:hasPermission name="xiBie:search">
-            <form th:action="@{search}" method="post" id="xiBieForm">
+        <shiro:hasPermission name="school:search">
+            <form th:action="@{search}" method="post" id="schoolForm">
                 <!-- 搜索内容start -->
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label for="schoolCode">学校代码</label>
                             <div class="input-icon right">
                                 <i class="icon-edit"></i>
                                 <input type="text" class="form-control" id="schoolCode" name="schoolCode"
-                                       th:value="${xiBieVo.schoolCode}" placeholder="请输入学校代码">
+                                       th:value="${school.schoolCode}" placeholder="请输入学校代码">
                             </div>
                         </div>
                     </div>
 
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="form-group">
-                            <label for="xiBieName">学校名称（%）</label>
+                            <label for="schoolName">学校名称（%）</label>
                             <div class="input-icon right">
                                 <i class="icon-edit"></i>
                                 <input type="text" class="form-control" id="schoolName" name="schoolName"
-                                       th:value="${xiBieVo.schoolName}" placeholder="请输入学校名称"/>
+                                       th:value="${school.schoolName}" placeholder="请输入学校名称"/>
                             </div>
                         </div>
                     </div>
 
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="xiBieName">系别/院校名称（%）</label>
-                            <div class="input-icon right">
-                                <i class="icon-edit"></i>
-                                <input type="text" class="form-control" id="xiBieName" name="xiBieName"
-                                       th:value="${xiBieVo.xiBieName}" placeholder="请输入系别名称"/>
-                            </div>
-                        </div>
-                    </div>
 
                 </div>
 
@@ -86,28 +76,28 @@
                         <table class="table table-striped table-bordered table-hover">
                             <thead>
                             <tr>
+                                <th>学校代码</th>
                                 <th>学校名称</th>
-                                <th>系别/院校名称</th>
-                                <shiro:hasAnyPermissions name="xiBie:update,xiBie:delete">
+                                <shiro:hasAnyPermissions name="school:update,school:delete">
                                     <th style="width: 100px;">操作</th>
                                 </shiro:hasAnyPermissions>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="xiBie : ${list}">
+                            <tr th:each="school : ${list}">
                                 <!--  <input type="hidden" id="menuId" th:value="${leftMenu.id}"/> -->
-                                <td th:text="${xiBie.school.schoolName}"></td>
-                                <td th:text="${xiBie.xiBieName}"></td>
+                                <td th:text="${school.schoolCode}"></td>
+                                <td th:text="${school.schoolName}"></td>
 
-                                <shiro:hasAnyPermissions name="xiBie:update,xiBie:delete">
+                                <shiro:hasAnyPermissions name="school:update,school:delete">
                                     <td>
                                         <!--<span class="input-group-btn">-->
-                                        <shiro:hasPermission name="xiBie:update">
-                                            <a th:href="@{toupdate-xiBie(id=${xiBie.id})}" class='btn blue btn-xs'>修改</a>
+                                        <shiro:hasPermission name="school:update">
+                                            <a th:href="@{/sxc/school/to-update(id=${school.id})}" class='btn blue btn-xs'>修改</a>
                                         </shiro:hasPermission>
-                                        <shiro:hasPermission name="xiBie:delete">
+                                        <shiro:hasPermission name="school:delete">
                                             <a class='btn red btn-xs'
-                                               th:onclick="'javascript:deleteXiBie(\''+${xiBie.id}+'\');'">删除</a>
+                                               th:onclick="'javascript:deleteSchool(\''+${school.id}+'\');'">删除</a>
                                         </shiro:hasPermission>
                                         <!--</span>-->
                                     </td>
@@ -126,7 +116,7 @@
 <div th:replace="/commons/scripts::scripts"/>
 </div>
 <div th:replace="/commons/foot::foot"></div>
-<script type="text/javascript" th:src="@{/js/system-data/xiBie-list.js}" charset="utf-8"></script>
+<script type="text/javascript" th:src="@{/js/sxc/school-list.js}" charset="utf-8"></script>
 
 <script>
     jQuery(document).ready(function () {
