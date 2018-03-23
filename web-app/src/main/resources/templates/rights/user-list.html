@@ -176,7 +176,7 @@
                                 <shiro:hasAnyPermissions name="user:update,user:delete">
                                     <td>
                                         <shiro:hasPermission name="user:update">
-                                            <a th:href="@{toUpdate(userId=${user.userId})}" class='btn blue btn-xs'>修改</a>
+                                            <a th:href="@{/user/to-update(userId=${user.userId})}" class='btn blue btn-xs'>修改</a>
                                         </shiro:hasPermission>
                                         <shiro:hasPermission name="user:delete">
                                             <a data-toggle="modal" href="#static" class='btn red btn-xs' th:onclick="'javascript:deleteUser(\''+${user.userId}+'\');'" style="margin-left: 5px;">删除</a>

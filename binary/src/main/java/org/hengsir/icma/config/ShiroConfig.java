@@ -87,7 +87,7 @@ public class ShiroConfig {
     @Bean
     public ShiroReal shiroReal(CredentialsMatcher matcher){
         ShiroReal shiroReal = new ShiroReal();
-        //shiroReal.setCredentialsMatcher(matcher);
+        shiroReal.setCredentialsMatcher(matcher);
         return shiroReal;
     }
 

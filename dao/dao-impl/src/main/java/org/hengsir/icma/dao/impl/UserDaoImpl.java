@@ -34,7 +34,7 @@ public class UserDaoImpl implements UserWriteDao {
     @Override
     public User selectUserById(int userId) {
         User user = userMapper.findUserById(userId);
-        if (user != null && "1".equals(user.getUserStatus())) {
+        if (user != null) {
             return user;
         }
         return null;

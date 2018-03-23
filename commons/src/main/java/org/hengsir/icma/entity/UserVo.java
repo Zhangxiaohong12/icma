@@ -15,7 +15,6 @@ public class UserVo extends User {
 
     private Integer schoolId;
 
-    private Integer classId;
 
     private Integer xiBieId;
 
@@ -57,15 +56,6 @@ public class UserVo extends User {
         this.schoolId = schoolId;
     }
 
-    @Override
-    public Integer getClassId() {
-        return classId;
-    }
-
-    @Override
-    public void setClassId(Integer classId) {
-        this.classId = classId;
-    }
 
     @Override
     public Integer getXiBieId() {

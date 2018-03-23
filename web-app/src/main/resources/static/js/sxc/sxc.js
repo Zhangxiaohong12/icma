@@ -63,12 +63,11 @@ function selectXiBie() {
  * 初始化表格数据。
  */
 function initXiBieTable() {
-    /*var schoolStr = $("#schoolId").val();
+    var schoolStr = $("#schoolId").val();
     if(schoolStr == null || schoolStr == ''){
         BootboxExt.alert("请先选择学校");
         return;
     }
-*/
     $('#xiBieModal').modal('show');
     //先销毁表格
     $('#xiBieTable').bootstrapTable('destroy');

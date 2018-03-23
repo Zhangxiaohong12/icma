@@ -206,7 +206,7 @@ function viewRole(roleId) {
 function deleteRole(id) {
     BootboxExt.confirm("确认删除吗？", function (res) {
         if (res) {
-            $.get("/role/remove", { id: id}, function (data)
+            $.get("/role/delete", { id: id}, function (data)
             {
                 if(data.result == true){
                     BootboxExt.alert("删除成功", function (res) {

@@ -4,8 +4,9 @@
     <title th:text="${pageTitle}"></title>
 	<head th:include="/commons/head::header" />
     <link th:href="@{/metronic/css/pages/error.css}" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" th:href="@{/css/style.min.css}">
 </head>
-<body class="page-header-fixed" id="roleBody">
+<body class="page-header-fixed" id="pwdBody">
 <div th:replace="/commons/page_head::pageHead"></div>
 <div class="clearfix"></div>
 <div class="page-container">
@@ -15,53 +16,40 @@
 	      	<li th:utext="${locationMenu}"></li>
 	      	<li>
 	      		<i class='icon-angle-right'></i>
-	      		<a href='javascript:void(0);'>新增</a>
 	      	</li>
 	     </ul>
-	     <form id="addFrom"  class="form-horizontal">
-
-             <div class="form-group" >
-                <label class="col-sm-4 control-label">
-                    角色名称<font color="#FF0000">*</font>
-                </label>
-                <div class="col-sm-6">
-                  <input type="text" class="form-control" name="roleName" id="roleName" value="" placeholder="请输入角色名称"/>
-                </div>
-              </div>
+	     <form id="pwdForm"  class="form-horizontal" role="form" th:action="@{update-pwd}"  method="post">
 
              <div class="form-group" >
                  <label class="col-sm-4 control-label">
-                     角色编号<font color="#FF0000">*</font>
+                     旧密码<font color="#FF0000">*</font>
                  </label>
                  <div class="col-sm-6">
-                     <input type="text" class="form-control" name="roleCode" id="roleCode" value="" placeholder="请输入角色编号"/><div class="cos-sm-2">请输入数字、字母或者“-”，“_”符号</div>
+                     <input type="password" class="form-control" name="oldPwd" id="oldPwd" value="" placeholder="请输入原来密码"/>
                  </div>
              </div>
-
              <div class="form-group" >
                  <label class="col-sm-4 control-label">
-                     角色描述<font color="#FF0000">*</font>
+                     新密码<font color="#FF0000">*</font>
                  </label>
                  <div class="col-sm-6">
-                     <input type="text" class="form-control" name="roleDesc" id="roleDesc" value="" placeholder="请输入角色描述"/>
+                     <input type="password" class="form-control" name="newPwd" id="newPwd" value="" placeholder="请输入新密码"/>
                  </div>
              </div>
-
-
-              <div class="form-group">
-                  <label class="col-sm-4 control-label" >
-                      角色状态<font color="#FF0000">*</font>
-                  </label>
-                  <div class="col-sm-6">
-                      <select name="roleStatus" id="roleStatus" class="form-control" data-type="select" data-category="ROLE_STATUS" ></select>
-                  </div>
-              </div>
+             <div class="form-group" >
+                 <label class="col-sm-4 control-label">
+                     确认密码<font color="#FF0000">*</font>
+                 </label>
+                 <div class="col-sm-6">
+                     <input type="password" class="form-control" name="newPwd1" id="newPwd1" value="" placeholder="请输入确认密码"/>
+                 </div>
+             </div>
 
 
               <div class="form-group">
                 <div class="col-sm-offset-4 col-sm-6">
                    <button style="margin-left:50px;" onclick="history.go(-1)" type="button" class="btn  default  btn-info btn-search">取消</button>
-                   <button  style="margin-left:30px;"  type="button" class="btn blue   btn-info btn-search"  id="btnSave">提交</button>
+                   <button  style="margin-left:30px;"  type="button" class="btn blue   btn-info btn-search"  id="btnUpdate">提交</button>
                 </div>
               </div>
         </form>
@@ -86,18 +74,19 @@
     </div>
 </div>
 
+
 <div th:replace="/commons/scripts::scripts"/></div>
 <div th:replace="/commons/foot::foot"></div>
 <script>
-    jQuery(document).ready(function (){
+    jQuery(document).ready(function () {
         App.init();
+
     });
 
+
+
 </script>
-<script type="text/javascript" th:src="@{/js/table/bootstrap-table.js}" charset="utf-8"></script>
-<script type="text/javascript" th:src="@{/js/table/bootstrap-table-zh-CN.min.js}" charset="utf-8"></script>
-<script type="text/javascript" th:src="@{/js/rights/role.js}" charset="utf-8"></script>
-<script type="text/javascript" th:src="@{/js/rights/role-add.js}" charset="utf-8"></script>
-<script type="text/javascript" th:src="@{/js/rights/role-check.js}" charset="utf-8"></script>
 </body>
+<script type="text/javascript" th:src="@{/js/rights/pwd-update.js}" charset="utf-8"></script>
+<script type="text/javascript" th:src="@{/js/commons/form-validate/additional-methods-extend.js}" charset="utf-8"></script>
 </html>

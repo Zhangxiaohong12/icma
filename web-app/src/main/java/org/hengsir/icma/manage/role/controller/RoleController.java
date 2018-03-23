@@ -27,7 +27,7 @@ import java.util.List;
  * @author hengsir
  * @date 2018/3/14 下午3:57
  */
-@Controller()
+@Controller
 @RequestMapping("/role")
 public class RoleController {
 
@@ -69,7 +69,7 @@ public class RoleController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/toadd", method = {RequestMethod.GET})
+    @RequestMapping(value = "/to-add", method = {RequestMethod.GET})
     @RequiresPermissions("role:add")
     public ModelAndView toadd() {
         ModelAndView modelAndView = new ModelAndView();
@@ -89,6 +89,7 @@ public class RoleController {
         role.setRoleCode(roleCode);
         role.setRoleDesc(roleDesc);
         role.setRoleName(roleName);
+        role.setRoleStatus(roleStatus);
         Subject subject = SecurityUtils.getSubject();
         String username = subject.getPrincipal().toString();
         role.setRoleOperator(username);
@@ -106,7 +107,7 @@ public class RoleController {
      * @param id 数据编号
      * @return 跳转页面
      */
-    @RequestMapping(value = "/remove", method = {RequestMethod.GET})
+    @RequestMapping(value = "/delete", method = {RequestMethod.GET})
     @ResponseBody
     @RequiresPermissions("role:delete")
     public Object remove(String id) {
@@ -130,7 +131,7 @@ public class RoleController {
      * @param id 数据编号
      * @return 跳转页面
      */
-    @RequestMapping(value = "/toUpdate", method = {RequestMethod.GET})
+    @RequestMapping(value = "/to-Update", method = {RequestMethod.GET})
     @RequiresPermissions("role:update")
     public ModelAndView toUpdate(String id) {
         Role role = roleDao.findById(Integer.parseInt(id));
@@ -162,7 +163,6 @@ public class RoleController {
     /**
      * 查询角色分组信息。
      *
-     * @param order      排序
      * @param pageNumber 当前页面
      * @param pageSize   每页显示
      * @return 字符串
@@ -170,7 +170,7 @@ public class RoleController {
     @RequestMapping(value = "/search-list", method = {RequestMethod.GET}, produces = {"application/text;charset=UTF-8"})
     @ResponseBody
     public String searchList(
-            String order, String pageNumber, String pageSize, String userId, String roleName,
+            String pageNumber, String pageSize, String userId, String roleName,
             String roleCode) {
 
         Role ro = new Role();

@@ -43,7 +43,12 @@
 
     <!--根据id查询用户-->
     <select id="findUserById" parameterType="java.lang.Integer" resultMap="userMap">
-
+        SELECT A.*,C.CLASS_NAME ,X.XI_BIE_NAME,X.ID AS XI_BIE_ID , S.SCHOOL_NAME,S.ID AS SCHOOL_ID,S.SCHOOL_CODE FROM T_USER A,T_CLASS C,T_XI_BIE X,T_SCHOOL S
+        WHERE
+        C.ID = A.CLASS_ID
+        AND X.ID = C.XI_BIE_ID
+        AND S.ID = X.SCHOOL_ID
+        AND USER_ID = #{userId}
     </select>
 
     <select id="findAllUser" resultMap="userMap" useCache="false">
@@ -54,7 +59,7 @@
     <select id="findByUser" resultMap="userMap" useCache="false">
         SELECT A.*,C.CLASS_NAME ,X.XI_BIE_NAME,X.ID AS XI_BIE_ID , S.SCHOOL_NAME,S.ID AS SCHOOL_ID,S.SCHOOL_CODE FROM T_USER A,T_CLASS C,T_XI_BIE X,T_SCHOOL S
         <where>
-            AND C.ID = A.CLASS_ID
+            C.ID = A.CLASS_ID
             AND X.ID = C.XI_BIE_ID
             AND S.ID = X.SCHOOL_ID
             <if test="null != classId and 0 != classId">
@@ -102,7 +107,10 @@
         <if test="null != userStatus and '' != userStatus">
             USER_STATUS,
         </if>
-        <if test="null != classId and 0 != classId">
+        <if test="null != userIdCard and '' != userIdCard">
+            USER_IDCARD,
+        </if>
+        <if test="null != classId">
             CLASS_ID,
         </if>
         CREATE_TIME,
@@ -117,9 +125,11 @@
         <if test="null != userStatus and '' != userStatus">
             #{userStatus},
         </if>
-
-        <if test="null != classId and 0 != classId">
-            #{class},
+        <if test="null != userIdCard and '' != userIdCard">
+            #{userIdCard},
+        </if>
+        <if test="null != classId">
+            #{classId},
         </if>
         #{createTime,jdbcType=TIMESTAMP},
         <if test="null != updateTime and '' != updateTime">
@@ -146,7 +156,7 @@
             <if test="null != userStatus">
                 USER_STATUS = #{userStatus},
             </if>
-            <if test="null != classId and 0 != classId">
+            <if test="null != classId">
                 CLASS_ID = #{classId},
             </if>
             <if test="null != userSex">

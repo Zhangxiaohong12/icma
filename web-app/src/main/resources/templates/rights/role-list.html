@@ -22,7 +22,7 @@
             </li>
             <li class="btn-group">
                 <shiro:hasPermission name="role:add">
-                    <a href="toadd" class='btn blue '><span>新增</span></a>
+                    <a href="to-add" class='btn blue '><span>新增</span></a>
                 </shiro:hasPermission>
             </li>
         </ul>
@@ -39,27 +39,17 @@
                             </div>
                         </div>
                     </div>
-                </div>
 
-                    <!--<div class="col-md-3">
+                    <div class="col-md-3">
                         <div class="form-group">
                             <label>角色状态</label>
                             <div class="input-icon">
-                                <select name="roleStatus" id="roleStatus" class="form-control" data-type="select" data-category="role:STATUS" th:data-value="${role.roleStatus}"></select>
+                                <select name="roleStatus" id="roleStatus" class="form-control" data-type="select" data-category="ROLE_STATUS" th:data-value="${role.roleStatus}"></select>
                             </div>
                         </div>
-                    </div>-->
+                    </div>
 
-                    <!--<div class="col-md-3">
-                        <div class="form-group">
-                            <label >所属商户</label>
-                            <select class="select2_category form-control select2me" name="merchantId" id="merchantId" data-type="select" data-placeholder="Choose a org" tabindex="1" th:data-value="${role.merchantId}">
-                                <option value="">请选择</option>
-                                <option th:each="MchInfo : ${mchInfo}" th:value="${MchInfo.mid}"
-                                        th:text="${MchInfo.midName}"  ></option>
-                            </select>
-                        </div>
-                    </div>-->
+                </div>
 
 
                 <div class="row form-group">
@@ -83,7 +73,7 @@
                                 <th>角色名称</th>
                                 <th>角色编号</th>
                                 <th>角色描述</th>
-                                <!--<th>角色状态</th>-->
+                                <th>角色状态</th>
                                 <th>创建人员</th>
                                 <th>创建时间</th>
                                 <th>修改时间</th>
@@ -97,14 +87,14 @@
                                 <td th:text="${role.roleName}"></td>
                                 <td th:text="${role.roleCode}"></td>
                                 <td th:text="${role.roleDesc}"></td>
-                                <!--<td sl:type="role:STATUS" sl:text="${role.roleStatus}"></td>-->
+                                <td th:text="${ItemUtil.getName(role.roleStatus,'ROLE_STATUS')}"></td>
                                 <td th:text="${role.roleOperator}"></td>
                                 <td th:text="${#calendars.format(role.createTime,'yyyy-MM-dd HH:mm:ss')}"></td>
                                 <td th:text="${#calendars.format(role.updateTime,'yyyy-MM-dd HH:mm:ss')}"></td>
                                 <shiro:hasAnyPermissions name="role:update,role:delete,role:lookRights,role:giveRights">
                                     <td>
                                         <shiro:hasPermission name="role:update">
-                                            <a class='btn blue btn-xs ' th:href="@{toUpdate(id=${role.roleId})}">修改</a>
+                                            <a class='btn blue btn-xs ' th:href="@{/role/to-Update(id=${role.roleId})}">修改</a>
                                         </shiro:hasPermission>
 
                                         <shiro:hasPermission name="role:delete">
@@ -202,68 +192,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="mchInfoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                </button>
-                <h4 class="modal-title" id="mchInfoModalLabel">商户信息</h4>
-            </div>
-            <div class="modal-body" style="height: auto;max-height: 600px;overflow-y:auto;overflow-x:auto">
-                <form method="post" id="mchInfoShowFrom">
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <div class="form-group">
-                                <label>商户号</label>
-                                <div class="input-icon right">
-                                    <i class="icon-edit"></i>
-                                    <input id="midSearch" type="text" class="form-control" placeholder="请输入商户号">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="form-group">
-                                <label>商户简称（%）</label>
-                                <div class="input-icon right">
-                                    <i class="icon-edit"></i>
-                                    <input id="midShortNameSearch" type="text" class="form-control" placeholder="请输入商户简称">
-                                </div>
-                            </div>
-                        </div>
 
-                        <div class="col-sm-4">
-                            <div class="form-group">
-                                <label>商户名称（%）</label>
-                                <div class="input-icon right">
-                                    <i class="icon-edit"></i>
-                                    <input id="midNameSearch" type="text" class="form-control" placeholder="请输入商户名称">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row form-group">
-                        <div class="col-md-5"></div>
-                        <div class="form-inline">
-                            <button onclick="refreshAlertMchData()" type="button"
-                                    class="btn btn-primary">查询
-                            </button>
-                            <button onclick="cleanMchInfoQuery()" type="button"
-                                    class="btn btn-primary">重置
-                            </button>
-                        </div>
-                        <div class="col-md-5"></div>
-                    </div>
-                </form>
-                <table id="mchInfoTable" class="table table-striped table-bordered table-hover"></table>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onclick="selectMchInfo();">提交</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-            </div>
-        </div>
-    </div>
-</div>
 <div th:replace="/commons/scripts::scripts"/>
 </div>
 <div th:replace="/commons/foot::foot"></div>

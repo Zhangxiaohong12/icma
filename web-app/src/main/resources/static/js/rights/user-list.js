@@ -1,15 +1,15 @@
-var selectIds=[];
-var selectNames=[];
+var selectIds = [];
+var selectNames = [];
+
 function deleteUser(userId) {
     BootboxExt.confirm("确认删除吗？", function (res) {
         if (res) {
-            $.get("/rights/user/delete", { userId: userId}, function (data)
-            {
-                if(data.result == true){
+            $.get("/user/delete", {userId: userId}, function (data) {
+                if (data.result == true) {
                     BootboxExt.alert("删除成功", function (res) {
-                        location.href = "/rights/user/search";
+                        location.href = "/user/search";
                     });
-                }else{
+                } else {
                     BootboxExt.alert("删除失败", function (res) {
                         window.location.reload();
                     });
@@ -21,26 +21,22 @@ function deleteUser(userId) {
 
 var roleInfoItems;
 
-    /**
+/**
  * 初始化表格数据。
  */
-function initRoleTables(userId,sysId) {
+function initRoleTables(userId) {
     var roleId = "";
     if (userId == null || '' == userId) {
         userId = $("#hiddenUserId").val();
     } else {
         $("#hiddenUserId").val(userId);
     }
-        if (sysId == null || '' == sysId) {
-            sysId = $("#hiddenSysId").val();
-        } else {
-            $("#hiddenSysId").val(sysId);
-        }
+
     queryRoleInfo(userId);
-    if(roleInfoItems != null){
+    if (roleInfoItems != null) {
         $.each(roleInfoItems, function (index, row) {
             selectIds[index] = row.roleId;
-            selectNames[index]= row.roleName;
+            selectNames[index] = row.roleName;
         });
     }
     //先销毁表格
@@ -48,22 +44,22 @@ function initRoleTables(userId,sysId) {
     //初始化表格,动态从服务器加载数据
     var table = $("#role_tables").bootstrapTable({
         method: "GET",  //使用get请求到服务器获取数据
-        url: '/rights/role/search-list', //获取数据的Servlet地址
+        url: '/role/search-list', //获取数据的Servlet地址
         striped: true,  //表格显示条纹
         showRefresh: true,  //显示刷新按钮
         pagination: true,                   //是否显示分页（*）
-        pageNumber:1,
+        pageNumber: 1,
         pageSize: 10,
-        pageList: [ 10, 25, 50, 100],
+        pageList: [10, 25, 50, 100],
         sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
-        queryParamsType:'',
+        queryParamsType: '',
         queryParams: queryParamsRole,
-        singleSelect : false,
+        singleSelect: false,
         uniqueId: "roleId",
-        responseHandler:responseHandler,
+        responseHandler: responseHandler,
         columns: [
             {
-                field : 'checked',
+                field: 'checked',
                 checkbox: true,
             },
             {
@@ -76,31 +72,31 @@ function initRoleTables(userId,sysId) {
                 field: 'roleDesc',
                 title: '角色描述'
             }],
-        onLoadError: function(){  //加载失败时执行
-            BootboxExt.alert("加载数据失败", {time : 1500, icon : 2});
+        onLoadError: function () {  //加载失败时执行
+            BootboxExt.alert("加载数据失败", {time: 1500, icon: 2});
         }
     });
 
     //选中事件操作数组
-    var union = function(array,ids){
+    var union = function (array, ids) {
         $.each(ids, function (i, id) {
-            if($.inArray(id,array)==-1){
+            if ($.inArray(id, array) == -1) {
                 array[array.length] = id;
             }
         });
         return array;
     };
     //取消选中事件操作数组
-    var difference = function(array,ids){
+    var difference = function (array, ids) {
         $.each(ids, function (i, id) {
-            var index = $.inArray(id,array);
-            if(index!=-1){
+            var index = $.inArray(id, array);
+            if (index != -1) {
                 array.splice(index, 1);
             }
         });
         return array;
     };
-    var _ = {"union":union,"difference":difference};
+    var _ = {"union": union, "difference": difference};
     //绑定选中事件、取消事件、全部选中、全部取消
     table.on('check.bs.table check-all.bs.table uncheck.bs.table uncheck-all.bs.table', function (e, rows) {
         var ids = $.map(!$.isArray(rows) ? [rows] : rows, function (row) {
@@ -145,12 +141,12 @@ function viewRoleTables(userId) {
     //初始化表格,动态从服务器加载数据
     $("#viewRoleTable").bootstrapTable({
         method: "GET",  //使用get请求到服务器获取数据
-        url: "/rights/user/queryRoleByUser/"+userId,//获取数据的Servlet地址
+        url: "/user/queryRoleByUser/" + userId,//获取数据的Servlet地址
         striped: true,  //表格显示条纹
-        data: {userId:userId},
+        data: {userId: userId},
         sidePagination: "server", //分页方式：client客户端分页，server服务端分页（*）
-        queryParamsType:'',
-        singleSelect : true,
+        queryParamsType: '',
+        singleSelect: true,
         columns: [
             {
                 field: 'roleName',
@@ -162,8 +158,8 @@ function viewRoleTables(userId) {
                 field: 'roleDesc',
                 title: '角色描述'
             }],
-        onLoadError: function(){  //加载失败时执行
-            BootboxExt.alert("加载数据失败", {time : 1500, icon : 2});
+        onLoadError: function () {  //加载失败时执行
+            BootboxExt.alert("加载数据失败", {time: 1500, icon: 2});
         }
     });
 }
@@ -172,7 +168,7 @@ function queryRoleInfo(userId) {
     $.ajax({
         async: false,
         type: "get",
-        url: "/rights/user/queryRoleByUser/"+userId ,
+        url: "/user/queryRoleByUser/" + userId,
         dataType: "json",
         success: function (data) {
             roleInfoItems = data.rows;
@@ -180,16 +176,16 @@ function queryRoleInfo(userId) {
     });
 }
 
- /**
+/**
  * 选择角色信息。
  */
 function selectRole() {
     var userId = $("#hiddenUserId").val();
-     var el = $("#userBody");
-     $("#btn-myModal").attr("disabled",true);
-     Shade.blockUI(el);
-    if(selectIds == null || selectIds.length < 1) {
-        $("#btn-myModal").attr("disabled",false);
+    var el = $("#userBody");
+    $("#btn-myModal").attr("disabled", true);
+    Shade.blockUI(el);
+    if (selectIds == null || selectIds.length < 1) {
+        $("#btn-myModal").attr("disabled", false);
         Shade.unblockUI(el);
         BootboxExt.alert("请先选择分配的角色!");
         return;
@@ -201,19 +197,18 @@ function selectRole() {
         }
         selects += selectIds[i];
     }
-     var el = $("#userBody");
-     $("#btn-myModal").attr("disabled",true);
-     Shade.blockUI(el);
+    var el = $("#userBody");
+    $("#btn-myModal").attr("disabled", true);
+    Shade.blockUI(el);
     $('#myModal').modal('hide');
-    $.get("/rights/user/saveRoleRelUser", { roleIds: selects,userId:userId}, function (data)
-    {
-        $("#btn-myModal").attr("disabled",false);
+    $.get("/user/saveRoleRelUser", {roleIds: selects, userId: userId}, function (data) {
+        $("#btn-myModal").attr("disabled", false);
         Shade.unblockUI(el);
-        if(data.result == true){
+        if (data.result == true) {
             BootboxExt.alert("分配成功", function (res) {
-                location.href = "/rights/user/search";
+                location.href = "/user/search";
             });
-        }else{
+        } else {
             BootboxExt.alert("分配失败", function (res) {
                 window.location.reload();
             });
@@ -222,6 +217,7 @@ function selectRole() {
 }
 
 var userVo = new Object();
+
 function setSearchParam() {
     userVo.userName = $("#userName").val();
     userVo.userAccount = $("#userAccount").val();
@@ -230,13 +226,14 @@ function setSearchParam() {
     userVo.createTimeBegin = $("#createTimeBegin").val();
     userVo.createTimeEnd = $("#createTimeEnd").val();
 }
+
 jQuery(document).ready(function () {
     setSearchParam();
     $("#createTimeBegin").datetimepicker({
         language: 'zh-CN',
         timePicker: false,
         format: "yyyy-mm-dd",
-        minView:'month',
+        minView: 'month',
         autoClose: true,
         clearBtn: true,
         todayBtn: true
@@ -248,7 +245,7 @@ jQuery(document).ready(function () {
         language: 'zh-CN',
         timePicker: false,
         format: "yyyy-mm-dd",
-        minView:'month',
+        minView: 'month',
         autoClose: true,
         clearBtn: true,
         todayBtn: true
