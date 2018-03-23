@@ -78,14 +78,8 @@
 
     <update id="updateClass" parameterType="org.hengsir.icma.entity.Class">
         UPDATE T_CLASS
-        <set>
-            <if test="null != #{className} and '' != #{className}">
-                CLASS_NAME = #{className},
-            </if>
-            <if test="null != #{xiBieId} and '' != #{xiBieId}">
-                XI_BIE_ID = #{xiBieId},
-            </if>
-        </set>
+        SET CLASS_NAME = #{className},
+            XI_BIE_ID = #{xiBieId}
         WHERE ID = #{id}
 
     </update>
@@ -188,7 +182,7 @@
     <select id="findClassById" useCache="false" resultMap="classResult" parameterType="java.lang.Integer">
         SELECT C.*,X.XI_BIE_NAME,X.SCHOOL_ID,S.SCHOOL_NAME,S.SCHOOL_CODE FROM T_CLASS C,T_XI_BIE X,T_SCHOOL S
         WHERE
-        AND C.XI_BIE_ID = X.ID
+        C.XI_BIE_ID = X.ID
         AND X.SCHOOL_ID = S.ID
         AND C.ID = #{id}
     </select>

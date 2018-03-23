@@ -290,6 +290,7 @@ function classQueryParams(params) {
         xiBieId:$("#xiBieId").val(),
         className: $("#classNameSearch").val(),
         schoolId:$("#schoolId").val(),
+        classId:$("#classId").val()
     };
     return temp;
 }

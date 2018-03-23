@@ -25,7 +25,7 @@
             </li>
             <li class="btn-group">
                 <shiro:hasPermission name="class:add">
-                    <a href="toadd-class" class='btn blue '><span>新增</span></a>
+                    <a href="to-add" class='btn blue '><span>新增</span></a>
                 </shiro:hasPermission>
             </li>
         </ul>
@@ -116,7 +116,7 @@
                                     <td>
                                         <!--<span class="input-group-btn">-->
                                         <shiro:hasPermission name="class:update">
-                                            <a th:href="@{toupdate-class(id=${class.id})}" class='btn blue btn-xs'>修改</a>
+                                            <a th:href="@{/sxc/class/to-update(id=${class.id})}" class='btn blue btn-xs'>修改</a>
                                         </shiro:hasPermission>
                                         <shiro:hasPermission name="class:delete">
                                             <a class='btn red btn-xs'
@@ -130,7 +130,7 @@
                         </table>
                     </div>
                 </div>
-                <div th:utext="${pageHtml}" class="row page_info" data-search="leftMenuForm"></div>
+                <div th:utext="${pageHtml}" class="row page_info" data-search="classForm"></div>
             </form>
         </shiro:hasPermission>
     </div>

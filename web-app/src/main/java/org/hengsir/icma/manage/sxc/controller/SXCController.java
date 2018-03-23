@@ -165,7 +165,7 @@ public class SXCController {
         JSONArray jsonData = new JSONArray();
         for (Class x : classes) {
             boolean flag = false;
-            if (x.getId() == xiBieId) {
+            if (x.getId() == classId) {
                 flag = true;
             }
             JSONObject jsonObject = new JSONObject();
@@ -299,8 +299,70 @@ public class SXCController {
 
     @RequestMapping("/xiBie/delete")
     @ResponseBody
-    public Object deletexiBie(Integer id) {
+    public Object deleteXiBie(Integer id) {
         boolean flag = sxcService.deleteXiBie(id);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.accumulate("result", flag);
+        return jsonObject;
+    }
+
+    /**
+     * 跳转到班级添加页面
+     *
+     * @return
+     */
+    @RequestMapping("/class/to-add")
+    @RequiresPermissions("class:add")
+    public ModelAndView toAddClass() {
+        ModelAndView model = new ModelAndView();
+        model.setViewName("/sxc/class-add");
+        return model;
+    }
+
+
+    /**
+     * 新增系别
+     *
+     * @param classVo
+     * @return
+     */
+    @RequestMapping(value = "/class/add", method = RequestMethod.POST)
+    @ResponseBody
+    public Object addClass(ClassVo classVo) {
+        boolean flag = sxcService.createClass(classVo);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.accumulate("result", flag);
+        return jsonObject;
+    }
+
+    /**
+     * 跳转班级修改页面
+     *
+     * @return
+     */
+    @RequestMapping("/class/to-update")
+    @RequiresPermissions("class:update")
+    public ModelAndView toUpdateClass(Integer id) {
+        ModelAndView model = new ModelAndView();
+        Class c = sxcDao.findClassById(id);
+        model.setViewName("/sxc/class-update");
+        model.addObject("class", c);
+        return model;
+    }
+
+    @RequestMapping(value = "/class/update", method = RequestMethod.POST)
+    @ResponseBody
+    public Object updateClass(ClassVo classVo) {
+        boolean flag = sxcService.updateClass(classVo);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.accumulate("result", flag);
+        return jsonObject;
+    }
+
+    @RequestMapping("/class/delete")
+    @ResponseBody
+    public Object deleteClass(Integer id) {
+        boolean flag = sxcService.deleteClass(id);
         JSONObject jsonObject = new JSONObject();
         jsonObject.accumulate("result", flag);
         return jsonObject;
