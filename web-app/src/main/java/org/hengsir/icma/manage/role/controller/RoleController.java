@@ -58,6 +58,9 @@ public class RoleController {
             @RequestParam(value = "pageSize", defaultValue = "10") int size) {
         ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
         //分页查询
+        if("mention".equals(shiroUser.getUserAccount())){
+            role.setAdmin(1);
+        }
         Page<Role> page = roleDao.findByRole(role, new Page<>(index, size));
 
         ModelAndView modelAndView = new ModelAndView();

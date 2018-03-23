@@ -9,11 +9,9 @@ import org.apache.shiro.subject.Subject;
 import org.hengsir.icma.dao.LeftMenuDao;
 import org.hengsir.icma.dao.RightDao;
 import org.hengsir.icma.dao.RoleDao;
-import org.hengsir.icma.entity.LeftMenu;
-import org.hengsir.icma.entity.LeftMenuVo;
-import org.hengsir.icma.entity.Right;
-import org.hengsir.icma.entity.Role;
+import org.hengsir.icma.entity.*;
 import org.hengsir.icma.manage.shiro.ShiroUser;
+import org.hengsir.icma.service.RightRoleRelationService;
 import org.hengsir.icma.service.RightService;
 import org.hengsir.icma.utils.pageHelper.Page;
 import org.hengsir.icma.utils.pageHelper.PageHtmlUtil;
@@ -34,16 +32,19 @@ import java.util.*;
 public class RightController {
 
     @Autowired
-    private RightDao rightDao;
+    RightDao rightDao;
 
     @Autowired
-    private LeftMenuDao leftMenuDao;
+    LeftMenuDao leftMenuDao;
 
     @Autowired
-    private RightService rightService;
+    RightService rightService;
 
     @Autowired
-    private RoleDao roleDao;
+    RoleDao roleDao;
+
+    @Autowired
+    RightRoleRelationService roleRelationService;
 
     /**
      * 查询权限列表。
@@ -127,6 +128,11 @@ public class RightController {
             Boolean flag = rightService.create(right);
             if (flag) {
                 result = "success";
+                Right r = rightDao.findByCode(right.getRightCode());
+                RightRoleRelation rr = new RightRoleRelation();
+                rr.setRightId(r.getRightId());
+                rr.setRoleId(400);
+                roleRelationService.create(rr);
             }
         } else {
             result = "isHas";

@@ -57,7 +57,7 @@ public class Role implements Model<Integer> {
     /**
      * 是否超级管理员
      */
-    private int isAdmin;
+    private int admin;
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
@@ -67,12 +67,12 @@ public class Role implements Model<Integer> {
         this.roleId = roleId;
     }
 
-    public int getIsAdmin() {
-        return isAdmin;
+    public int getAdmin() {
+        return admin;
     }
 
-    public void setIsAdmin(int isAdmin) {
-        this.isAdmin = isAdmin;
+    public void setAdmin(int admin) {
+        this.admin = admin;
     }
 
     public Integer getRoleId() {

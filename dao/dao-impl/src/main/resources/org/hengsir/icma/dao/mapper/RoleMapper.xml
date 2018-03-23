@@ -10,10 +10,17 @@
         <result property="createTime" column="CREATE_TIME" />
         <result property="updateTime" column="UPDATE_TIME" />
         <result property="roleCode" column="ROLE_CODE" />
+        <result property="admin" column="ADMIN" />
     </resultMap>
 
     <select id="findAll" resultMap="RoleResult" useCache="false">
-        SELECT * FROM T_ROLE ORDER BY CREATE_TIME DESC
+        SELECT * FROM T_ROLE
+        <where>
+            <if test="admin != 1">
+                AND ROLE_ID NOT IN (SELECT TR.ROLE_ID FROM T_ROLE TR WHERE ADMIN = '1')
+            </if>
+        </where>
+        ORDER BY CREATE_TIME DESC
     </select>
 
     <select id="findByUserId" resultMap="RoleResult" useCache="false">
@@ -23,6 +30,9 @@
     <select id="findRoleCount"  resultType="java.lang.Integer" useCache="false">
         SELECT  count(1) FROM T_ROLE
         <where>
+            <if test="admin != 1">
+                AND ROLE_ID NOT IN (SELECT TR.ROLE_ID FROM T_ROLE TR WHERE ADMIN = '1')
+            </if>
             <if test="null != roleName and '' != roleName">
                 AND ROLE_NAME LIKE CONCAT(CONCAT('%', #{roleName}),'%')
             </if>
@@ -38,6 +48,9 @@
     <select id="findByRole"  resultMap="RoleResult" useCache="false" >
         SELECT * FROM T_ROLE
         <where>
+            <if test="admin != 1">
+                AND ROLE_ID NOT IN (SELECT TR.ROLE_ID FROM T_ROLE TR WHERE ADMIN = '1')
+            </if>
             <if test="null != roleName and '' != roleName">
                 AND ROLE_NAME LIKE CONCAT(CONCAT('%', #{roleName}),'%')
             </if>
@@ -65,14 +78,15 @@
     <insert id="create"  parameterType="org.hengsir.icma.entity.Role">
         INSERT INTO T_ROLE
         ( ROLE_NAME, ROLE_DESC, ROLE_CODE,
-        ROLE_STATUS, ROLE_OPERATOR,CREATE_TIME)
+        ROLE_STATUS, ROLE_OPERATOR,CREATE_TIME,ADMIN)
         VALUES (
         #{roleName},
         #{roleDesc},
         #{roleCode},
         #{roleStatus},
         #{roleOperator},
-        #{createTime,jdbcType=TIMESTAMP}
+        #{createTime,jdbcType=TIMESTAMP},
+        '0'
         )
     </insert>
 

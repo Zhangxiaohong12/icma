@@ -94,15 +94,15 @@
                                 <shiro:hasAnyPermissions name="role:update,role:delete,role:lookRights,role:giveRights">
                                     <td>
                                         <shiro:hasPermission name="role:update">
-                                            <a class='btn blue btn-xs ' th:href="@{/role/to-Update(id=${role.roleId})}">修改</a>
+                                            <a class='btn blue btn-xs ' th:if="${role.roleCode} != 'Administrator'" th:href="@{/role/to-Update(id=${role.roleId})}">修改</a>
                                         </shiro:hasPermission>
 
                                         <shiro:hasPermission name="role:delete">
-                                            <a class='btn red btn-xs' th:onclick="'javascript:deleteRole(\''+${role.roleId}+'\')'">删除</a>
+                                            <a class='btn red btn-xs' th:if="${role.roleCode} != 'Administrator'" th:onclick="'javascript:deleteRole(\''+${role.roleId}+'\')'">删除</a>
                                         </shiro:hasPermission>
 
                                         <shiro:hasPermission name="role:giveRights">
-                                            <a class="btn default btn-xs"  data-toggle="modal" data-target="#tree-modal" th:onclick="'javascript:treeRole(\''+${role.roleId}+'\')'">分配权限</a>
+                                            <a th:if="${role.roleCode} != 'Administrator'" class="btn default btn-xs"  data-toggle="modal" data-target="#tree-modal" th:onclick="'javascript:treeRole(\''+${role.roleId}+'\')'">分配权限</a>
                                         </shiro:hasPermission>
 
                                         <shiro:hasPermission name="role:lookRights">
