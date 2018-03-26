@@ -32,6 +32,11 @@ public class ImageDaoImpl implements ImageWriteDao {
     }
 
     @Override
+    public void deleteByPersonId(String personId) {
+        imageMapper.deleteImagesByPersonId(personId);
+    }
+
+    @Override
     public List<Image> findByPerson(Person person) {
         return imageMapper.findByPerson(person);
     }

@@ -12,10 +12,7 @@ import org.hengsir.icma.dao.UserDao;
 import org.hengsir.icma.dao.UserRelRoleDao;
 import org.hengsir.icma.entity.*;
 import org.hengsir.icma.manage.shiro.ShiroUser;
-import org.hengsir.icma.service.RightRoleRelationService;
-import org.hengsir.icma.service.RoleService;
-import org.hengsir.icma.service.UserRelRoleService;
-import org.hengsir.icma.service.UserService;
+import org.hengsir.icma.service.*;
 import org.hengsir.icma.utils.MD5Util;
 import org.hengsir.icma.utils.PasswordUtil;
 import org.hengsir.icma.utils.pageHelper.Page;
@@ -60,6 +57,9 @@ public class UserController {
 
     @Autowired
     UserRelRoleDao relRoleDao;
+
+    @Autowired
+    PersonService personService;
 
 
     @RequestMapping("/search")
@@ -115,6 +115,13 @@ public class UserController {
         user.setUserPassword(encodePass);
 
         Boolean result = userService.create(user);
+        if (result) {
+            Person p = new Person();
+            p.setPersonName(user.getUserName());
+            p.setClassId(user.getClassId());
+            p.setUser(user);
+            personService.create(p,null);
+        }
         jsonObject.accumulate("result", result);
         return jsonObject;
     }

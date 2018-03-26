@@ -2,6 +2,9 @@ package org.hengsir.icma.entity;
 
 import org.hengsir.icma.model.Model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Person implements Model<String>{
     /**
      * 专属的personId在人脸库中
@@ -16,7 +19,21 @@ public class Person implements Model<String>{
     /**
      * 所属机构
      */
-    private int groupId;
+    private Integer classId;
+
+    private Integer userId;
+
+    private List<Image> imageList = new ArrayList<>();
+
+    private User user;
+
+    public List<Image> getImageList() {
+        return imageList;
+    }
+
+    public void setImageList(List<Image> imageList) {
+        this.imageList = imageList;
+    }
 
     public String getPersonId() {
         return personId;
@@ -34,12 +51,28 @@ public class Person implements Model<String>{
         this.personName = personName;
     }
 
-    public int getGroupId() {
-        return groupId;
+    public Integer getClassId() {
+        return classId;
     }
 
-    public void setGroupId(int groupId) {
-        this.groupId = groupId;
+    public void setClassId(Integer classId) {
+        this.classId = classId;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     @Override

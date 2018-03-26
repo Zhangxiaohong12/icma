@@ -14,4 +14,8 @@ public interface PersonDao {
     public Page<Person> findAll(Page<Person> page, Person person);
 
     public List<Person> findAll(Person person);
+
+    Person findByUserId(int userId);
+
+    Person findById(String personId);
 }

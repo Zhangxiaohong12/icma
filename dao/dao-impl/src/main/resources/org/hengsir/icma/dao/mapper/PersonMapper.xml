@@ -4,35 +4,54 @@
     <resultMap id="PersonResult" type="org.hengsir.icma.entity.Person">
         <result property="personId" column="PERSON_ID" />
         <result property="personName" column="PERSON_NAME" />
-        <result property="groupId" column="GROUP_ID" />
+        <result property="classId" column="CLASS_ID" />
+        <association property="user" javaType="org.hengsir.icma.entity.User">
+            <result property="userAccount" column="USER_ACCOUNT"/>
+            <result property="userName" column="USER_NAME"/>
+            <result property="userSex" column="USER_SEX"/>
+        </association>
     </resultMap>
 
 
     <select id="findAll" resultMap="PersonResult" useCache="false">
-        SELECT * FROM T_PERSON
+        SELECT P.*,U.USER_ACCOUNT,U.USER_NAME,U.USER_SEX,U.CLASS_ID FROM T_PERSON P,T_USER U
          <where>
+             P.USER_ID = U.USER_ID
              <if test="null != personId and '' != personId">
                  AND PERSON_ID = #{personId}
              </if>
              <if test="null != personName and '' != personName">
                 AND PERSON_NAME = #{personName}
              </if>
-             <if test="null != groupId and '' != groupId">
-                AND GROUP_ID = #{groupId}
+             <if test="null != user.userId and '' != user.userId">
+                AND U.USER_ID = #{user.userId}
+             </if>
+             <if test="null != sex and '' != sex">
+                 AND U.USER_SEX = #{sex}
              </if>
          </where>
-         ORDER BY GROUP_ID DESC
+         ORDER BY CLASS_ID DESC
     </select>
-    
+
+    <select id="findById" resultMap="PersonResult" parameterType="java.lang.String" useCache="false">
+        SELECT P.*,U.USER_ACCOUNT,U.USER_NAME,U.USER_SEX,U.CLASS_ID FROM T_PERSON P,T_USER U
+        WHERE P.USER_ID = U.USER_ID AND PERSON_ID = #{personId}
+    </select>
 
     <insert id="create" parameterType="org.hengsir.icma.entity.Person">
-        INSERT INTO T_PERSON(PERSON_ID,GROUP_ID,PERSON_NAME)
+        INSERT INTO T_PERSON(PERSON_ID,PERSON_NAME,USER_ID)
         VALUES(#{personId},
-        #{groupId},#{personName})
+        #{personName},#{user.userId})
     </insert>
 
     <delete id="delete" parameterType="java.lang.String">
         DELETE FROM T_PERSON WHERE PERSON_ID = #{personId}
     </delete>
+
+    <select id="findByUserId" parameterType="java.lang.Integer" useCache="false" resultMap="PersonResult">
+        SELECT P.*,U.USER_ACCOUNT,U.USER_NAME,U.USER_SEX,U.CLASS_ID FROM T_PERSON P,T_USER U
+        WHERE P.USER_ID = U.USER_ID AND U.USER_ID = #{userId}
+    </select>
+
 
 </mapper>

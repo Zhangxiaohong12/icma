@@ -1,6 +1,7 @@
 package org.hengsir.icma.dao;
 
 import org.hengsir.icma.entity.Image;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ public interface ImageWriteDao extends ImageDao {
      * @param image
      * @return
      */
-    public int addImg(Image image);
+    int addImg(Image image);
 
     /**
      * 删除一张人脸图片
@@ -24,5 +25,7 @@ public interface ImageWriteDao extends ImageDao {
      * @param faceId
      * @return
      */
-    public int deleteImg(List<String> faceId);
+    int deleteImg(List<String> faceId);
+
+    void deleteByPersonId(String personId);
 }

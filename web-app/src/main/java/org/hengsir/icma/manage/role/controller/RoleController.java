@@ -14,7 +14,6 @@ import org.hengsir.icma.service.RightRoleRelationService;
 import org.hengsir.icma.service.RoleService;
 import org.hengsir.icma.utils.pageHelper.Page;
 import org.hengsir.icma.utils.pageHelper.PageHtmlUtil;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -46,9 +45,9 @@ public class RoleController {
     /**
      * 查询。
      *
-     * @param role 系统定义数据
-     * @param index  当前页数
-     * @param size   每页显示的数据量
+     * @param role  系统定义数据
+     * @param index 当前页数
+     * @param size  每页显示的数据量
      * @return modelAndView 返回页面数据
      */
     @RequestMapping(value = "/search")
@@ -58,7 +57,7 @@ public class RoleController {
             @RequestParam(value = "pageSize", defaultValue = "10") int size) {
         ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
         //分页查询
-        if("mention".equals(shiroUser.getUserAccount())){
+        if ("mention".equals(shiroUser.getUserAccount())) {
             role.setAdmin(1);
         }
         Page<Role> page = roleDao.findByRole(role, new Page<>(index, size));
@@ -87,7 +86,7 @@ public class RoleController {
      */
     @RequestMapping(value = "/add", method = {RequestMethod.POST})
     @ResponseBody
-    public Object add(String roleName,String roleDesc,String roleCode,String roleStatus) {
+    public Object add(String roleName, String roleDesc, String roleCode, String roleStatus) {
         Role role = new Role();
         role.setRoleCode(roleCode);
         role.setRoleDesc(roleDesc);
@@ -97,7 +96,7 @@ public class RoleController {
         String username = subject.getPrincipal().toString();
         role.setRoleOperator(username);
         role.setCreateTime(new Date());
-        boolean flag =  roleService.create(role);
+        boolean flag = roleService.create(role);
         JSONObject jsonObject = new JSONObject();
 
         jsonObject.accumulate("result", flag);

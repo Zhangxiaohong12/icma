@@ -12,13 +12,13 @@ public interface PersonWriteDao extends PersonDao{
      * @param person
      * @return
      */
-    public int create(Person person);
+    public Boolean create(Person person);
 
     /**
      * 删除个体
      * @param personId
      * @return
      */
-    public int delete(String personId);
+    public Boolean delete(String personId);
 
 }

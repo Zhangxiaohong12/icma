@@ -219,10 +219,22 @@
             <version>1.2.3</version>
         </dependency>-->
 
+        <dependency>
+            <groupId>com.yt</groupId>
+            <artifactId>youtu-java-sdk</artifactId>
+            <version>4.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.yt</groupId>
+            <artifactId>json</artifactId>
+            <version>4.0</version>
+        </dependency>
     </dependencies>
 
     <build>
         <finalName>icma</finalName>
+        <defaultGoal>compile</defaultGoal>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -245,9 +257,13 @@
                     <source>1.8</source>
                     <target>1.8</target>
                     <encoding>UTF-8</encoding>
+                    <compilerArguments>
+                        <extdirs>${project.basedir}/commons/lib</extdirs>
+                    </compilerArguments>
                 </configuration>
             </plugin>
         </plugins>
+
 
     </build>
 

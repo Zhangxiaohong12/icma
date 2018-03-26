@@ -44,4 +44,8 @@ public interface PersonMapper {
      * @return
      */
     public int delete(@Param("personId") String personId);
+
+    Person findByUserId(@Param("userId") int userId);
+
+    Person findById(@Param("personId") String personId);
 }

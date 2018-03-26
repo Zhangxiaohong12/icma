@@ -1,4 +1,3 @@
-/*
 package org.hengsir.icma.service.impl;
 
 import com.youtu.Youtu;
@@ -18,11 +17,10 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
-*/
 /**
  * @author hengsir
  * @date 2018/1/10 上午11:47
- *//*
+ */
 
 @Service
 public class PersonServiceImpl implements PersonService {
@@ -37,15 +35,20 @@ public class PersonServiceImpl implements PersonService {
     private Youtu youtu;
 
     @Override
-    public int create(Person person, Image image) {
+    public Boolean create(Person person, Image image) {
         List<String> list = new ArrayList<>();
-        list.add(person.getGroupId()+"");
+        list.add(person.getClassId() + "");
         try {
-            JSONObject response = youtu.NewPerson(image.getImageUrl(),person.getPersonId(),list);
-            if(response.getInt("errorcode") == 0){
-                image.setFaceId((String)response.get("face_id"));
-                return personWriteDao.create(person);
+            if (image != null) {
+                JSONObject response = youtu.NewPerson(image.getImageUrl(), person.getPersonId(), list);
+                if (response.getInt("errorcode") == 0) {
+                    image.setFaceId((String) response.get("face_id"));
+                    image.setPersonId(person.getPersonId());
+                    imageWriteDao.addImg(image);
+                    return personWriteDao.create(person);
+                }
             }
+
         } catch (IOException e) {
             e.printStackTrace();
         } catch (JSONException e) {
@@ -55,14 +58,15 @@ public class PersonServiceImpl implements PersonService {
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
-        return 0;
+        return false;
     }
 
     @Override
-    public int delete(String personId) {
+    public Boolean delete(String personId) {
         try {
             JSONObject response = youtu.DelPerson(personId);
-            if(response.getInt("errorcode") == 0){
+            if (response.getInt("errorcode") == 0) {
+                imageWriteDao.deleteByPersonId(personId);
                 return personWriteDao.delete(personId);
             }
         } catch (IOException e) {
@@ -74,7 +78,7 @@ public class PersonServiceImpl implements PersonService {
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
-        return 0;
+        return false;
     }
 
     @Override
@@ -90,19 +94,19 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public boolean addFace(String personId, List<Image> imageList) {
         List<String> list = new ArrayList<String>();
-        for (Image i : imageList){
+        for (Image i : imageList) {
             list.add(i.getImageUrl());
         }
         try {
-            JSONObject resp = youtu.AddFace(personId,list);
-            if(resp.getInt("errorcode") == 0){
+            JSONObject resp = youtu.AddFace(personId, list);
+            if (resp.getInt("errorcode") == 0) {
                 String[] arr = (String[]) resp.get("face_ids");
                 int index = 0;
-                for (int i = 0;i < imageList.size();i++) {
+                for (int i = 0; i < imageList.size(); i++) {
                     imageList.get(i).setFaceId(arr[i]);
-                     index += imageWriteDao.addImg(imageList.get(i));
+                    index += imageWriteDao.addImg(imageList.get(i));
                 }
-                if (index > 0){
+                if (index > 0) {
                     return true;
                 }
             }
@@ -121,10 +125,10 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public boolean deleteFace(String personId, List<String> faceIds) {
         try {
-            JSONObject resp = youtu.DelFace(personId,faceIds);
-            if(resp.getInt("errorcode") == 0){
+            JSONObject resp = youtu.DelFace(personId, faceIds);
+            if (resp.getInt("errorcode") == 0) {
                 int index = imageWriteDao.deleteImg(faceIds);
-                if (index > 0){
+                if (index > 0) {
                     return true;
                 }
             }
@@ -140,4 +144,3 @@ public class PersonServiceImpl implements PersonService {
         return false;
     }
 }
-*/

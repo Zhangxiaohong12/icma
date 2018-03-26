@@ -37,7 +37,6 @@ public class DataSourceConfig {
         druidDataSource.setUrl(jdbcUrl);
         druidDataSource.setMaxActive(10);
         druidDataSource.setMinIdle(5);
-        System.out.println(jdbcUserName+jdbcDriver+jdbcPassWord+jdbcUrl);
         return druidDataSource;
     }
 

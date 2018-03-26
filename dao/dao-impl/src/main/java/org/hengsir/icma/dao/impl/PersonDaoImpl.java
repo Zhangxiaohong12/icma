@@ -21,13 +21,24 @@ public class PersonDaoImpl implements PersonWriteDao {
     private PersonMapper personMapper;
 
     @Override
-    public int create(Person person) {
-        return personMapper.create(person);
+    public Boolean create(Person person) {
+        try{
+            personMapper.create(person);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+
     }
 
     @Override
-    public int delete(String personId) {
-        return personMapper.delete(personId);
+    public Boolean delete(String personId) {
+        try{
+            personMapper.delete(personId);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
     }
 
     @Override
@@ -40,5 +51,15 @@ public class PersonDaoImpl implements PersonWriteDao {
     @Override
     public List<Person> findAll(Person person) {
         return personMapper.findAll(person);
+    }
+
+    @Override
+    public Person findByUserId(int userId) {
+        return personMapper.findByUserId(userId);
+    }
+
+    @Override
+    public Person findById(String personId) {
+        return personMapper.findById(personId);
     }
 }

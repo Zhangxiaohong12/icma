@@ -47,4 +47,6 @@ public interface ImageMapper {
     public List<Image> findAll(Image image);
 
     public List<Image> findByPerson(Person person);
+
+    void deleteImagesByPersonId(@Param("personId") String personId);
 }

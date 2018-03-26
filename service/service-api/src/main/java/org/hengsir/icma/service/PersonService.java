@@ -16,35 +16,35 @@ public interface PersonService {
      * @param person
      * @return
      */
-    public int create(Person person, Image image);
+    Boolean create(Person person, Image image);
 
     /**
      * 删除个体
      * @param personId
      * @return
      */
-    public int delete(String personId);
+    Boolean delete(String personId);
 
     /**
      * 添加人脸照片
      * @param personId
      * @return
      */
-    public boolean addPhoto(String personId, List<Image> imageList);
+    boolean addPhoto(String personId, List<Image> imageList);
 
     /**
      * 删除人脸照片
      * @param personId
      * @return
      */
-    public boolean deletePhoto(String personId, List<Image> imageList);
+    boolean deletePhoto(String personId, List<Image> imageList);
 
     /**
      * 新增人脸
      * @param personId
      * @return
      */
-    public boolean addFace(String personId, List<Image> imageList);
+    boolean addFace(String personId, List<Image> imageList);
 
     /**
      * 删除人脸
@@ -52,5 +52,5 @@ public interface PersonService {
      * @param faceIds
      * @return
      */
-    public boolean deleteFace(String personId, List<String> faceIds);
+    boolean deleteFace(String personId, List<String> faceIds);
 }

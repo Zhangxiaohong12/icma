@@ -61,4 +61,8 @@
         WHERE PERSON_ID = #{personId}
     </select>
 
+    <delete id="deleteImagesByPersonId" parameterType="java.lang.String">
+        DELETE FROM T_IMAGE WHERE PERSON_ID = #{personId}
+    </delete>
+
 </mapper>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <title th:text="${pageTitle}"></title>
+    <head th:include="/commons/head::header"/>
+    <link th:href="@{/metronic/css/pages/error.css}" rel="stylesheet" type="text/css"/>
+</head>
+<body class="page-header-fixed" id="mchInfoBody">
+<div th:replace="/commons/page_head::pageHead"></div>
+<div class="clearfix"></div>
+<div class="page-container">
+    <div th:replace="/commons/page_sidebar::pageSidebar"></div>
+    <div class="page-content">
+        <ul class="page-breadcrumb breadcrumb">
+            <li th:utext="${locationMenu}"></li>
+            <li>
+                <i class='icon-angle-right'></i>
+                <a href='javascript:void(0);'>详情</a>
+            </li>
+            <li class="btn-group">
+                <shiro:hasPermission name="person:add">
+                    <a href="to-add-person" class='btn blue '><span>新增</span></a>
+                </shiro:hasPermission>
+                <shiro:hasPermission name="person:delete">
+                    <a href="to-delete-person" class='btn blue '><span>删除</span></a>
+                </shiro:hasPermission>
+                <a onclick="javascript:history.go(-1)" class='btn blue '><span>返回</span></a>
+            </li>
+        </ul>
+        <form class="form-horizontal" th:object="${person}">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>个体名称：</label>
+                    <label th:text="*{user.userName}"></label>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>帐号：</label>
+                    <label th:text="*{user.userAccount}"></label>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>性别：</label>
+                    <label th:text="*{user.userSex}"></label>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>班级ID：</label>
+                    <label th:text="*{classId}"></label>
+                </div>
+            </div>
+
+
+            <div class="col-md-4" th:each="img: ${imgs}">
+                <div class="form-group">
+                    <img th:src="${img.url}">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div th:replace="/commons/scripts::scripts"/>
+</div>
+<div th:replace="/commons/foot::foot"></div>
+<script>
+    jQuery(document).ready(function () {
+        App.init();
+    });
+</script>
+</body>
+</html>
