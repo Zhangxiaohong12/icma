@@ -25,32 +25,19 @@ public interface PersonService {
      */
     Boolean delete(String personId);
 
-    /**
-     * 添加人脸照片
-     * @param personId
-     * @return
-     */
-    boolean addPhoto(String personId, List<Image> imageList);
 
-    /**
-     * 删除人脸照片
-     * @param personId
-     * @return
-     */
-    boolean deletePhoto(String personId, List<Image> imageList);
 
     /**
      * 新增人脸
      * @param personId
      * @return
      */
-    boolean addFace(String personId, List<Image> imageList);
+    boolean addFace(String personId, Image img);
 
     /**
      * 删除人脸
      * @param personId
-     * @param faceIds
      * @return
      */
-    boolean deleteFace(String personId, List<String> faceIds);
+    boolean deleteFace(String personId, String faceId);
 }

@@ -6,6 +6,7 @@ import org.hengsir.icma.dao.PersonWriteDao;
 import org.hengsir.icma.entity.Image;
 import org.hengsir.icma.entity.Person;
 import org.hengsir.icma.service.PersonService;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,10 +38,10 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public Boolean create(Person person, Image image) {
         List<String> list = new ArrayList<>();
-        list.add(person.getClassId() + "");
+        list.add(person.getUser().getClassId() + "");
         try {
             if (image != null) {
-                JSONObject response = youtu.NewPerson(image.getImageUrl(), person.getPersonId(), list);
+                JSONObject response = youtu.NewPerson(image.getImagePath(), person.getPersonId(), list);
                 if (response.getInt("errorcode") == 0) {
                     image.setFaceId((String) response.get("face_id"));
                     image.setPersonId(person.getPersonId());
@@ -82,28 +83,21 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public boolean addPhoto(String personId, List<Image> imageList) {
-        return false;
-    }
-
-    @Override
-    public boolean deletePhoto(String personId, List<Image> imageList) {
-        return false;
-    }
-
-    @Override
-    public boolean addFace(String personId, List<Image> imageList) {
+    public boolean addFace(String personId, Image img) {
+        List<Image> imageList = new ArrayList<>();
+        imageList.add(img);
         List<String> list = new ArrayList<String>();
         for (Image i : imageList) {
-            list.add(i.getImageUrl());
+            list.add(i.getImagePath());
         }
         try {
             JSONObject resp = youtu.AddFace(personId, list);
             if (resp.getInt("errorcode") == 0) {
-                String[] arr = (String[]) resp.get("face_ids");
+                JSONArray jsonArray = (JSONArray) resp.get("face_ids");
                 int index = 0;
                 for (int i = 0; i < imageList.size(); i++) {
-                    imageList.get(i).setFaceId(arr[i]);
+                    imageList.get(i).setFaceId(jsonArray.get(i).toString());
+                    imageList.get(i).setPersonId(personId);
                     index += imageWriteDao.addImg(imageList.get(i));
                 }
                 if (index > 0) {
@@ -123,11 +117,13 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public boolean deleteFace(String personId, List<String> faceIds) {
+    public boolean deleteFace(String personId, String faceId) {
+        List<String> list = new ArrayList<>();
+        list.add(faceId);
         try {
-            JSONObject resp = youtu.DelFace(personId, faceIds);
+            JSONObject resp = youtu.DelFace(personId, list);
             if (resp.getInt("errorcode") == 0) {
-                int index = imageWriteDao.deleteImg(faceIds);
+                int index = imageWriteDao.deleteImg(faceId);
                 if (index > 0) {
                     return true;
                 }

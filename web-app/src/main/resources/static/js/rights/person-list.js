@@ -18,7 +18,7 @@ function deletePerson(personId) {
 
 function view(personId){
     Shade.blockUI($('body'));
-    window.location.href = "/person/view?=" + personId;
+    window.location.href = "/person/view?personId=" + personId;
 }
 
 

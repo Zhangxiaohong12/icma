@@ -5,8 +5,10 @@
     <title th:text="${pageTitle}"></title>
     <head th:include="/commons/head::header"/>
     <link th:href="@{/metronic/css/pages/error.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/css/common.css}" type="text/css" rel="stylesheet"/>
+    <link th:href="@{/css/index.css}" type="text/css" rel="stylesheet"/>
 </head>
-<body class="page-header-fixed" id="mchInfoBody">
+<body class="page-header-fixed" id="viewBody">
 <div th:replace="/commons/page_head::pageHead"></div>
 <div class="clearfix"></div>
 <div class="page-container">
@@ -19,16 +21,14 @@
                 <a href='javascript:void(0);'>详情</a>
             </li>
             <li class="btn-group">
-                <shiro:hasPermission name="person:add">
-                    <a href="to-add-person" class='btn blue '><span>新增</span></a>
+                <shiro:hasPermission name="image:add">
+                    <a th:onclick="'javascript:toAddImg(\''+${person.personId}+'\');'" class='btn red'><span>新增人脸</span></a>
                 </shiro:hasPermission>
-                <shiro:hasPermission name="person:delete">
-                    <a href="to-delete-person" class='btn blue '><span>删除</span></a>
-                </shiro:hasPermission>
+
                 <a onclick="javascript:history.go(-1)" class='btn blue '><span>返回</span></a>
             </li>
         </ul>
-        <form class="form-horizontal" th:object="${person}">
+        <form class="form-horizontal" id="viewForm" th:object="${person}">
             <div class="col-md-6">
                 <div class="form-group">
                     <label>个体名称：</label>
@@ -55,16 +55,27 @@
             </div>
 
 
-            <div class="col-md-4" th:each="img: ${imgs}">
-                <div class="form-group">
-                    <img th:src="${img.url}">
+            <div class="col-md-2" th:each="img: ${imgs}">
+                <div class="form-group" style="height: 100%">
+                    <img th:src="${img.imageUrl}" style="width: 100px;height: 133px;">
                 </div>
+                <div class="row form-group">
+                    <shiro:hasPermission name="image:delete">
+                        <a data-toggle="modal" class='btn red btn-xs'
+                           th:onclick="'javascript:deleteImg(\''+${img.faceId}+'\',\''+${person.personId}+'\');'" style="margin-left: 33px;">删除</a>
+                    </shiro:hasPermission>
+                </div>
+
             </div>
+
+
         </form>
     </div>
 </div>
 <div th:replace="/commons/scripts::scripts"/>
 </div>
+<script th:src="@{/js/rights/image-add.js}"></script>
+<script th:src="@{/js/imgUp.js}"></script>
 <div th:replace="/commons/foot::foot"></div>
 <script>
     jQuery(document).ready(function () {

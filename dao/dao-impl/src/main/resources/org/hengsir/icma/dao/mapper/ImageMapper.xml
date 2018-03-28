@@ -9,6 +9,7 @@
         <result property="imageUrl" column="IMAGE_URL"></result>
         <result property="personId" column="PERSON_ID"></result>
         <result property="faceId" column="FACE_ID" />
+        <result property="imagePath" column="IMAGE_PATH" />
     </resultMap>
 
     <insert id="addImg" parameterType="org.hengsir.icma.entity.Image">
@@ -16,19 +17,22 @@
         <if test="null != imageUrl and '' != imageUrl">
             IMAGE_URL,
         </if>
-        IMAGE_CODE,FACE_ID)
+        <if test="null != imageCode and '' != imageCode">
+            IMAGE_CODE,
+        </if>
+        FACE_ID,PERSON_ID,IMAGE_PATH)
         VALUES(#{imageName},
         <if test="null != imageUrl and '' != imageUrl">
             #{imageUrl},
         </if>
-        #{imageCode},#{faceId})
+        <if test="null != imageCode and '' != imageCode">
+            #{imageCode},
+        </if>
+        #{faceId},#{personId},#{imagePath})
     </insert>
 
-    <delete id="deleteImg" parameterType="java.util.List">
-        DELETE FROM T_IMAGE WHERE FACE_ID IN 
-        <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
-            #{item}
-        </foreach>
+    <delete id="deleteImg" parameterType="java.lang.String">
+        DELETE FROM T_IMAGE WHERE FACE_ID = #{faceId}
     </delete>
 
     <select id="findAll" resultMap="imageResult" useCache="false">
@@ -54,6 +58,11 @@
     <select id="findById" parameterType="java.lang.Integer" resultMap="imageResult" useCache="false">
         SELECT * FROM T_IMAGE
         WHERE IMAGE_ID = #{imageId}
+    </select>
+
+    <select id="findByFaceId" parameterType="java.lang.String" resultMap="imageResult" useCache="false">
+        SELECT * FROM T_IMAGE
+        WHERE FACE_ID = #{faceId}
     </select>
 
     <select id="findByPerson" parameterType="org.hengsir.icma.entity.Person" resultMap="imageResult" useCache="false">

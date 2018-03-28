@@ -27,7 +27,7 @@ public class ImageDaoImpl implements ImageWriteDao {
 
 
     @Override
-    public int deleteImg(List<String> faceId) {
+    public int deleteImg(String faceId) {
         return imageMapper.deleteImg(faceId);
     }
 
@@ -45,6 +45,11 @@ public class ImageDaoImpl implements ImageWriteDao {
     @Override
     public Image findById(int imageId) {
         return imageMapper.findById(imageId);
+    }
+
+    @Override
+    public Image findByFaceId(String faceId) {
+        return imageMapper.findByFaceId(faceId);
     }
 
     @Override

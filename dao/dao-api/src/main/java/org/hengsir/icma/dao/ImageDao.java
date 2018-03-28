@@ -26,6 +26,8 @@ public interface ImageDao {
      */
     public Image findById(int imageId);
 
+    Image findByFaceId(String faceId);
+
     /**
      * 根据条件查询全部图片
      *

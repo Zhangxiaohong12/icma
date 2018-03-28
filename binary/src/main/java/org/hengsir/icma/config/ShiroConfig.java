@@ -69,6 +69,7 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/metronic/**","anon");
         filterChainDefinitionMap.put("/favicon.ico", "anon"); //表示可以匿名访问
         filterChainDefinitionMap.put("/images/**", "anon");
+        filterChainDefinitionMap.put("/imgs/**", "anon");
         filterChainDefinitionMap.put("/css/**","anon");
         filterChainDefinitionMap.put("/js/**","anon");
         filterChainDefinitionMap.put("/select/**","anon");

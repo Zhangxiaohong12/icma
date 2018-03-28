@@ -9,6 +9,15 @@ public class Image implements Model<Integer> {
     private String imageUrl;
     private String personId;
     private String faceId;
+    private String imagePath;
+
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
 
     public String getFaceId() {
         return faceId;

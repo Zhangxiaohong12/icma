@@ -28,7 +28,7 @@ public interface ImageMapper {
      * @param faceId
      * @return
      */
-    public int deleteImg(List<String> faceId);
+    public int deleteImg(@Param("faceId") String faceId);
 
     /**
      * 根据图片id查找图片
@@ -49,4 +49,6 @@ public interface ImageMapper {
     public List<Image> findByPerson(Person person);
 
     void deleteImagesByPersonId(@Param("personId") String personId);
+
+    Image findByFaceId(@Param("faceId") String faceId);
 }

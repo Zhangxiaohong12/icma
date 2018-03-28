@@ -25,7 +25,7 @@ public interface ImageWriteDao extends ImageDao {
      * @param faceId
      * @return
      */
-    int deleteImg(List<String> faceId);
+    int deleteImg(String faceId);
 
     void deleteByPersonId(String personId);
 }

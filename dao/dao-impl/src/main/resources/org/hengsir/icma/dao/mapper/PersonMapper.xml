@@ -6,6 +6,7 @@
         <result property="personName" column="PERSON_NAME" />
         <result property="classId" column="CLASS_ID" />
         <association property="user" javaType="org.hengsir.icma.entity.User">
+            <result property="userId" column="USER_ID"/>
             <result property="userAccount" column="USER_ACCOUNT"/>
             <result property="userName" column="USER_NAME"/>
             <result property="userSex" column="USER_SEX"/>
@@ -18,30 +19,23 @@
          <where>
              P.USER_ID = U.USER_ID
              <if test="null != personId and '' != personId">
-                 AND PERSON_ID = #{personId}
+                 AND P.PERSON_ID = #{personId}
              </if>
              <if test="null != personName and '' != personName">
                 AND PERSON_NAME = #{personName}
              </if>
-             <if test="null != user.userId and '' != user.userId">
-                AND U.USER_ID = #{user.userId}
-             </if>
-             <if test="null != sex and '' != sex">
-                 AND U.USER_SEX = #{sex}
-             </if>
          </where>
-         ORDER BY CLASS_ID DESC
     </select>
 
     <select id="findById" resultMap="PersonResult" parameterType="java.lang.String" useCache="false">
         SELECT P.*,U.USER_ACCOUNT,U.USER_NAME,U.USER_SEX,U.CLASS_ID FROM T_PERSON P,T_USER U
-        WHERE P.USER_ID = U.USER_ID AND PERSON_ID = #{personId}
+        WHERE P.USER_ID = U.USER_ID AND P.PERSON_ID = #{personId}
     </select>
 
     <insert id="create" parameterType="org.hengsir.icma.entity.Person">
         INSERT INTO T_PERSON(PERSON_ID,PERSON_NAME,USER_ID)
         VALUES(#{personId},
-        #{personName},#{user.userId})
+        #{user.userName},#{user.userId})
     </insert>
 
     <delete id="delete" parameterType="java.lang.String">
