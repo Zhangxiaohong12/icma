@@ -96,4 +96,26 @@ public class UserDaoImpl implements UserWriteDao {
             return false;
         }
     }
+
+    @Override
+    public Boolean bindPerson(User user) {
+        try {
+            userMapper.bindPerson(user);
+            return true;
+        } catch (Exception ex) {
+            logger.error("bind person find error!", ex);
+            return false;
+        }
+    }
+
+    @Override
+    public Boolean deBindPerson(int userId) {
+        try {
+            userMapper.deBindPerson(userId);
+            return true;
+        } catch (Exception ex) {
+            logger.error("deBind person find error!", ex);
+            return false;
+        }
+    }
 }

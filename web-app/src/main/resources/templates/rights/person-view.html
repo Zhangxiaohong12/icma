@@ -57,7 +57,7 @@
 
             <div class="col-md-2" th:each="img: ${imgs}">
                 <div class="form-group" style="height: 100%">
-                    <img th:src="'/person/loadImg?path='+${img.imagePath}" style="width: 100px;height: 133px;">
+                    <img th:src="'/person/loadImg?path='+${img.imagePath}" style="width: 100px;height: 133px;box-shadow: 2px 3px 3px rgba(0, 0, 0, 0.3);">
                 </div>
                 <div class="row form-group">
                     <shiro:hasPermission name="image:delete">

@@ -3,9 +3,12 @@ package org.hengsir.icma.service.impl;
 import com.youtu.Youtu;
 import org.hengsir.icma.dao.ImageWriteDao;
 import org.hengsir.icma.dao.PersonWriteDao;
+import org.hengsir.icma.dao.UserDao;
 import org.hengsir.icma.entity.Image;
 import org.hengsir.icma.entity.Person;
+import org.hengsir.icma.entity.User;
 import org.hengsir.icma.service.PersonService;
+import org.hengsir.icma.service.UserService;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,6 +36,12 @@ public class PersonServiceImpl implements PersonService {
     private ImageWriteDao imageWriteDao;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
+    private UserDao userDao;
+
+    @Autowired
     private Youtu youtu;
 
     @Override
@@ -46,6 +55,9 @@ public class PersonServiceImpl implements PersonService {
                     image.setFaceId((String) response.get("face_id"));
                     image.setPersonId(person.getPersonId());
                     imageWriteDao.addImg(image);
+                    User needBindUser = userDao.selectUserById(person.getUser().getUserId());
+                    needBindUser.setPersonId(person.getPersonId());
+                    userService.bindPerson(needBindUser);
                     return personWriteDao.create(person);
                 }
             }
@@ -68,6 +80,9 @@ public class PersonServiceImpl implements PersonService {
             JSONObject response = youtu.DelPerson(personId);
             if (response.getInt("errorcode") == 0) {
                 imageWriteDao.deleteByPersonId(personId);
+                Person dp = personWriteDao.findById(personId);
+                User needDeBind = userDao.selectUserByAccount(dp.getUser().getUserAccount());
+                userService.deBindPerson(needDeBind.getUserId());
                 return personWriteDao.delete(personId);
             }
         } catch (IOException e) {
