@@ -3,6 +3,7 @@ package org.hengsir.icma.config;
 import org.hengsir.icma.manage.interceptor.LoginInterceptor;
 import org.hengsir.icma.manage.menu.MenuHandlerInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -23,7 +24,7 @@ public class SpringMVCConfig {
     private LoginInterceptor loginInterceptor;
 
     @Bean
-    public WebMvcConfigurer webMvcConfigurer(){
+    public WebMvcConfigurer webMvcConfigurer() {
         WebMvcConfigurer config = new WebMvcConfigurer() {
             @Override
             public void addInterceptors(InterceptorRegistry registry) {
@@ -41,13 +42,14 @@ public class SpringMVCConfig {
                                 "/css/**",
                                 "/js/**",
                                 "/images/**",
+                                "/Users/**",
                                 "/metronic/**");
             }
 
         };
         return config;
-    }
 
+    }
 
 
 }

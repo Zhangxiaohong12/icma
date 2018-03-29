@@ -15,7 +15,10 @@ import org.hengsir.icma.manage.shiro.ShiroUser;
 import org.hengsir.icma.service.PersonService;
 import org.hengsir.icma.utils.pageHelper.Page;
 import org.hengsir.icma.utils.pageHelper.PageHtmlUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,6 +27,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.util.Date;
 import java.util.List;
@@ -36,10 +40,8 @@ import java.util.Set;
 @Controller
 @RequestMapping("/person")
 public class PersonController {
-    String classLoaderPath = this.getClass().getResource("").getPath();
-    String imgPath =
-            classLoaderPath.substring(0, classLoaderPath.indexOf("target")) + "src/main/resources/static" +
-                    File.separatorChar + "imgs";
+    @Value("${upload-path}")
+    String imgPath;
 
     @Autowired
     PersonDao personDao;
@@ -52,6 +54,8 @@ public class PersonController {
 
     @Autowired
     UserDao userDao;
+
+    private Logger logger = LoggerFactory.getLogger(PersonController.class);
 
     /**
      * 分页查询，如果是学生，则进入详情页
@@ -112,7 +116,7 @@ public class PersonController {
     /**
      * 新增个体，第一次新增一定要上传一张照片
      *
-     * @param photo 保存路径是static/imgs/用户名/
+     * @param photo 保存路径是/用户名/
      * @return
      */
     @RequestMapping(value = "/add-person", method = RequestMethod.POST)
@@ -147,7 +151,7 @@ public class PersonController {
         fileName = personVo.getUserAccount();
         String filePath = saveFile(fileName, photo);
         Image img = new Image();
-        img.setImageUrl(filePath.substring(filePath.indexOf("/imgs/"), filePath.length()));
+        img.setImageUrl(filePath);
         img.setImagePath(filePath);
         img.setImageName(photo.getOriginalFilename());
 
@@ -159,6 +163,12 @@ public class PersonController {
         return jsonObject;
     }
 
+    /**
+     * 删除个体
+     *
+     * @param personId
+     * @return
+     */
     @RequestMapping("/delete-person")
     @RequiresPermissions("person:delete")
     @ResponseBody
@@ -168,9 +178,9 @@ public class PersonController {
         boolean result = personService.delete(personId);
         //如果成功，删除项目中的文件
         if (result) {
-            File file = new File(imgPath + "/" + p.getUser().getUserAccount());
+            File file = new File(imgPath + "/" + p.getUser().getUserAccount()+"/");
             if (file.exists() && file.isDirectory()) {
-                file.delete();
+                deleteDir(file);
             }
         }
         jsonObject.accumulate("result", result);
@@ -214,7 +224,7 @@ public class PersonController {
         String fileName = p.getUser().getUserAccount();
         String filePath = saveFile(fileName, photo);
         Image img = new Image();
-        img.setImageUrl(filePath.substring(filePath.indexOf("/imgs/"), filePath.length()));
+        img.setImageUrl(filePath);
         img.setImagePath(filePath);
         img.setImageName(photo.getOriginalFilename());
         boolean flag = personService.addFace(personId, img);
@@ -246,11 +256,35 @@ public class PersonController {
         return jsonObject;
     }
 
+    @RequestMapping("/loadImg")
+    public void loadImg(String path, HttpServletResponse resp)throws IOException{
+        resp.setContentType("image/jpg;charset=utf-8");
+        try {
+            OutputStream out = resp.getOutputStream();
+            File file = new File(path);
+            InputStream in = new FileInputStream(file);
+            if (in != null) {
+                int len;
+                byte[] b = new byte[1024];
+                while ((len = in.read(b)) != -1) {
+                    out.write(b, 0, len);
+                }
+                out.flush();
+                out.close();
+            }
+            out.close();
+        }catch (Exception e){
+            logger.error(e.getMessage());
+        }
+    }
+
+
+
     public String saveFile(String fileName, MultipartFile photo) {
         OutputStream out = null;
         File file = null;
         try {
-            file = new File(imgPath + "/" + fileName);
+            file = new File(imgPath + fileName);
             if (!file.exists() && !file.isDirectory()) {
                 file.mkdir();
             }
@@ -273,5 +307,16 @@ public class PersonController {
             }
         }
         return file.getPath() + "/" + photo.getOriginalFilename();
+    }
+
+    //递归删除
+    public static void deleteDir(File dir){
+        if(dir.isDirectory()){
+            File[] files = dir.listFiles();
+            for(int i=0; i<files.length; i++) {
+                deleteDir(files[i]);
+            }
+        }
+        dir.delete();
     }
 }
