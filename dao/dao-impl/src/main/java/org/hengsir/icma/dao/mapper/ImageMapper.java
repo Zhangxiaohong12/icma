@@ -51,4 +51,6 @@ public interface ImageMapper {
     void deleteImagesByPersonId(@Param("personId") String personId);
 
     Image findByFaceId(@Param("faceId") String faceId);
+
+    Image find(Image image);
 }

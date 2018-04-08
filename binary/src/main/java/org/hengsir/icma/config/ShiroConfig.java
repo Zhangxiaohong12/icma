@@ -41,7 +41,6 @@ public class ShiroConfig {
     //配置核心安全事务管理器
     @Bean(name="securityManager")
     public SecurityManager securityManager(ShiroReal shiroReal) {
-        System.err.println("--------------shiro已经加载----------------");
         DefaultWebSecurityManager manager=new DefaultWebSecurityManager();
         manager.setRealm(shiroReal);
         return manager;
@@ -74,6 +73,7 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/js/**","anon");
         filterChainDefinitionMap.put("/select/**","anon");
         filterChainDefinitionMap.put("/jsondata/**","anon");
+        filterChainDefinitionMap.put("/api/**","anon");
         filterChainDefinitionMap.put("/manage/login","anon");
         filterChainDefinitionMap.put("/manage/genCaptcha","anon");
         filterChainDefinitionMap.put("/manage/logout","logout");

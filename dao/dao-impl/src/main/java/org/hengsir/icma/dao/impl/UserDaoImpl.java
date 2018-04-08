@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class UserDaoImpl implements UserWriteDao {
@@ -60,6 +61,21 @@ public class UserDaoImpl implements UserWriteDao {
     @Override
     public List<User> findByUser(User user) {
         return userMapper.findByUser(user);
+    }
+
+    @Override
+    public User find(User user) {
+        return userMapper.find(user);
+    }
+
+    @Override
+    public List<User> identify(Map<String, Object> map) {
+        return userMapper.identify(map);
+    }
+
+    @Override
+    public int studentCounts(int classId) {
+        return userMapper.studentCounts(classId);
     }
 
 

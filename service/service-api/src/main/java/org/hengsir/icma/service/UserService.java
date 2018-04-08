@@ -45,4 +45,8 @@ public interface UserService {
     boolean update(User user);
 
     boolean delete(int id);
+
+    boolean bindPerson(User user);
+
+    boolean deBindPerson(int userId);
 }

@@ -8,6 +8,7 @@ import org.hengsir.icma.handler.response.ParentResponse;
 import org.hengsir.icma.handler.response.ParentResponseHeader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 /**
  * 接口请求分发器。

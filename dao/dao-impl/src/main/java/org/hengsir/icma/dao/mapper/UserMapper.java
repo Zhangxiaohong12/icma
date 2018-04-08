@@ -7,6 +7,7 @@ import org.hengsir.icma.entity.User;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
 
 @Component
 public interface UserMapper {
@@ -63,4 +64,14 @@ public interface UserMapper {
      * @return
      */
     int delete(@Param("userId") int userId);
+
+    void bindPerson(User user);
+
+    void deBindPerson(@Param("userId") int userId);
+
+    User find(User user);
+
+    List<User> identify(Map<String,Object> map);
+
+    int studentCounts(@Param("classId") int classId);
 }

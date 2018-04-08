@@ -1,6 +1,6 @@
 package org.hengsir.icma.service.impl;
 
-import com.youtu.Youtu;
+import org.hengsir.icma.entity.Youtu;
 import org.hengsir.icma.dao.ImageWriteDao;
 import org.hengsir.icma.dao.PersonWriteDao;
 import org.hengsir.icma.dao.UserDao;

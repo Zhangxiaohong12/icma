@@ -7,6 +7,7 @@ import org.hengsir.icma.entity.User;
 import org.hengsir.icma.utils.pageHelper.Page;
 
 import java.util.List;
+import java.util.Map;
 
 public interface UserDao {
 
@@ -49,4 +50,15 @@ public interface UserDao {
      * @return 用户信息列表
      */
     public List<User> findByUser(User user);
+
+    /**
+     * 根据personId和classId
+     * @param user
+     * @return
+     */
+    User find(User user);
+
+    List<User> identify(Map<String,Object> map);
+
+    int studentCounts(int classId);
 }

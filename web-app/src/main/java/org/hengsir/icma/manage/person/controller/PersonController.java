@@ -13,6 +13,7 @@ import org.hengsir.icma.entity.PersonVo;
 import org.hengsir.icma.entity.User;
 import org.hengsir.icma.manage.shiro.ShiroUser;
 import org.hengsir.icma.service.PersonService;
+import org.hengsir.icma.utils.FileUploadUtils;
 import org.hengsir.icma.utils.pageHelper.Page;
 import org.hengsir.icma.utils.pageHelper.PageHtmlUtil;
 import org.slf4j.Logger;
@@ -149,7 +150,7 @@ public class PersonController {
         }
         //以帐号为dir，存放该用户的图片
         fileName = personVo.getUserAccount();
-        String filePath = saveFile(fileName, photo);
+        String filePath = FileUploadUtils.saveFile(fileName, photo);
         Image img = new Image();
         img.setImageUrl(filePath);
         img.setImagePath(filePath);
@@ -180,7 +181,7 @@ public class PersonController {
         if (result) {
             File file = new File(imgPath + "/" + p.getUser().getUserAccount()+"/");
             if (file.exists() && file.isDirectory()) {
-                deleteDir(file);
+                FileUploadUtils.deleteDir(file);
             }
         }
         jsonObject.accumulate("result", result);
@@ -222,7 +223,7 @@ public class PersonController {
             return jsonObject;
         }
         String fileName = p.getUser().getUserAccount();
-        String filePath = saveFile(fileName, photo);
+        String filePath = FileUploadUtils.saveFile(fileName, photo);
         Image img = new Image();
         img.setImageUrl(filePath);
         img.setImagePath(filePath);
@@ -280,43 +281,5 @@ public class PersonController {
 
 
 
-    public String saveFile(String fileName, MultipartFile photo) {
-        OutputStream out = null;
-        File file = null;
-        try {
-            file = new File(imgPath + fileName);
-            if (!file.exists() && !file.isDirectory()) {
-                file.mkdir();
-            }
-            InputStream in = photo.getInputStream();
-            out = new BufferedOutputStream(new FileOutputStream(file.getPath() + "/" + photo.getOriginalFilename()));
-            byte[] buffer = new byte[1024];
-            int length = 0;
-            while ((length = in.read(buffer)) > 0) {
-                out.write(buffer, 0, length);
-            }
-        } catch (IOException exception) {
-            exception.printStackTrace();
-        } finally {
-            try {
-                if (out != null) {
-                    out.close();
-                }
-            } catch (IOException exception) {
-                exception.printStackTrace();
-            }
-        }
-        return file.getPath() + "/" + photo.getOriginalFilename();
-    }
 
-    //递归删除
-    public static void deleteDir(File dir){
-        if(dir.isDirectory()){
-            File[] files = dir.listFiles();
-            for(int i=0; i<files.length; i++) {
-                deleteDir(files[i]);
-            }
-        }
-        dir.delete();
-    }
 }

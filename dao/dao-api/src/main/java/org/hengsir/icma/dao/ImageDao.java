@@ -35,4 +35,6 @@ public interface ImageDao {
      * @return
      */
     public List<Image> findAll(Image image);
+
+    Image find(Image image);
 }

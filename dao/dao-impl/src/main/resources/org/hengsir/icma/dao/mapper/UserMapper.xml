@@ -17,6 +17,7 @@
         <result property="classId" column="CLASS_ID"/>
         <result property="schoolId" column="SCHOOL_ID"/>
         <result property="xiBieId" column="XI_BIE_ID"/>
+        <result property="personId" column="PERSON_ID"/>
         <association property="school" javaType="org.hengsir.icma.entity.School">
             <result property="id" column="SCHOOL_ID"/>
             <result property="schoolName" column="SCHOOL_NAME"/>
@@ -171,5 +172,42 @@
     <delete id="delete" parameterType="java.lang.Integer">
         DELETE FROM T_USER WHERE USER_ID = #{userId}
     </delete>
+
+    <update id="bindPerson" parameterType="org.hengsir.icma.entity.User">
+        UPDATE T_USER SET PERSON_ID = #{personId}
+        WHERE USER_ID = #{userId}
+    </update>
+
+    <update id="deBindPerson" parameterType="java.lang.Integer">
+        UPDATE T_USER SET PERSON_ID = NULL
+        WHERE USER_ID = #{userId}
+    </update>
+
+    <select id="identify" useCache="false" resultMap="userMap" parameterType="java.util.Map">
+        SELECT A.*,C.CLASS_NAME ,X.XI_BIE_NAME,X.ID AS XI_BIE_ID , S.SCHOOL_NAME,S.ID AS SCHOOL_ID,S.SCHOOL_CODE FROM T_USER A,T_CLASS C,T_XI_BIE X,T_SCHOOL S
+        WHERE
+        C.ID = A.CLASS_ID
+        AND X.ID = C.XI_BIE_ID
+        AND S.ID = X.SCHOOL_ID
+        AND PERSON_ID in 
+        <foreach collection="personIds" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        AND A.CLASS_ID = #{classId}
+    </select>
+
+    <select id="studentCounts" useCache="false" parameterType="java.lang.Integer">
+        SELECT COUNT(*) FROM T_USER WHERE CLASS_ID = #{classId}
+    </select>
+
+    <select id="find" useCache="false" resultMap="userMap">
+        SELECT A.*,C.CLASS_NAME ,X.XI_BIE_NAME,X.ID AS XI_BIE_ID , S.SCHOOL_NAME,S.ID AS SCHOOL_ID,S.SCHOOL_CODE FROM T_USER A,T_CLASS C,T_XI_BIE X,T_SCHOOL S
+        WHERE
+        C.ID = A.CLASS_ID
+        AND X.ID = C.XI_BIE_ID
+        AND S.ID = X.SCHOOL_ID
+        AND PERSON_ID = #{personId}
+        AND CLASS_ID = #{classId}
+    </select>
 
 </mapper>

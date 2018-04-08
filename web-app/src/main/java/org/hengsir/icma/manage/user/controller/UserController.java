@@ -67,6 +67,12 @@ public class UserController {
     public ModelAndView search(UserVo userVo, @RequestParam(value = "pageNum", defaultValue = "1") int index,
                                @RequestParam(value = "pageSize", defaultValue = "10") int size) {
         ModelAndView modelAndView = new ModelAndView();
+        ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
+        if (userVo.getUserId() == 0){
+            if (shiroUser.getRoles().contains("student")){
+                userVo.setUserAccount(shiroUser.getUserAccount());
+            }
+        }
         Page<User> page = userDao.findByUser(userVo, new Page<>(index, size));
         modelAndView.setViewName("/rights/user-list");
         //生成分页

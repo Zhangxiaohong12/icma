@@ -13,4 +13,8 @@ public interface UserWriteDao extends UserDao {
 
     Boolean update(User user);
 
+    Boolean bindPerson(User user);
+
+    Boolean deBindPerson(int userId);
+
 }

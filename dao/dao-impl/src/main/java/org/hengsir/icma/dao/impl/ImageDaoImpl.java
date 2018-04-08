@@ -56,4 +56,9 @@ public class ImageDaoImpl implements ImageWriteDao {
     public List<Image> findAll(Image image) {
         return imageMapper.findAll(image);
     }
+
+    @Override
+    public Image find(Image image) {
+        return imageMapper.find(image);
+    }
 }

@@ -27,7 +27,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="code" class="col-sm-4 control-label">编码<span style="color:red;">*</span></label>
+                    <label for="uCode" class="col-sm-4 control-label">编码<span style="color:red;">*</span></label>
                     <div class="col-sm-6">
                         <input type="text" class="form-control" th:field="*{menuCode}" id="uCode" name="code" placeholder="请输入编码" style="width:300px;">
                         <input type="hidden" class="form-control" th:value="*{menuCode}" id="rCode" name="rCode" placeholder="请输入编码" style="width:300px;">
@@ -57,7 +57,7 @@
                      <div class="col-sm-6">
                          <select class="form-control select2me" data-placeholder="Select..."  name="menuSuperCode" id="menuSuperCode" tabindex="1" style="width: 300px;">
                              <option value="">请选择</option>
-                             <option th:each="leftMenu,leftMenuStat : ${leftMenuSuper}" th:value="${leftMenu.menuCode}" th:text="${leftMenu.menuName}" th:selected="('_'+${menuSuperCode} == '_'+${leftMenu.menuCode})"></option>
+                             <option th:each="leftMenuSup,leftMenuStat : ${leftMenuSuper}" th:value="${leftMenuSup.menuCode}" th:text="${leftMenuSup.menuName}" th:selected="('_'+${superCode} == '_'+${leftMenuSup.menuCode})"></option>
                          </select>
                      </div>
                  </div>

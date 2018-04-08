@@ -353,30 +353,7 @@ public class MenuController {
             Right right2 = this.converRight(leftMenu, right);
             boolean mesFlag = rightService.updateRightByMenuId(right2);
             if (mesFlag) {
-                if (null == leftMenu.getMenuSuperCode() || "".equals(leftMenu.getMenuSuperCode())) {
-                    //当原来有上级菜单后面修改为无父菜单时，下面的子菜单不需要需要操作
-                    flag = true;
-                } else {
-                    //当原来有上级菜单后面修改为其他系统时（并不是选择无父菜单），下面的子菜单需要操作(start)
-                    List<LeftMenu> list = leftMenuDao.findSonMenus(leftMenu.getMenuCode());
-                    //当前删除菜单的下一级菜单的子集合:list
-                    if (list.size() > 0) {
-                        List<LeftMenu> allSonMenus = this.findAllSonMenus(list);
-                        int sonNum = 0;
-                        int parentNum = 0;
-                        //下一级无数子菜单的集合子菜单集合:allSonMenus
-                        int allNum = sonNum + parentNum;
-                        childs = new ArrayList<>();
-                        int updateTotal = list.size() + allSonMenus.size();
-                        if (updateTotal == allNum) {
-                            flag = true;
-                        }
-                    } else {
-                        //无子菜单
-                        flag = true;
-                    }
-                    //当原来有上级菜单后面修改为其他系统时（并不是选择无父菜单），下面的子菜单需要操作(end)
-                }
+                flag = true;
             }
         }
         JSONObject jsonObject = new JSONObject();

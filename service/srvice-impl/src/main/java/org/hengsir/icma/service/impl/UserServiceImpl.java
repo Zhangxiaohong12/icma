@@ -60,5 +60,15 @@ public class UserServiceImpl implements UserService {
         return userWriteDao.delete(id);
     }
 
+    @Override
+    public boolean bindPerson(User user) {
+        return userWriteDao.bindPerson(user);
+    }
+
+    @Override
+    public boolean deBindPerson(int userId) {
+        return userWriteDao.deBindPerson(userId);
+    }
+
 
 }

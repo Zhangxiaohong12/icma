@@ -1,6 +1,6 @@
 package org.hengsir.icma.config;
 
-import com.youtu.Youtu;
+import org.hengsir.icma.entity.Youtu;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
