@@ -51,14 +51,14 @@ $(function () {
             }
             $("#btnUpdate").attr("disabled", true);
             Shade.blockUI($("#pwdBody"));
-            $.post("/user/update-pwd",
+            $.post("/to-update-pwd/update-pwd",
                 $("#pwdForm").serialize(),
                 function (data) {
                     $("#btnUpdate").attr("disabled", false);
                     Shade.unblockUI($("#pwdBody"));
                     if (data.result == "success") {
                         BootboxExt.alert("修改成功", function (res) {
-                            location.href = "/user/search";
+                            location.href = "/";
                         });
                     } else if (data.result == "notSame") {
                         BootboxExt.alert("原来密码不正确", function (res) {

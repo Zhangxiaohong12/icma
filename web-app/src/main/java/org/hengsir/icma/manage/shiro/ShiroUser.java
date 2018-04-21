@@ -27,6 +27,15 @@ public class ShiroUser implements Serializable {
     private Set<String>         rights;
     private String              mobile;
     private boolean             isAdmin;//是否超级管理员
+    private boolean             hasPerson;
+
+    public boolean isHasPerson() {
+        return hasPerson;
+    }
+
+    public void setHasPerson(boolean hasPerson) {
+        this.hasPerson = hasPerson;
+    }
 
     public static long getSerialVersionUID() {
         return serialVersionUID;

@@ -2,6 +2,7 @@ package org.hengsir.icma.manage.person.controller;
 
 import net.sf.json.JSON;
 import net.sf.json.JSONObject;
+import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.hengsir.icma.dao.ImageDao;
@@ -13,6 +14,7 @@ import org.hengsir.icma.entity.PersonVo;
 import org.hengsir.icma.entity.User;
 import org.hengsir.icma.manage.shiro.ShiroUser;
 import org.hengsir.icma.service.PersonService;
+import org.hengsir.icma.service.UserService;
 import org.hengsir.icma.utils.FileUploadUtils;
 import org.hengsir.icma.utils.pageHelper.Page;
 import org.hengsir.icma.utils.pageHelper.PageHtmlUtil;
@@ -56,6 +58,9 @@ public class PersonController {
     @Autowired
     UserDao userDao;
 
+    @Autowired
+    UserService userService;
+
     private Logger logger = LoggerFactory.getLogger(PersonController.class);
 
     /**
@@ -71,18 +76,20 @@ public class PersonController {
     public ModelAndView search(PersonVo personVo, @RequestParam(value = "pageNum", defaultValue = "1") int index,
                                @RequestParam(value = "pageSize", defaultValue = "10") int size) {
         ModelAndView model = new ModelAndView();
+        boolean hasPerson = false;
         ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
-        Person person = personDao.findByUserId(shiroUser.getUserId());
+        if (shiroUser.getRoles().contains("student")){
+            User user = userService.findUserByAccount(shiroUser.getUserAccount());
+            if (StringUtils.isNotEmpty(user.getPersonId())){
+                hasPerson = true;
+            }
+        }
         model.setViewName("/rights/person-list");
         Page<Person> page = personDao.findAll(new Page<>(index, size), personVo);
         model.addObject("list", page.getResult());
         model.addObject("pageHtml", PageHtmlUtil.initHtml(page));
-        if (person != null) {
-            //已经存在，不显示新增按钮
-            model.addObject("has", true);
-        } else {
-            model.addObject("has", false);
-        }
+        model.addObject("hasPerson",hasPerson);
+
         return model;
     }
 

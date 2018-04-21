@@ -97,9 +97,9 @@
                         <table class="table table-striped table-bordered table-hover">
                             <thead>
                             <tr>
-                                <th>学校名称</th>
-                                <th>系别/院校名称</th>
                                 <th>班级名称</th>
+                                <th>系别/院校名称</th>
+                                <th>学校名称</th>
                                 <shiro:hasAnyPermissions name="class:update,class:delete">
                                     <th style="width: 100px;">操作</th>
                                 </shiro:hasAnyPermissions>
@@ -108,9 +108,9 @@
                             <tbody>
                             <tr th:each="class : ${list}">
                                 <!--  <input type="hidden" id="menuId" th:value="${leftMenu.id}"/> -->
-                                <td th:text="${class.xiBie.school.schoolName}"></td>
-                                <td th:text="${class.xiBie.xiBieName}"></td>
                                 <td th:text="${class.className}"></td>
+                                <td th:text="${class.xiBie.xiBieName}"></td>
+                                <td th:text="${class.xiBie.school.schoolName}"></td>
 
                                 <shiro:hasAnyPermissions name="class:update,class:delete">
                                     <td>

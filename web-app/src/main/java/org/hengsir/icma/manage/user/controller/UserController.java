@@ -169,37 +169,6 @@ public class UserController {
         return jsonObject;
     }
 
-    @RequestMapping("/to-update-pwd")
-    @RequiresPermissions("user:updatePwd")
-    public ModelAndView toUpdatePwd() {
-        ModelAndView model = new ModelAndView();
-        model.setViewName("/rights/user-update-pwd");
-        return model;
-    }
-
-    @RequestMapping("/update-pwd")
-    @ResponseBody
-    public Object updatePwd(String oldPwd, String newPwd) {
-        JSONObject jsonObject = new JSONObject();
-        String result = "fail";
-        ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
-        User user = userDao.selectUserByAccount(shiroUser.getUserAccount());
-        String old = MD5Util.encodeMD5(oldPwd, shiroUser.getUserAccount());
-        String npwd = MD5Util.encodeMD5(newPwd, shiroUser.getUserAccount());
-        //当旧密码正确
-        if (old.equals(user.getUserPassword())) {
-            user.setUserPassword(npwd);
-            boolean flag = userService.update(user);
-            if (flag) {
-                result = "success";
-                shiroUser.setUserPassword(npwd);
-            }
-        } else {
-            result = "notSame";
-        }
-        jsonObject.accumulate("result", result);
-        return jsonObject;
-    }
 
     /**
      * 删除用户

@@ -25,7 +25,7 @@
             </li>
             <li class="btn-group">
                 <shiro:hasPermission name="person:add">
-                    <a href="to-add-person" class='btn blue' th:if="${has} != 'true'"><span>新增</span></a>
+                    <a th:if="${hasPerson} == false" href="to-add-person" class='btn blue' ><span>新增</span></a>
                 </shiro:hasPermission>
             </li>
         </ul>
@@ -126,7 +126,7 @@
                                 <th style="width: 10%">个体名称</th>
                                 <th style="width: 10%">用户账号</th>
                                 <th style="width: 5%">用户性别</th>
-                                <shiro:hasAnyPermissions name="person:delete">
+                                <shiro:hasAnyPermissions name="person:delete,person:view">
                                     <th style="width: 200px;">操作</th>
                                 </shiro:hasAnyPermissions>
                             </tr>
@@ -137,7 +137,7 @@
                                 <td th:text="${person.personName}"></td>
                                 <td th:text="${person.user.userAccount}"></td>
                                 <td th:text="${ItemUtil.getName(person.user.userSex,'SEX')}"></td>
-                                <shiro:hasAnyPermissions name="user:view,user:delete">
+                                <shiro:hasAnyPermissions name="person:view,person:delete">
                                     <td>
                                         <shiro:hasPermission name="person:delete">
                                             <a data-toggle="modal" class='btn red btn-xs' th:onclick="'javascript:deletePerson(\''+${person.personId}+'\');'" style="margin-left: 5px;">删除</a>

@@ -1,6 +1,7 @@
 package org.hengsir.icma.manage.shiro;
 
 import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
@@ -74,6 +75,9 @@ public class ShiroReal extends AuthorizingRealm {
             shiroUser.setUserAccount(userAccount);
             if("mention".equals(user.getUserAccount())){
                 shiroUser.setAdmin(true);
+            }
+            if (StringUtils.isNotEmpty(user.getPersonId())){
+                shiroUser.setHasPerson(true);
             }
 
         } else {

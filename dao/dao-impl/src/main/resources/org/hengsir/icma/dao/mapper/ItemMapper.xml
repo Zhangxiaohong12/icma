@@ -51,10 +51,10 @@
         SELECT T.* FROM T_ITEM T
         <where>
             <if test="item.category!=null and item.category!='' ">
-                AND T.CATEGORY LIKE '%'||#{item.category}||'%'
+                AND T.CATEGORY LIKE CONCAT(CONCAT('%', #{item.category}),'%')
             </if>
             <if test="item.name!=null and item.name!='' ">
-                AND T.NAME LIKE '%'||#{item.name}||'%'
+                AND T.NAME LIKE CONCAT(CONCAT('%', #{item.name}),'%')
             </if>
             <if test="item.status!=null and item.status!='' ">
                 AND T.STATUS = #{item.status}
