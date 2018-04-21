@@ -42,10 +42,11 @@ public class IdentifyServiceImpl implements IdentifyService {
     Youtu youtu;
 
     @Override
-    public List<User> identify(String imgPath, int classId, int num) {
+    public Map<String,Object> identify(String imgPath, int classId, int num) {
         List<String> personIds = new ArrayList<>();
         /*List<String> classIds = new ArrayList<>();
         classIds.add(classId);*/
+        Map<String,Object> returnMap = new HashMap<>();
         try {
             //1、先进行youtu中的人脸检索得出结果
             JSONObject resp = youtu.MultiFaceIdentify(imgPath, classId+"", null, num, 40);
@@ -77,8 +78,16 @@ public class IdentifyServiceImpl implements IdentifyService {
                 Map<String,Object> map = new HashMap<>();
                 map.put("personIds",personIds);
                 map.put("classId",classId);
+                //获取可能到了的人
                 List<User> matchUsers = userDao.identify(map);
-                return matchUsers;
+                //获取可能没到的人
+                List<User> noMatchs = userDao.noMatch(map);
+                returnMap.put("match",matchUsers);
+                returnMap.put("noMatch",noMatchs);
+                returnMap.put("matchNum",matchUsers.size());
+                returnMap.put("noMatchNum",noMatchs.size());
+                returnMap.put("studentNum",num);
+                return returnMap;
             }
         } catch (IOException e) {
             e.printStackTrace();

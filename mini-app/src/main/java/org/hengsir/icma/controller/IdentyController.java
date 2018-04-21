@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author hengsir
@@ -38,12 +39,13 @@ public class IdentyController {
      */
     @RequestMapping(value = "/identy", method = RequestMethod.POST)
     @ResponseBody
-    public List<User> identy(@RequestParam("imageFile") MultipartFile file, int classId){
+    public Map<String,Object> identy(@RequestParam("imageFile") MultipartFile file, int classId){
         //把图片存放在规定路径
         String photoPath = FileUploadUtils.saveFile("IDENTY",file);
         //根据classId得到应有人数
         int count = userDao.studentCounts(classId);
-        //返回list
+        //返回map
         return identifyService.identify(photoPath,classId,count);
+
     }
 }

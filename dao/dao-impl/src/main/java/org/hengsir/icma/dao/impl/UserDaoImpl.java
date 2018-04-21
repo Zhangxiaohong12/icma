@@ -74,6 +74,11 @@ public class UserDaoImpl implements UserWriteDao {
     }
 
     @Override
+    public List<User> noMatch(Map<String, Object> map) {
+        return userMapper.noMatch(map);
+    }
+
+    @Override
     public int studentCounts(int classId) {
         return userMapper.studentCounts(classId);
     }

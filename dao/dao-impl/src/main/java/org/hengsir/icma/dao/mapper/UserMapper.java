@@ -73,5 +73,7 @@ public interface UserMapper {
 
     List<User> identify(Map<String,Object> map);
 
+    List<User> noMatch(Map<String,Object> map);
+
     int studentCounts(@Param("classId") int classId);
 }

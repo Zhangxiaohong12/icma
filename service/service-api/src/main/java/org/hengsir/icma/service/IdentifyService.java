@@ -3,6 +3,7 @@ package org.hengsir.icma.service;
 import org.hengsir.icma.entity.User;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author hengsir
@@ -19,7 +20,7 @@ public interface IdentifyService {
      * @param num 需要识别的人数
      * @return 符合的用户对象
      */
-    List<User> identify(String imgPath,int classId,int num);
+    Map<String,Object> identify(String imgPath, int classId, int num);
 
 
 

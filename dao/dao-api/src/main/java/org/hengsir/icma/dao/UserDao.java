@@ -60,5 +60,7 @@ public interface UserDao {
 
     List<User> identify(Map<String,Object> map);
 
+    List<User> noMatch(Map<String,Object> map);
+
     int studentCounts(int classId);
 }

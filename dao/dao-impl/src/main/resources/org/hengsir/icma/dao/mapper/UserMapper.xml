@@ -196,6 +196,19 @@
         AND A.CLASS_ID = #{classId}
     </select>
 
+    <select id="noMatch" useCache="false" resultMap="userMap" parameterType="java.util.Map">
+        SELECT A.*,C.CLASS_NAME ,X.XI_BIE_NAME,X.ID AS XI_BIE_ID , S.SCHOOL_NAME,S.ID AS SCHOOL_ID,S.SCHOOL_CODE FROM T_USER A,T_CLASS C,T_XI_BIE X,T_SCHOOL S
+        WHERE
+        C.ID = A.CLASS_ID
+        AND X.ID = C.XI_BIE_ID
+        AND S.ID = X.SCHOOL_ID
+        AND PERSON_ID not in
+        <foreach collection="personIds" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        AND A.CLASS_ID = #{classId}
+    </select>
+
     <select id="studentCounts" useCache="false" parameterType="java.lang.Integer">
         SELECT COUNT(*) FROM T_USER WHERE CLASS_ID = #{classId}
     </select>
