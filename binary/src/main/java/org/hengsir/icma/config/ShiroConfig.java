@@ -56,6 +56,7 @@ public class ShiroConfig {
         return filterRegistrationBean;
     }
 
+
     @Bean("shiroFilter")
     public ShiroFilterFactoryBean shiroFilter(@Qualifier("securityManager") SecurityManager manager) {
         ShiroFilterFactoryBean bean=new ShiroFilterFactoryBean();

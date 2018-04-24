@@ -86,7 +86,7 @@
     </select>
 
     <select id="findFatherMenu" resultMap="LeftMenuResult" useCache="false">
-        SELECT * FROM T_MENU WHERE MENU_HREF IS NULL
+        SELECT * FROM T_MENU WHERE MENU_HREF IS NULL OR MENU_HREF = ''
     </select>
 
     <select id="findLeftMenuById" parameterType="java.lang.Integer" resultMap="LeftMenuResult" useCache="false">

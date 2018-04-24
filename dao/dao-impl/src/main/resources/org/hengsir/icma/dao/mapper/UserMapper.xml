@@ -209,8 +209,8 @@
         AND A.CLASS_ID = #{classId}
     </select>
 
-    <select id="studentCounts" useCache="false" parameterType="java.lang.Integer">
-        SELECT COUNT(*) FROM T_USER WHERE CLASS_ID = #{classId}
+    <select id="studentCounts" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        SELECT count(*) FROM T_USER WHERE CLASS_ID = #{classId}
     </select>
 
     <select id="find" useCache="false" resultMap="userMap">

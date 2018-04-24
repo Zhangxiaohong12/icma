@@ -19,7 +19,7 @@ import java.util.List;
  *
  * @author hengsir
  * @version 1.0.0
- *          2017年5月4日下午2:12:10
+ * 2017年5月4日下午2:12:10
  */
 @Service
 public class LeftMenuServiceImpl implements LeftMenuService {
@@ -37,11 +37,10 @@ public class LeftMenuServiceImpl implements LeftMenuService {
     private LeftMenuWriteDao leftMenuWriteDao;
 
 
-
     //根模块和根菜单
     private List<LeftMenu> modelList = new ArrayList<>();
     //子模块和非根菜单集合
-    private List<LeftMenu> menuList  = new ArrayList<LeftMenu>();
+    private List<LeftMenu> menuList = new ArrayList<LeftMenu>();
 
     @Override
     public List<LeftMenu> findAll() {
@@ -51,14 +50,14 @@ public class LeftMenuServiceImpl implements LeftMenuService {
     @Override
     public String[] createMenuHtml(String uri, String userAccount, List<LeftMenu> menus) {
         String[] menuHtmlArr = new String[2];
-        if(menus == null){
+        if (menus == null) {
             menus = leftMenuDao.findAll();
         }
         //redisTemplate.opsForValue().set(userAccount, menus);
         fillModelList(menus);//填充菜单列表
         splitModelMenu();//分割菜单和模块
         StringBuffer locationMenu = new StringBuffer();
-        String menuTextHtml = toHtmlText(uri,locationMenu);
+        String menuTextHtml = toHtmlText(uri, locationMenu);
         menuHtmlArr[0] = menuTextHtml;
         menuHtmlArr[1] = locationMenu.toString();
         return menuHtmlArr;
@@ -67,6 +66,7 @@ public class LeftMenuServiceImpl implements LeftMenuService {
 
     /**
      * 左侧菜单。
+     *
      * @param menus 所有菜单
      */
     private void fillModelList(List<LeftMenu> menus) {
@@ -85,11 +85,11 @@ public class LeftMenuServiceImpl implements LeftMenuService {
      */
     private void splitModelMenu() {
         menuList = new ArrayList<>();
-        for (int i = 0;i < modelList.size();i++) {
+        for (int i = 0; i < modelList.size(); i++) {
             LeftMenu menu = modelList.get(i);
             if (null == menu.getMenuHref() || "".equals(menu.getMenuHref())) {
                 String code = menu.getMenuCode();
-                for (int j = 0;j < modelList.size();j++) {
+                for (int j = 0; j < modelList.size(); j++) {
                     LeftMenu menuM = modelList.get(j);
                     String superCode = menuM.getMenuSuperCode();
                     if (code.equals(superCode)) {
@@ -101,7 +101,7 @@ public class LeftMenuServiceImpl implements LeftMenuService {
         /**
          * 去掉有模块的菜单使其剩余模块和没有模块的菜单
          */
-        for (int i = 0;i < menuList.size();i++) {
+        for (int i = 0; i < menuList.size(); i++) {
             LeftMenu menu = menuList.get(i);
             modelList.remove(menu);
         }
@@ -280,13 +280,13 @@ public class LeftMenuServiceImpl implements LeftMenuService {
         return isNowModel || isSelect;
     }
 
-    private void doRender(StringBuffer buffer,StringBuffer locationMenu,String uri) {
-        for (int i = 0;i < modelList.size();i++) {
+    private void doRender(StringBuffer buffer, StringBuffer locationMenu, String uri) {
+        for (int i = 0; i < modelList.size(); i++) {
             LeftMenu menu = modelList.get(i);
             //是链接 但其模块不存在的菜单不显示
             if ((menu.getMenuHref() == null || "".equals(menu.getMenuHref())) ||
                     (menu.getMenuSuperCode() == null || "".equals(menu.getMenuSuperCode()))) {
-                toHtml(buffer,locationMenu,uri, menu);
+                toHtml(buffer, locationMenu, uri, menu);
             }
         }
     }
@@ -302,7 +302,7 @@ public class LeftMenuServiceImpl implements LeftMenuService {
             leftMenuWriteDao.update(leftMenu);
             return true;
         } catch (Exception exception) {
-            logger.error("update LeftMenu find error!",exception);
+            logger.error("update LeftMenu find error!", exception);
             return false;
         }
     }
@@ -313,7 +313,7 @@ public class LeftMenuServiceImpl implements LeftMenuService {
             leftMenuWriteDao.delete(id);
             return true;
         } catch (Exception exception) {
-            logger.error("delete LeftMenu find error!",exception);
+            logger.error("delete LeftMenu find error!", exception);
             return false;
         }
     }
@@ -324,7 +324,7 @@ public class LeftMenuServiceImpl implements LeftMenuService {
             leftMenuWriteDao.updateSysIdById(leftMenu);
             return true;
         } catch (Exception exception) {
-            logger.error("updateSysIdById  find error!",exception);
+            logger.error("updateSysIdById  find error!", exception);
             return false;
         }
     }

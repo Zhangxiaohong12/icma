@@ -64,7 +64,7 @@ public class RightController {
         List<Right> list = page.getResult();
         String menuName = "";
         for (Right rig : list) {
-            if (rig.getParentMenuId() == null) {
+            if (rig.getParentMenuId() == null || "".equals(rig.getParentMenuId())) {
                 //父级菜单
                 LeftMenu menu = leftMenuDao.findLeftMenuById(rig.getMenuId());
                 menuName = menu.getMenuName();

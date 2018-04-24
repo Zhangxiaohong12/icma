@@ -249,6 +249,7 @@
                     <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
+
             <!-- java编译插件 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

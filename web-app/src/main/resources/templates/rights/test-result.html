@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <title th:text="${pageTitle}"></title>
+	<head th:include="/commons/head::header" />
+    <link th:href="@{/metronic/css/pages/error.css}" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" th:href="@{/css/style.min.css}">
+</head>
+<body class="page-header-fixed" id="pwdBody">
+<div th:replace="/commons/page_head::pageHead"></div>
+<div class="clearfix"></div>
+<div class="page-container">
+	<div th:replace="/commons/page_sidebar::pageSidebar"></div>
+	<div class="page-content">
+	     <ul class="page-breadcrumb breadcrumb">
+	      	<li th:utext="${locationMenu}"></li>
+	      	<li>
+	      		<i class='icon-angle-right'></i>
+                <a href='javascript:void(0);'>识别结果</a>
+	      	</li>
+	     </ul>
+        <form th:action="@{search}" method="post" id="userFrom">
+            <p>可能已到人数：<span th:text="${matchNum}"></span></p>
+            <p>可能已到的人</p>
+            <div class="portlet-body">
+                <div class="table-scrollable">
+                    <table class="table table-striped table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th style="width: 10%">用户名称</th>
+                            <th style="width: 10%">用户账号</th>
+                            <th style="width: 5%">用户性别</th>
+                            <th style="width: 5%">身份证号</th>
+                            <th style="width: 10%">用户状态</th>
+                            <th style="width: 10%">班级</th>
+                            <th style="width: 10%">系别/院校</th>
+                            <th style="width: 10%">学校</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="user : ${match}">
+                            <td th:text="${user.userName}"></td>
+                            <td th:text="${user.userAccount}"></td>
+                            <td th:text="${ItemUtil.getName(user.userSex,'SEX')}"></td>
+                            <td th:text="${user.userIdCard}"></td>
+                            <td th:text="${ItemUtil.getName(user.userStatus,'USER_STATUS')}"></td>
+                            <td th:text="${user.theClass.className}"></td>
+                            <td th:text="${user.xiBie.xiBieName}"></td>
+                            <td th:text="${user.school.schoolName}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <p>可能未到人数：<span th:text="${noMatchNum}"></span></p>
+            <p>可能未到的人</p>
+            <div class="portlet-body">
+                <div class="table-scrollable">
+                    <table class="table table-striped table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th style="width: 10%">用户名称</th>
+                            <th style="width: 10%">用户账号</th>
+                            <th style="width: 5%">用户性别</th>
+                            <th style="width: 5%">身份证号</th>
+                            <th style="width: 10%">用户状态</th>
+                            <th style="width: 10%">班级</th>
+                            <th style="width: 10%">系别/院校</th>
+                            <th style="width: 10%">学校</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="user : ${noMatch}">
+                            <td th:text="${user.userName}"></td>
+                            <td th:text="${user.userAccount}"></td>
+                            <td th:text="${ItemUtil.getName(user.userSex,'SEX')}"></td>
+                            <td th:text="${user.userIdCard}"></td>
+                            <td th:text="${ItemUtil.getName(user.userStatus,'USER_STATUS')}"></td>
+                            <td th:text="${user.theClass.className}"></td>
+                            <td th:text="${user.xiBie.xiBieName}"></td>
+                            <td th:text="${user.school.schoolName}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </form>
+	</div>
+</div>
+
+
+<div id="addAlert" class="modal fade" tabindex="-1" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">提示</h4>
+            </div>
+            <div class="modal-body">
+                <p>添加完成</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn green" id="btn1">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--表格html-->
+<!--学校开始-->
+<div class="modal fade" id="schoolModal" tabindex="-1" role="dialog" aria-labelledby="schoolModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                </button>
+                <h4 class="modal-title" id="schoolModalLabel">学校信息</h4>
+            </div>
+            <div class="modal-body" style="height: auto;max-height: 600px;overflow-y:auto;overflow-x:auto">
+                <form method="post" id="schoolShowFrom">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label>学校代码</label>
+                                <div class="input-icon right">
+                                    <i class="icon-edit"></i>
+                                    <input id="schoolCodeSearch" type="text" class="form-control" placeholder="请输入学校代码">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label>学校名称（%）</label>
+                                <div class="input-icon right">
+                                    <i class="icon-edit"></i>
+                                    <input id="schoolNameSearch" type="text" class="form-control" placeholder="请输入学校名称">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-md-5"></div>
+                        <div class="form-inline">
+                            <button onclick="refreshAlertSchoolData()" type="button"
+                                    class="btn btn-primary">查询
+                            </button>
+                            <button onclick="cleanSchoolQuery()" type="button"
+                                    class="btn btn-primary">重置
+                            </button>
+                        </div>
+                        <div class="col-md-5"></div>
+                    </div>
+                </form>
+                <table id="schoolTable" class="table table-striped table-bordered table-hover"></table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="selectSchool();">提交</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--学校结束-->
+
+<!--系别开始-->
+<div class="modal fade" id="xiBieModal" tabindex="-1" role="dialog" aria-labelledby="xiBieModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                </button>
+                <h4 class="modal-title" id="xiBieModalLabel">系别/院系信息</h4>
+            </div>
+            <div class="modal-body" style="height: auto;max-height: 600px;overflow-y:auto;overflow-x:auto">
+                <form method="post" id="xiBieShowFrom">
+                    <div class="row">
+
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label>系别名称（%）</label>
+                                <div class="input-icon right">
+                                    <i class="icon-edit"></i>
+                                    <input id="xiBieNameSearch" type="text" class="form-control" placeholder="请输入系别名称">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-md-5"></div>
+                        <div class="form-inline">
+                            <button onclick="refreshAlertXiBieData()" type="button"
+                                    class="btn btn-primary">查询
+                            </button>
+                            <button onclick="cleanXiBieQuery()" type="button"
+                                    class="btn btn-primary">重置
+                            </button>
+                        </div>
+                        <div class="col-md-5"></div>
+                    </div>
+                </form>
+                <table id="xiBieTable" class="table table-striped table-bordered table-hover"></table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="selectXiBie();">提交</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--系别结束-->
+
+<!--班级开始-->
+<div class="modal fade" id="classModal" tabindex="-1" role="dialog" aria-labelledby="classModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                </button>
+                <h4 class="modal-title" id="classModalLabel">班级信息</h4>
+            </div>
+            <div class="modal-body" style="height: auto;max-height: 600px;overflow-y:auto;overflow-x:auto">
+                <form method="post" id="classShowFrom">
+                    <div class="row">
+
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label>班级名称（%）</label>
+                                <div class="input-icon right">
+                                    <i class="icon-edit"></i>
+                                    <input id="classNameSearch" type="text" class="form-control" placeholder="请输入班级名称">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-md-5"></div>
+                        <div class="form-inline">
+                            <button onclick="refreshAlertClassData()" type="button"
+                                    class="btn btn-primary">查询
+                            </button>
+                            <button onclick="cleanClassQuery()" type="button"
+                                    class="btn btn-primary">重置
+                            </button>
+                        </div>
+                        <div class="col-md-5"></div>
+                    </div>
+                </form>
+                <table id="classTable" class="table table-striped table-bordered table-hover"></table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="selectClass();">提交</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--班级结束-->
+
+
+
+<div th:replace="/commons/scripts::scripts"/></div>
+<div th:replace="/commons/foot::foot"></div>
+<script>
+    jQuery(document).ready(function () {
+        App.init();
+
+    });
+
+
+
+</script>
+</body>
+<script type="text/javascript" th:src="@{/js/table/bootstrap-table.js}" charset="utf-8"></script>
+<script type="text/javascript" th:src="@{/js/table/bootstrap-table-zh-CN.min.js}" charset="utf-8"></script>
+<script type="text/javascript" th:src="@{/js/commons/form-validate/additional-methods-extend.js}" charset="utf-8"></script>
+<script type="text/javascript" th:src="@{/js/rights/image-test.js}"></script>
+</html>

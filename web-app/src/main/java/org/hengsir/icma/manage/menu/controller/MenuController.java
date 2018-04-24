@@ -11,6 +11,7 @@ import org.hengsir.icma.dao.RightDao;
 import org.hengsir.icma.entity.LeftMenu;
 import org.hengsir.icma.entity.LeftMenuVo;
 import org.hengsir.icma.entity.Right;
+import org.hengsir.icma.entity.RightRoleRelation;
 import org.hengsir.icma.service.LeftMenuService;
 import org.hengsir.icma.service.RightRoleRelationService;
 import org.hengsir.icma.service.RightService;
@@ -275,6 +276,11 @@ public class MenuController {
             Right right1 = this.converRight(leftMenuDao.findMenuByName(leftMenu.getMenuName()), right);
             Boolean rightFlag = rightService.create(right1);
             if (rightFlag) {
+                Right r = rightDao.findByCode(right1.getRightCode());
+                RightRoleRelation rr = new RightRoleRelation();
+                rr.setRightId(r.getRightId());
+                rr.setRoleId(400);
+                rightRoleRelationService.create(rr);
                 flag = true;
             }
         }

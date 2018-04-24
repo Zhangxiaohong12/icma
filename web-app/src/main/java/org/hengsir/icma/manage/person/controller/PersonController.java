@@ -13,6 +13,7 @@ import org.hengsir.icma.entity.Person;
 import org.hengsir.icma.entity.PersonVo;
 import org.hengsir.icma.entity.User;
 import org.hengsir.icma.manage.shiro.ShiroUser;
+import org.hengsir.icma.service.IdentifyService;
 import org.hengsir.icma.service.PersonService;
 import org.hengsir.icma.service.UserService;
 import org.hengsir.icma.utils.FileUploadUtils;
@@ -23,6 +24,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -60,6 +62,9 @@ public class PersonController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    IdentifyService identifyService;
 
     private Logger logger = LoggerFactory.getLogger(PersonController.class);
 
@@ -285,8 +290,6 @@ public class PersonController {
             logger.error(e.getMessage());
         }
     }
-
-
 
 
 }
