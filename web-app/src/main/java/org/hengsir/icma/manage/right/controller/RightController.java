@@ -1,6 +1,5 @@
 package org.hengsir.icma.manage.right.controller;
 
-import com.sun.tools.internal.jxc.ConfigReader;
 import net.sf.json.JSONObject;
 import org.apache.ibatis.annotations.Param;
 import org.apache.shiro.SecurityUtils;
@@ -15,7 +14,6 @@ import org.hengsir.icma.service.RightRoleRelationService;
 import org.hengsir.icma.service.RightService;
 import org.hengsir.icma.utils.pageHelper.Page;
 import org.hengsir.icma.utils.pageHelper.PageHtmlUtil;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;

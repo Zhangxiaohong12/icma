@@ -234,14 +234,144 @@
 
     <build>
         <finalName>icma</finalName>
-        <defaultGoal>compile</defaultGoal>
+        <!--<resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>application.properties</include>
+                    <include>jdbc.properties</include>
+                    <include>youtu.properties</include>
+                </includes>
+                <filtering>true</filtering>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.0.1</version>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.outputDirectory}/config
+                            </outputDirectory>
+                            <resources>
+                                &lt;!&ndash;<resource>
+                                    <directory>src/main/resources</directory>
+                                    <includes>
+                                        <include>logback.xml</include>
+                                    </includes>
+                                </resource>&ndash;&gt;
+                                &lt;!&ndash;需要进行filter的文件&ndash;&gt;
+                                <resource>
+                                    <directory>src/main/resources</directory>
+                                    <includes>
+                                        <include>application.properties</include>
+                                        <include>jdbc.properties</include>
+                                        <include>youtu.properties</include>
+                                    </includes>
+                                    <filtering>true</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
 
-            <!-- 资源文件拷贝插件 -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>appassembler-maven-plugin</artifactId>
+                <version>1.10</version>
+                <configuration>
+                    <configurationSourceDirectory>${project.build.outputDirectory}/config
+                    </configurationSourceDirectory>
+                    <copyConfigurationDirectory>true</copyConfigurationDirectory>
+                    <includeConfigurationDirectoryInClasspath>true
+                    </includeConfigurationDirectoryInClasspath>
+                    &lt;!&ndash; 配置文件的目标目录 &ndash;&gt;
+                    <repositoryLayout>flat</repositoryLayout>
+                    <repositoryName>lib</repositoryName>
+                    <logsDirectory>logs</logsDirectory>
+                    <daemons>
+                        <daemon>
+                            <id>${project.name}</id>
+                            <mainClass>org.hengsir.icma.Main</mainClass>
+                            <platforms>
+                                <platform>jsw</platform>
+                            </platforms>
+                            <generatorConfigurations>
+                                <generatorConfiguration>
+                                    <generator>jsw</generator>
+                                    <includes>
+                                        <include>linux-x86-32</include>
+                                        <include>linux-x86-64</include>
+                                        <include>windows-x86-32</include>
+                                        <include>windows-x86-64</include>
+                                        <include>macosx-universal-32</include>
+                                        <include>macosx-universal-64</include>
+                                    </includes>
+                                    <configuration>
+                                        <property>
+                                            <name>configuration.directory.in.classpath.first</name>
+                                            <value>etc</value>
+                                        </property>
+                                        <property>
+                                            <name>set.default.REPO_DIR</name>
+                                            <value>lib</value>
+                                        </property>
+                                        <property>
+                                            <name>wrapper.logfile</name>
+                                            <value>logs/wrapper.log</value>
+                                        </property>
+                                    </configuration>
+                                </generatorConfiguration>
+                            </generatorConfigurations>
+                            <jvmSettings>
+                                <initialMemorySize>200M</initialMemorySize>
+                                <maxMemorySize>2G</maxMemorySize>
+                            </jvmSettings>
+                        </daemon>
+                    </daemons>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>generate-scripts</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>generate-daemons</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <descriptors>
+                        <descriptor>src/main/assembly/bin.xml</descriptor>
+                    </descriptors>
+                </configuration>
+            </plugin>
+            &lt;!&ndash; 资源文件拷贝插件 &ndash;&gt;
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
@@ -250,20 +380,39 @@
                 </configuration>
             </plugin>
 
-            <!-- java编译插件 -->
-            <plugin>
+            &lt;!&ndash; java编译插件 &ndash;&gt;
+            &lt;!&ndash;<plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
                     <encoding>UTF-8</encoding>
-                    <compilerArguments>
-                        <extdirs>${project.basedir}/commons/lib</extdirs>
-                    </compilerArguments>
+                    <verbose>true</verbose>
+                    <fork>true</fork>
+                    <executable>/Library/Java/JavaVirtualMachines/jdk1.8.0_111.jdk/Contents/Home/bin/javac</executable>
                 </configuration>
-            </plugin>
-        </plugins>
+            </plugin>&ndash;&gt;
+
+            &lt;!&ndash;<plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>2.0.0.RELEASE</version>
+                <configuration>
+
+                    &lt;!&ndash; 指定该Main Class为全局的唯一入口 &ndash;&gt;
+                    <mainClass>org.hengsir.icma.Main</mainClass>
+                    <layout>JAR</layout>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>&lt;!&ndash;可以把依赖的包都打包到生成的Jar包中&ndash;&gt;
+                        </goals>
+
+                    </execution>
+                </executions>
+            </plugin>&ndash;&gt;
+
+        </plugins>-->
 
 
     </build>

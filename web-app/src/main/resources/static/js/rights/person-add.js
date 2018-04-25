@@ -31,12 +31,34 @@ addForm.validate({
     }
 });
 
+function checkFile(filename){
+    var flag = false; //状态
+    var arr = ["jpg","png","jpeg"];
+    //取出上传文件的扩展名
+    var index = filename.lastIndexOf(".");
+    var ext = filename.substr(index+1).toLowerCase();
+    //循环比较
+    for(var i=0;i<arr.length;i++)
+    {
+        if(ext == arr[i])
+        {
+            flag = true; //一旦找到合适的，立即退出循环
+            break;
+        }
+    }
+    return flag;
+}
+
 
 $(function () {
     $("#btnSave").click(function () {
         var photo = $("#photo")[0].files[0];
         if (null == photo || '' == photo) {
             BootboxExt.alert("请先选择文件");
+            return;
+        }
+        if (!checkFile($("#photo").val())){
+            BootboxExt.alert("文件不合法");
             return;
         }
         var personId = $("#personId").val();
@@ -86,7 +108,11 @@ $(function () {
                         $("#userAccount").val('');
                         $("#userAccount").focus();
                     });
-                } else {
+                } else if (data.result == "toMax"){
+                    BootboxExt.alert("图片过大", function (res) {
+                        $("#photo").val('');
+                    });
+                }else {
                     BootboxExt.alert("新增失败", function (res) {
                         window.location.reload();
                     });

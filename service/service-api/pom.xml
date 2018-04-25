@@ -19,4 +19,20 @@
         </dependency>
     </dependencies>
 
+    <!--<build>
+        <plugins>
+            &lt;!&ndash; java编译插件 &ndash;&gt;
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                    <verbose>true</verbose>
+                    <fork>true</fork>
+                    <executable>/Library/Java/JavaVirtualMachines/jdk1.8.0_111.jdk/Contents/Home/bin/javac</executable>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+-->
 </project>

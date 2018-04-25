@@ -29,20 +29,19 @@ addForm.validate({
 });
 
 function toAddImg(personId) {
-    location.href = "/person/to-add-img?personId="+personId;
+    location.href = "/person/to-add-img?personId=" + personId;
 }
 
-function deleteImg(faceId,personId) {
+function deleteImg(faceId, personId) {
     BootboxExt.confirm("确认删除吗？", function (res) {
         if (res) {
-            $.get("/person/delete-img", { faceId: faceId,personId:personId}, function (data)
-            {
-                if(data.result == true){
+            $.get("/person/delete-img", {faceId: faceId, personId: personId}, function (data) {
+                if (data.result == true) {
                     BootboxExt.alert("删除成功", function (res) {
                         //location.href = "/person/view?personId="+personId;
                         window.location.reload();
                     });
-                }else{
+                } else {
                     BootboxExt.alert("删除失败", function (res) {
                         window.location.reload();
                     });
@@ -52,6 +51,24 @@ function deleteImg(faceId,personId) {
     });
 }
 
+function checkFile(filename){
+    var flag = false; //状态
+    var arr = ["jpg","png","jpeg"];
+    //取出上传文件的扩展名
+    var index = filename.lastIndexOf(".");
+    var ext = filename.substr(index+1).toLowerCase();
+    //循环比较
+    for(var i=0;i<arr.length;i++)
+    {
+        if(ext == arr[i])
+        {
+            flag = true; //一旦找到合适的，立即退出循环
+            break;
+        }
+    }
+    return flag;
+}
+
 $(function () {
     $("#btnSave").click(function () {
         var photo = $("#photo")[0].files[0];
@@ -59,8 +76,11 @@ $(function () {
             BootboxExt.alert("请先选择文件");
             return;
         }
+        if (!checkFile($("#photo").val())){
+            BootboxExt.alert("文件不合法");
+            return;
+        }
         var personId = $("#personId").val();
-
         if (null == personId || '' == personId) {
             BootboxExt.alert("personId不能为空");
             return;
@@ -83,10 +103,14 @@ $(function () {
                 Shade.unblockUI($("#personBody"));
                 if (data.result == true) {
                     BootboxExt.alert("新增成功", function (res) {
-                        location.href = "/person/view?personId="+personId;
+                        location.href = "/person/view?personId=" + personId;
                     });
-                } else if(data.result == "beyond6"){
+                } else if (data.result == "beyond6") {
                     BootboxExt.alert("照片数量最多6张", function (res) {
+                        location.href = "/person/view?personId=" + personId;
+                    });
+                } else if (data.result == "toMax"){
+                    BootboxExt.alert("照片过大", function (res) {
                         window.location.reload();
                     });
                 }else {
@@ -98,8 +122,6 @@ $(function () {
         });
 
     });
-
-
 
 
 });

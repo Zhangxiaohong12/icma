@@ -136,44 +136,53 @@ public class PersonController {
     @ResponseBody
     public Object addPerson(String personId, String userAccount, @RequestParam(value = "photo", required = false) MultipartFile photo) {
         JSONObject jsonObject = new JSONObject();
-        PersonVo personVo = new PersonVo();
-        personVo.setPersonId(personId);
-        personVo.setUserAccount(userAccount);
-        User user = userDao.selectUserByAccount(userAccount);
-        if (user == null) {
-            //该帐号不存在
-            jsonObject.accumulate("result", "notExits");
+        if (photo.getSize() > 2*1048576){
+            jsonObject.accumulate("result","toMax");
             return jsonObject;
         }
-        personVo.setUser(user);
-        String result = "fail";
-        String fileName = "";
-        Person p = personDao.findByUserId(user.getUserId());
-        if (p != null) {
-            //关联用户已经有person，无法添加
-            jsonObject.accumulate("result", "userIsHas");
-            return jsonObject;
-        }
-        Person p1 = personDao.findById(personVo.getPersonId());
-        if (p1 != null) {
-            //personId已经存在，无法添加
-            jsonObject.accumulate("result", "personIsHas");
-            return jsonObject;
-        }
-        //以帐号为dir，存放该用户的图片
-        fileName = personVo.getUserAccount();
-        String filePath = FileUploadUtils.saveFile(fileName, photo);
-        Image img = new Image();
-        img.setImageUrl(filePath);
-        img.setImagePath(filePath);
-        img.setImageName(photo.getOriginalFilename());
+        try {
+            PersonVo personVo = new PersonVo();
+            personVo.setPersonId(personId);
+            personVo.setUserAccount(userAccount);
+            User user = userDao.selectUserByAccount(userAccount);
+            if (user == null) {
+                //该帐号不存在
+                jsonObject.accumulate("result", "notExits");
+                return jsonObject;
+            }
+            personVo.setUser(user);
+            String result = "fail";
+            String fileName = "";
+            Person p = personDao.findByUserId(user.getUserId());
+            if (p != null) {
+                //关联用户已经有person，无法添加
+                jsonObject.accumulate("result", "userIsHas");
+                return jsonObject;
+            }
+            Person p1 = personDao.findById(personVo.getPersonId());
+            if (p1 != null) {
+                //personId已经存在，无法添加
+                jsonObject.accumulate("result", "personIsHas");
+                return jsonObject;
+            }
+            //以帐号为dir，存放该用户的图片
+            fileName = personVo.getUserAccount();
+            String filePath = FileUploadUtils.saveFile(fileName, photo);
+            Image img = new Image();
+            img.setImageUrl(filePath);
+            img.setImagePath(filePath);
+            img.setImageName(photo.getOriginalFilename());
 
-        boolean flag = personService.create(personVo, img);
-        if (flag) {
-            result = "success";
+            boolean flag = personService.create(personVo, img);
+            if (flag) {
+                result = "success";
+            }
+            jsonObject.accumulate("result", result);
+            return jsonObject;
+        }catch (Exception e){
+            jsonObject.accumulate("result", false);
+            return jsonObject;
         }
-        jsonObject.accumulate("result", result);
-        return jsonObject;
     }
 
     /**
@@ -227,22 +236,31 @@ public class PersonController {
     @ResponseBody
     public Object addImg(String personId, @RequestParam(value = "photo", required = false) MultipartFile photo) {
         JSONObject jsonObject = new JSONObject();
-        Person p = personDao.findById(personId);
-        List<Image> imgs = imageDao.findByPerson(p);
-        if (imgs != null && imgs.size() >= 6){
-            //数量达到6张，无法添加
-            jsonObject.accumulate("result","beyond6");
+        if (photo.getSize() > 2*1048576){
+            jsonObject.accumulate("result","toMax");
             return jsonObject;
         }
-        String fileName = p.getUser().getUserAccount();
-        String filePath = FileUploadUtils.saveFile(fileName, photo);
-        Image img = new Image();
-        img.setImageUrl(filePath);
-        img.setImagePath(filePath);
-        img.setImageName(photo.getOriginalFilename());
-        boolean flag = personService.addFace(personId, img);
-        jsonObject.accumulate("result", flag);
-        return jsonObject;
+        try {
+            Person p = personDao.findById(personId);
+            List<Image> imgs = imageDao.findByPerson(p);
+            if (imgs != null && imgs.size() >= 6) {
+                //数量达到6张，无法添加
+                jsonObject.accumulate("result", "beyond6");
+                return jsonObject;
+            }
+            String fileName = p.getUser().getUserAccount();
+            String filePath = FileUploadUtils.saveFile(fileName, photo);
+            Image img = new Image();
+            img.setImageUrl(filePath);
+            img.setImagePath(filePath);
+            img.setImageName(photo.getOriginalFilename());
+            boolean flag = personService.addFace(personId, img);
+            jsonObject.accumulate("result", flag);
+            return jsonObject;
+        } catch (Exception e){
+            jsonObject.accumulate("result",false);
+            return jsonObject;
+        }
     }
 
     /**

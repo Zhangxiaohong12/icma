@@ -1,6 +1,7 @@
 package org.hengsir.icma.manage.image.controller;
 
 import net.sf.json.JSONObject;
+import org.apache.commons.fileupload.FileUploadBase;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.hengsir.icma.dao.UserDao;
 import org.hengsir.icma.entity.User;
@@ -55,6 +56,10 @@ public class ImageController {
     public Object identy(@RequestParam(value = "imageFile", required = false) MultipartFile imageFile, int classId, HttpSession session) {
         Map<String, Object> map = null;
         JSONObject jsonObject = new JSONObject();
+        if (imageFile.getSize() > 2*1048576){
+            jsonObject.accumulate("result","toMax");
+            return jsonObject;
+        }
         try {
             //把图片存放在规定路径
             String photoPath = FileUploadUtils.saveFile("IDENTY", imageFile);

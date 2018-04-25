@@ -25,15 +25,40 @@ addForm.validate({
     }
 });
 
+function checkFile(filename){
+    var flag = false; //状态
+    var arr = ["jpg","png","jpeg"];
+    //取出上传文件的扩展名
+    var index = filename.lastIndexOf(".");
+    var ext = filename.substr(index+1).toLowerCase();
+    //循环比较
+    for(var i=0;i<arr.length;i++)
+    {
+        if(ext == arr[i])
+        {
+            flag = true; //一旦找到合适的，立即退出循环
+            break;
+        }
+    }
+    return flag;
+}
+
 $(function () {
     $("#btnSave").click(function () {
         var imageFile = $("#photo")[0].files[0];
+        if (!checkFile($("#photo").val())){
+            BootboxExt.alert("文件不合法");
+            return;
+        }
         if (null == imageFile || '' == imageFile) {
             BootboxExt.alert("请先选择文件");
             return;
         }
         var classId = $("#classId").val();
-
+        if (null == classId || '' == classId){
+            BootboxExt.alert("班级不能为空")
+            return;
+        }
 
         var fd = new FormData();
         fd.append('imageFile', imageFile);
@@ -69,6 +94,7 @@ $(function () {
 
 
 });
+
 
 /**-------------------------------------------系别弹框开始-----------------------------------------------------------------------------------*/
 

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assembly>
+    <id>bin</id>
+    <formats>
+        <format>zip</format>
+    </formats>
+    <includeBaseDirectory>false</includeBaseDirectory>
+    <fileSets>
+        <fileSet>
+            <directory>target/generated-resources/appassembler/jsw/binary/lib</directory>
+            <outputDirectory>lib</outputDirectory>
+        </fileSet>
+        <fileSet>
+            <directory>target/generated-resources/appassembler/jsw/binary/etc</directory>
+            <outputDirectory>etc</outputDirectory>
+        </fileSet>
+        <fileSet>
+            <directory>target/generated-resources/appassembler/jsw/binary/logs</directory>
+            <outputDirectory>logs</outputDirectory>
+        </fileSet>
+        <fileSet>
+            <directory>target/generated-resources/appassembler/jsw/binary/bin</directory>
+            <outputDirectory>bin</outputDirectory>
+            <fileMode>0755</fileMode>
+            <includes>
+                <include>binary</include>
+                <include>wrapper*</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>target/generated-resources/appassembler/jsw/binary/bin</directory>
+            <outputDirectory>bin</outputDirectory>
+            <fileMode>0755</fileMode>
+            <includes>
+                <include>binary.bat</include>
+            </includes>
+        </fileSet>
+    </fileSets>
+</assembly>
