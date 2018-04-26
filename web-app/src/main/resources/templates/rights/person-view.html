@@ -44,7 +44,8 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label>性别：</label>
-                    <label th:text="*{user.userSex}"></label>
+                    <label th:if="*{user.userSex} == '1'">男</label>
+                    <label th:if="*{user.userSex} == 0">女</label>
                 </div>
             </div>
             <div class="col-md-6">

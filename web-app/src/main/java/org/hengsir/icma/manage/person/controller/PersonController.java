@@ -83,17 +83,20 @@ public class PersonController {
         ModelAndView model = new ModelAndView();
         boolean hasPerson = false;
         ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
-        if (shiroUser.getRoles().contains("student")){
+        if (shiroUser.getRoles().contains("student")) {
+            //学生不能查看别的个体，如果自己已有个体，则可以看到自己的个体，否则什么也没有
+            personVo.setPersonId("0");
             User user = userService.findUserByAccount(shiroUser.getUserAccount());
-            if (StringUtils.isNotEmpty(user.getPersonId())){
+            if (StringUtils.isNotEmpty(user.getPersonId())) {
                 hasPerson = true;
+                personVo.setPersonId(user.getPersonId());
             }
         }
         model.setViewName("/rights/person-list");
         Page<Person> page = personDao.findAll(new Page<>(index, size), personVo);
         model.addObject("list", page.getResult());
         model.addObject("pageHtml", PageHtmlUtil.initHtml(page));
-        model.addObject("hasPerson",hasPerson);
+        model.addObject("hasPerson", hasPerson);
 
         return model;
     }
@@ -136,8 +139,8 @@ public class PersonController {
     @ResponseBody
     public Object addPerson(String personId, String userAccount, @RequestParam(value = "photo", required = false) MultipartFile photo) {
         JSONObject jsonObject = new JSONObject();
-        if (photo.getSize() > 2*1048576){
-            jsonObject.accumulate("result","toMax");
+        if (photo.getSize() > 2 * 1048576) {
+            jsonObject.accumulate("result", "toMax");
             return jsonObject;
         }
         try {
@@ -179,7 +182,7 @@ public class PersonController {
             }
             jsonObject.accumulate("result", result);
             return jsonObject;
-        }catch (Exception e){
+        } catch (Exception e) {
             jsonObject.accumulate("result", false);
             return jsonObject;
         }
@@ -200,7 +203,7 @@ public class PersonController {
         boolean result = personService.delete(personId);
         //如果成功，删除项目中的文件
         if (result) {
-            File file = new File(imgPath + "/" + p.getUser().getUserAccount()+"/");
+            File file = new File(imgPath + "/" + p.getUser().getUserAccount() + "/");
             if (file.exists() && file.isDirectory()) {
                 FileUploadUtils.deleteDir(file);
             }
@@ -236,8 +239,8 @@ public class PersonController {
     @ResponseBody
     public Object addImg(String personId, @RequestParam(value = "photo", required = false) MultipartFile photo) {
         JSONObject jsonObject = new JSONObject();
-        if (photo.getSize() > 2*1048576){
-            jsonObject.accumulate("result","toMax");
+        if (photo.getSize() > 2 * 1048576) {
+            jsonObject.accumulate("result", "toMax");
             return jsonObject;
         }
         try {
@@ -257,8 +260,8 @@ public class PersonController {
             boolean flag = personService.addFace(personId, img);
             jsonObject.accumulate("result", flag);
             return jsonObject;
-        } catch (Exception e){
-            jsonObject.accumulate("result",false);
+        } catch (Exception e) {
+            jsonObject.accumulate("result", false);
             return jsonObject;
         }
     }
@@ -288,7 +291,7 @@ public class PersonController {
     }
 
     @RequestMapping("/loadImg")
-    public void loadImg(String path, HttpServletResponse resp)throws IOException{
+    public void loadImg(String path, HttpServletResponse resp) throws IOException {
         resp.setContentType("image/jpg;charset=utf-8");
         try {
             OutputStream out = resp.getOutputStream();
@@ -304,7 +307,7 @@ public class PersonController {
                 out.close();
             }
             out.close();
-        }catch (Exception e){
+        } catch (Exception e) {
             logger.error(e.getMessage());
         }
     }
