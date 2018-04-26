@@ -30,7 +30,7 @@
     <build>
         <plugins>
             <!-- java编译插件 -->
-            <plugin>
+            <!--<plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
@@ -39,7 +39,7 @@
                     <fork>true</fork>
                     <executable>/Library/Java/JavaVirtualMachines/jdk1.8.0_111.jdk/Contents/Home/bin/javac</executable>
                 </configuration>
-            </plugin>
+            </plugin>-->
         </plugins>
     </build>
 
