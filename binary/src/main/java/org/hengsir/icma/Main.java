@@ -21,7 +21,7 @@ import java.util.Date;
 @MapperScan("org.hengsir.icma.dao.mapper")
 public class Main {
 
-    @Bean
+    /*@Bean
     public TomcatServletWebServerFactory servletContainer() {
         TomcatServletWebServerFactory tomcat = new TomcatServletWebServerFactory() {
             @Override
@@ -43,13 +43,13 @@ public class Main {
         Connector connector = new Connector("org.apache.coyote.http11.Http11NioProtocol");
         connector.setScheme("http");
         //Connector监听的http的端口号
-        connector.setPort(80);
+        connector.setPort(8081);
         connector.setSecure(true);
         //监听到http的端口号后转向到的https的端口号
         connector.setRedirectPort(443);
         return connector;
     }
-
+*/
     public static void main(String[] args) {
         SpringApplication.run(Main.class, args);
         System.out.println("-----------------嘤嘤嘤嘤嘤~~~~启动成功！！！！！------------------" + new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date()));
