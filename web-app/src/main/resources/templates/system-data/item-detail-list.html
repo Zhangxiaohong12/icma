@@ -18,7 +18,7 @@
             <li><i class='icon-angle-right'></i><a href='javascript:void(0);'>详细</a></li>
             <li class="btn-group">
                 <a href="#" onclick="javascript:history.go(-1)" class='btn blue ' style="margin-right:5px"><span>返回</span></a>
-                <shiro:hasPermission name="itemDetail_add">
+                <shiro:hasPermission name="itemDetail:add">
                     <a href="" class='btn blue ' th:href="@{toadd-itemDetail(id=${itemDTO.id})}"><span>新增</span></a>
                 </shiro:hasPermission>
             </li>
