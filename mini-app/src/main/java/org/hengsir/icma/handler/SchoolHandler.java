@@ -61,6 +61,7 @@ public class SchoolHandler extends AbstractInCommingHandler<SchoolRequest, Schoo
         parentResponseHeader.setCode(code);
         parentResponseHeader.setDesc(msg);
         respBody.setSchoolList(schools);
+        resp.setHeader(parentResponseHeader);
         resp.setBody(respBody);
         return resp;
     }

@@ -60,8 +60,8 @@ public class ClassHandler extends AbstractInCommingHandler<ClassRequest,ClassRes
         header.setCode(code);
         header.setDesc(msg);
         responseBody.setClassList(classList);
+        response.setHeader(header);
         response.setBody(responseBody);
-
         return response;
     }
 

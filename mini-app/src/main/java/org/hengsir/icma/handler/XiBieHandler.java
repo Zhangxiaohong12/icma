@@ -60,8 +60,8 @@ public class XiBieHandler extends AbstractInCommingHandler<XiBieRequest,XiBieRes
         header.setCode(code);
         header.setDesc(msg);
         responseBody.setXiBieList(xiBieList);
+        response.setHeader(header);
         response.setBody(responseBody);
-
         return response;
     }
 
