@@ -3,6 +3,7 @@ package org.hengsir.icma.controller;
 import com.alibaba.fastjson.JSONObject;
 import org.hengsir.icma.dao.UserDao;
 import org.hengsir.icma.entity.User;
+import org.hengsir.icma.handler.response.ParentResponse;
 import org.hengsir.icma.handler.response.ParentResponseHeader;
 import org.hengsir.icma.handler.response.ResultResponse;
 import org.hengsir.icma.handler.response.body.ResultResponseBody;
@@ -49,6 +50,7 @@ public class IdentyController {
         ResultResponseBody responseBody = new ResultResponseBody();
         ParentResponseHeader parentResponseHeader = new ParentResponseHeader();
 
+
         //把图片存放在规定路径
         String photoPath = FileUploadUtils.saveFile("IDENTY",file);
         //根据classId得到应有人数
@@ -74,7 +76,7 @@ public class IdentyController {
             parentResponseHeader.setDesc("分析失败");
             resultResponse.setHeader(parentResponseHeader);
         }
-        String json = JSONObject.toJSONString(resultResponse);
-        return json;
+        ParentResponse parent = resultResponse;
+        return parent.toJsonString();
     }
 }
