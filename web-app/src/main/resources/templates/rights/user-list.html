@@ -148,6 +148,7 @@
                             <tr>
                                 <th style="width: 10%">用户名称</th>
                                 <th style="width: 10%">用户账号</th>
+                                <th style="width: 10%">personId</th>
                                 <th style="width: 5%">用户性别</th>
                                 <th style="width: 5%">身份证号</th>
                                 <th style="width: 10%">用户状态</th>
@@ -165,6 +166,7 @@
                             <tr th:each="user : ${list}">
                                 <td th:text="${user.userName}"></td>
                                 <td th:text="${user.userAccount}"></td>
+                                <td th:text="${user.personId}"></td>
                                 <td th:text="${ItemUtil.getName(user.userSex,'SEX')}"></td>
                                 <td th:text="${user.userIdCard}"></td>
                                 <td th:text="${ItemUtil.getName(user.userStatus,'USER_STATUS')}"></td>

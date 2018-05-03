@@ -36,4 +36,6 @@ public interface SXCDao {
     XiBie findXiBieById(int id);
 
     School findSchoolById(int id);
+
+    List<Class> findByIds(List<String> list);
 }

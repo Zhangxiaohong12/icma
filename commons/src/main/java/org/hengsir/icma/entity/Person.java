@@ -27,6 +27,16 @@ public class Person implements Model<String>{
 
     private User user;
 
+    private String status;
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     public List<Image> getImageList() {
         return imageList;
     }

@@ -119,14 +119,20 @@ public class UserController {
         user.setUserStatus("1");
         String encodePass = MD5Util.encodeMD5(password, userAccount);
         user.setUserPassword(encodePass);
-
+        user.setPersonId(userAccount);
         Boolean result = userService.create(user);
         if (result) {
+            User u = userDao.selectUserByAccount(userAccount);
             Person p = new Person();
-            p.setPersonName(user.getUserName());
-            p.setClassId(user.getClassId());
-            p.setUser(user);
+            p.setPersonId(u.getUserAccount());
+            p.setPersonName(u.getUserName());
+            p.setClassId(u.getClassId());
+            p.setUser(u);
             personService.create(p,null);
+            UserRelRole urr = new UserRelRole();
+            urr.setRoleId(402);
+            urr.setUserId(u.getUserId());
+            userRelRoleService.create(urr);
         }
         jsonObject.accumulate("result", result);
         return jsonObject;

@@ -290,6 +290,12 @@ public class PersonController {
         return jsonObject;
     }
 
+    /**
+     * 奖图片做为流写出去页面
+     * @param path
+     * @param resp
+     * @throws IOException
+     */
     @RequestMapping("/loadImg")
     public void loadImg(String path, HttpServletResponse resp) throws IOException {
         resp.setContentType("image/jpg;charset=utf-8");
@@ -312,5 +318,50 @@ public class PersonController {
         }
     }
 
+    @RequestMapping("/to-sensitize")
+    @RequiresPermissions("person:sensitize")
+    public ModelAndView toSensitize(String personId){
+        ModelAndView model = new ModelAndView();
+        model.setViewName("/rights/person-sensitize");
+        Person person = personDao.findById(personId);
+        model.addObject("person",person);
+        return model;
+    }
+
+    /**
+     * 用户激活个体
+     * @param personId
+     * @param photo
+     * @return
+     */
+    @RequestMapping("/sensitize")
+    @ResponseBody
+    public Object sensitize(String personId, @RequestParam(value = "photo", required = false) MultipartFile photo) {
+        JSONObject jsonObject = new JSONObject();
+        String result = "";
+        if (photo.getSize() > 2 * 1048576) {
+            jsonObject.accumulate("result", "toMax");
+            return jsonObject;
+        }
+
+        Person person = personDao.findById(personId);
+        User user = userDao.selectUserById(person.getUser().getUserId());
+        person.setUser(user);
+        //以帐号为dir，存放该用户的图片
+        String fileName = person.getUser().getUserAccount();
+        String filePath = FileUploadUtils.saveFile(fileName, photo);
+        Image img = new Image();
+        img.setImageUrl(filePath);
+        img.setImagePath(filePath);
+        img.setImageName(photo.getOriginalFilename());
+
+        boolean flag = personService.sensitize(person, img);
+        if (flag) {
+            result = "success";
+        }
+        jsonObject.accumulate("result", result);
+        return jsonObject;
+
+    }
 
 }

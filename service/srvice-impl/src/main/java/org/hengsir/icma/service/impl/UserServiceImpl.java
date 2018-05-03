@@ -1,10 +1,13 @@
 package org.hengsir.icma.service.impl;
 
+import org.hengsir.icma.dao.PersonDao;
 import org.hengsir.icma.dao.UserDao;
 import org.hengsir.icma.dao.UserWriteDao;
+import org.hengsir.icma.entity.Person;
 import org.hengsir.icma.entity.Right;
 import org.hengsir.icma.entity.Role;
 import org.hengsir.icma.entity.User;
+import org.hengsir.icma.service.PersonService;
 import org.hengsir.icma.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +22,12 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     UserWriteDao userWriteDao;
+
+    @Autowired
+    PersonService personService;
+
+    @Autowired
+    PersonDao personDao;
 
     @Override
     public User findUserByAccount(String userAccount) {
@@ -57,6 +66,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean delete(int id) {
+        Person person = personDao.findByUserId(id);
+        if (person != null){
+            personService.delete(person.getPersonId());
+        }
         return userWriteDao.delete(id);
     }
 

@@ -40,4 +40,12 @@ public interface PersonService {
      * @return
      */
     boolean deleteFace(String personId, String faceId);
+
+    /**
+     * 激活个体
+     * @param person
+     * @param image
+     * @return
+     */
+    boolean sensitize(Person person,Image image);
 }

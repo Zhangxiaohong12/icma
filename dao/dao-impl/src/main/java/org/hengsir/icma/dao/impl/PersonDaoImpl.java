@@ -22,10 +22,10 @@ public class PersonDaoImpl implements PersonWriteDao {
 
     @Override
     public Boolean create(Person person) {
-        try{
+        try {
             personMapper.create(person);
             return true;
-        }catch (Exception e){
+        } catch (Exception e) {
             return false;
         }
 
@@ -33,17 +33,18 @@ public class PersonDaoImpl implements PersonWriteDao {
 
     @Override
     public Boolean delete(String personId) {
-        try{
+        try {
             personMapper.delete(personId);
             return true;
-        }catch (Exception e){
+        } catch (Exception e) {
             return false;
         }
     }
 
+
     @Override
     public Page<Person> findAll(Page<Person> page, Person person) {
-        PageHelper.startPage(page.getPageNum(),page.getPageSize());
+        PageHelper.startPage(page.getPageNum(), page.getPageSize());
         personMapper.findAll(person);
         return PageHelper.endPage();
     }
@@ -61,5 +62,15 @@ public class PersonDaoImpl implements PersonWriteDao {
     @Override
     public Person findById(String personId) {
         return personMapper.findById(personId);
+    }
+
+    @Override
+    public boolean sensitize(String personId) {
+        try {
+            personMapper.sensitize(personId);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

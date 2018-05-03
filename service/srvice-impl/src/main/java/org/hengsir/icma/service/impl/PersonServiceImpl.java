@@ -52,6 +52,7 @@ public class PersonServiceImpl implements PersonService {
             if (image != null) {
                 JSONObject response = youtu.NewPerson(image.getImagePath(), person.getPersonId(), list);
                 if (response.getInt("errorcode") == 0) {
+                    person.setStatus("1");
                     image.setFaceId((String) response.get("face_id"));
                     image.setPersonId(person.getPersonId());
                     imageWriteDao.addImg(image);
@@ -60,6 +61,11 @@ public class PersonServiceImpl implements PersonService {
                     userService.bindPerson(needBindUser);
                     return personWriteDao.create(person);
                 }
+            } else {
+                //image为空是预新增，新增进数据库
+                //状态设置为待创建
+                person.setStatus("0");
+                return personWriteDao.create(person);
             }
 
         } catch (IOException e) {
@@ -143,6 +149,32 @@ public class PersonServiceImpl implements PersonService {
                     return true;
                 }
             }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (KeyManagementException e) {
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean sensitize(Person person, Image image) {
+        List<String> list = new ArrayList<>();
+        list.add(person.getUser().getClassId() + "");
+        try {
+            JSONObject response = youtu.NewPerson(image.getImagePath(), person.getPersonId(), list);
+            if (response.getInt("errorcode") == 0) {
+                image.setFaceId((String) response.get("face_id"));
+                image.setPersonId(person.getPersonId());
+                imageWriteDao.addImg(image);
+                return personWriteDao.sensitize(person.getPersonId());
+            }
+
+
         } catch (IOException e) {
             e.printStackTrace();
         } catch (JSONException e) {

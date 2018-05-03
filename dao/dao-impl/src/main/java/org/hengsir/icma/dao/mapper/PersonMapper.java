@@ -48,4 +48,6 @@ public interface PersonMapper {
     Person findByUserId(@Param("userId") int userId);
 
     Person findById(@Param("personId") String personId);
+
+    void sensitize(@Param("personId") String personId);
 }

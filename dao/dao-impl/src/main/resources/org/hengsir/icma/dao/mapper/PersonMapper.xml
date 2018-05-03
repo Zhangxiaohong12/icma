@@ -5,6 +5,7 @@
         <result property="personId" column="PERSON_ID" />
         <result property="personName" column="PERSON_NAME" />
         <result property="classId" column="CLASS_ID" />
+        <result property="status" column="STATUS"/>
         <association property="user" javaType="org.hengsir.icma.entity.User">
             <result property="userId" column="USER_ID"/>
             <result property="userAccount" column="USER_ACCOUNT"/>
@@ -33,14 +34,18 @@
     </select>
 
     <insert id="create" parameterType="org.hengsir.icma.entity.Person">
-        INSERT INTO T_PERSON(PERSON_ID,PERSON_NAME,USER_ID)
+        INSERT INTO T_PERSON(PERSON_ID,PERSON_NAME,USER_ID,STATUS)
         VALUES(#{personId},
-        #{user.userName},#{user.userId})
+        #{user.userName},#{user.userId},#{status})
     </insert>
 
     <delete id="delete" parameterType="java.lang.String">
         DELETE FROM T_PERSON WHERE PERSON_ID = #{personId}
     </delete>
+    
+    <update id="sensitize" parameterType="java.lang.String">
+        UPDATE T_PERSON SET STATUS = '1' WHERE PERSON_ID = #{personId}
+    </update>
 
     <select id="findByUserId" parameterType="java.lang.Integer" useCache="false" resultMap="PersonResult">
         SELECT P.*,U.USER_ACCOUNT,U.USER_NAME,U.USER_SEX,U.CLASS_ID FROM T_PERSON P,T_USER U

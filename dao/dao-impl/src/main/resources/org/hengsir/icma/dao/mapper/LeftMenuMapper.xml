@@ -14,14 +14,19 @@
     </resultMap>
 
     <insert id="create" parameterType="org.hengsir.icma.entity.LeftMenu">
-        INSERT INTO T_MENU (MENU_ICON, MENU_CODE, MENU_NAME, MENU_HREF,
+        INSERT INTO T_MENU (MENU_ICON, MENU_CODE, MENU_NAME,
+        <if test="null != menuHref and '' != menuHref">
+            MENU_HREF,
+        </if>
         <if test="null != menuSuperCode and '' != menuSuperCode">
             SUPER_CODE,
         </if>
         CREATE_TIME)
         VALUES ( #{menuIcon},
         #{menuCode}, #{menuName},
-        #{menuHref},
+        <if test="null != menuHref and '' != menuHref">
+            #{menuHref},
+        </if>
         <if test="null != menuSuperCode and '' != menuSuperCode">
             #{menuSuperCode},
         </if>

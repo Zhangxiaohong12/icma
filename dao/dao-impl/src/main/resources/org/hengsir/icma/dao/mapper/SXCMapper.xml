@@ -194,4 +194,15 @@
         AND X.ID = #{id}
     </select>
 
+    <select id="findByIds" useCache="false" resultMap="classResult" parameterType="java.util.List">
+        SELECT C.*,X.XI_BIE_NAME,X.SCHOOL_ID,S.SCHOOL_NAME,S.SCHOOL_CODE FROM T_CLASS C,T_XI_BIE X,T_SCHOOL S
+        WHERE
+        C.XI_BIE_ID = X.ID
+        AND X.SCHOOL_ID = S.ID
+        AND C.ID in
+        <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+            ${item}
+        </foreach>
+    </select>
+
 </mapper>

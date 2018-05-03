@@ -66,4 +66,6 @@ public interface SXCMapper {
 
     Class findClassById(@Param("id")int id);
 
+    List<Class> findByIds(List<String> list);
+
 }

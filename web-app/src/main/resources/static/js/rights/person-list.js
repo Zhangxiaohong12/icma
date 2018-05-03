@@ -21,6 +21,11 @@ function view(personId){
     window.location.href = "/person/view?personId=" + personId;
 }
 
+function to_sen(personId){
+    Shade.blockUI($('body'));
+    window.location.href = "/person/to-sensitize?personId=" + personId;
+}
+
 
 
 

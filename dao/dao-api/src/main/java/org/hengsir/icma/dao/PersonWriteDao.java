@@ -21,4 +21,5 @@ public interface PersonWriteDao extends PersonDao{
      */
     public Boolean delete(String personId);
 
+
 }

@@ -18,4 +18,6 @@ public interface PersonDao {
     Person findByUserId(int userId);
 
     Person findById(String personId);
+
+    boolean sensitize(String personId);
 }
