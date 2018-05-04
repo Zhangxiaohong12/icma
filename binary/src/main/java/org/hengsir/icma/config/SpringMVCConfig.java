@@ -36,12 +36,14 @@ public class SpringMVCConfig {
                                 "/**/*.png",
                                 "/**/*.gif",
                                 "/**/*.jpg",
+                                "/**/*.docx",
                                 "/**/*.jpeg");
                 registry.addInterceptor(menuHandlerInterceptor).addPathPatterns("/**")
                         .excludePathPatterns("/favicon.ico",
                                 "/css/**",
                                 "/js/**",
                                 "/images/**",
+                                "/download/**",
                                 "/Users/**",
                                 "/metronic/**");
             }
