@@ -46,7 +46,7 @@ public class YoutuController {
      * @throws JSONException
      * @throws KeyManagementException
      */
-    @RequestMapping("/searchPersons")
+    @RequestMapping("/person/searchPersons")
     @RequiresPermissions("person_list:search")
     public ModelAndView searchPersons(String groupId,@RequestParam(value = "pageNum", defaultValue = "1") int index,
                                       @RequestParam(value = "pageSize", defaultValue = "10") int size) throws IOException, NoSuchAlgorithmException, JSONException, KeyManagementException {
@@ -65,7 +65,7 @@ public class YoutuController {
      * @return
      */
     @RequiresPermissions("person_list:delete")
-    @RequestMapping("/deletePersonId")
+    @RequestMapping("/person/deletePersonId")
     @ResponseBody
     public Object deletePersonId(String personId){
         JSONObject jsonObject = new JSONObject();
@@ -75,7 +75,7 @@ public class YoutuController {
 
     }
 
-    @RequestMapping("/get-groupIds")
+    @RequestMapping("/group/get-groupIds")
     @RequiresPermissions("get_groupIds:search")
     public ModelAndView searchGroupIds(@RequestParam(value = "pageNum", defaultValue = "1") int index,
                                        @RequestParam(value = "pageSize", defaultValue = "10") int size) throws IOException, NoSuchAlgorithmException, JSONException, KeyManagementException {
