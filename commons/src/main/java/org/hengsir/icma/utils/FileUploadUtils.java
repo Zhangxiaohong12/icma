@@ -1,11 +1,6 @@
 package org.hengsir.icma.utils;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.*;
 
 /**
@@ -14,7 +9,20 @@ import java.io.*;
  */
 public class FileUploadUtils {
 
+    private static String basePath = "/Users/";
+
     private static String imgPath = "/Users/icma-upload-img/";
+
+    static{
+        File ff = new File(basePath);
+        if (!ff.exists() && !ff.isDirectory()){
+            ff.mkdir();
+        }
+        File f = new File(imgPath);
+        if (!f.exists() && !f.isDirectory()){
+            f.mkdir();
+        }
+    }
 
     public static String saveFile(String fileName, MultipartFile photo) {
         OutputStream out = null;

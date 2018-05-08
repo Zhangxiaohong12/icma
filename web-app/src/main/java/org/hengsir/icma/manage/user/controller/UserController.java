@@ -68,10 +68,8 @@ public class UserController {
                                @RequestParam(value = "pageSize", defaultValue = "10") int size) {
         ModelAndView modelAndView = new ModelAndView();
         ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
-        if (userVo.getUserId() == 0){
-            if (shiroUser.getRoles().contains("student")){
-                userVo.setUserAccount(shiroUser.getUserAccount());
-            }
+        if (shiroUser.getRoles().size() == 1 && shiroUser.getRoles().contains("student")) {
+            userVo.setUserAccount(shiroUser.getUserAccount());
         }
         Page<User> page = userDao.findByUser(userVo, new Page<>(index, size));
         modelAndView.setViewName("/rights/user-list");
@@ -128,7 +126,7 @@ public class UserController {
             p.setPersonName(u.getUserName());
             p.setClassId(u.getClassId());
             p.setUser(u);
-            personService.create(p,null);
+            personService.create(p, null);
             UserRelRole urr = new UserRelRole();
             urr.setRoleId(402);
             urr.setUserId(u.getUserId());

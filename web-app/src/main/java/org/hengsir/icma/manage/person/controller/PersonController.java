@@ -83,7 +83,7 @@ public class PersonController {
         ModelAndView model = new ModelAndView();
         boolean hasPerson = false;
         ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
-        if (shiroUser.getRoles().contains("student")) {
+        if (shiroUser.getRoles().size() == 1 && shiroUser.getRoles().contains("student")) {
             //学生不能查看别的个体，如果自己已有个体，则可以看到自己的个体，否则什么也没有
             personVo.setPersonId("0");
             User user = userService.findUserByAccount(shiroUser.getUserAccount());
