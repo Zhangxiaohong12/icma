@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.hengsir.icma.dao.mapper.IdentifyMapper">
+
+    <resultMap id="Result" type="org.hengsir.icma.entity.IdentyRecord">
+        <id property="id" column="ID"></id>
+        <result property="imagePath" column="IMAGE_PATH" />
+        <result property="classId" column="CLASS_ID" />
+        <result property="matchNum" column="MATCH_NUM" />
+        <result property="noMatchNum" column="NOMATCH_NUM" />
+        <result property="createTime" column="CREATE_TIME" />
+        <result property="className" column="CLASS_NAME" />
+    </resultMap>
+
+    <insert id="record" parameterType="org.hengsir.icma.entity.IdentyRecord">
+        INSERT INTO T_IDENTI_RECORD(IMAGE_PATH,CLASS_ID,MATCH_NUM,NOMATCH_NUM,CREATE_TIME) VALUES
+        (#{imagePath},#{classId},#{matchNum},#{noMatchNum},#{createTime})
+    </insert>
+
+    <select id="findAll" resultMap="Result" useCache="false">
+        SELECT I.*,C.CLASS_NAME FROM T_IDENTI_RECORD I,T_CLASS C
+        WHERE I.CLASS_ID = C.ID
+        ORDER BY I.CREATE_TIME DESC
+    </select>
+
+    <select id="findById" resultMap="Result" useCache="false" parameterType="java.lang.Integer">
+        SELECT I.*,C.CLASS_NAME FROM T_IDENTI_RECORD I,T_CLASS C
+        WHERE I.CLASS_ID = C.ID AND I.ID = #{id}
+        ORDER BY I.CREATE_TIME DESC
+    </select>
+
+    <select id="findRecord" resultMap="Result" useCache="false">
+        SELECT I.*,C.CLASS_NAME FROM T_IDENTI_RECORD I,T_CLASS C
+        <where>
+            I.CLASS_ID = C.ID
+            <if test="null != classId">
+                AND I.CLASS_ID = #{classId}
+            </if>
+        </where>
+
+        ORDER BY I.CREATE_TIME DESC
+    </select>
+
+    <select id="findByClass" resultMap="Result" useCache="false" parameterType="java.lang.Integer">
+        SELECT I.*,C.CLASS_NAME FROM T_IDENTI_RECORD I,T_CLASS C
+        WHERE I.CLASS_ID = C.ID AND I.CLASS_ID = #{classId}
+        ORDER BY I.CREATE_TIME DESC
+    </select>
+
+</mapper>

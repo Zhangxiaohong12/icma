@@ -1,8 +1,10 @@
 package org.hengsir.icma.service.impl;
 
+import org.hengsir.icma.dao.IdentifyDao;
 import org.hengsir.icma.dao.ImageDao;
 import org.hengsir.icma.dao.PersonDao;
 import org.hengsir.icma.dao.UserDao;
+import org.hengsir.icma.entity.IdentyRecord;
 import org.hengsir.icma.entity.Image;
 import org.hengsir.icma.entity.User;
 import org.hengsir.icma.entity.Youtu;
@@ -16,10 +18,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author hengsir
@@ -40,6 +39,9 @@ public class IdentifyServiceImpl implements IdentifyService {
 
     @Autowired
     Youtu youtu;
+
+    @Autowired
+    IdentifyDao identifyDao;
 
     @Override
     public Map<String, Object> identify(String imgPath, int classId, int num) {
@@ -100,7 +102,14 @@ public class IdentifyServiceImpl implements IdentifyService {
                 returnMap.put("matchNum", matchUsers.size());
                 returnMap.put("noMatchNum", noMatchs.size());
                 returnMap.put("studentNum", num);
-
+                //存进数据库
+                IdentyRecord identyRecord = new IdentyRecord();
+                identyRecord.setClassId(classId);
+                identyRecord.setImagePath(imgPath);
+                identyRecord.setMatchNum(matchUsers.size());
+                identyRecord.setNoMatchNum(noMatchs.size());
+                identyRecord.setCreateTime(new Date());
+                identifyDao.record(identyRecord);
             } else {
                 returnMap.put("respCode", resp.getInt("errorcode"));
                 returnMap.put("respDesc", resp.getString("errormsg"));

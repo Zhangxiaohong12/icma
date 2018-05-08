@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <title th:text="${pageTitle}"></title>
+    <head th:include="/commons/head::header"/>
+    <link th:href="@{/metronic/css/pages/error.css}" rel="stylesheet" type="text/css"/>
+    <style>
+        th {
+            width: 100px;
+        }
+    </style>
+</head>
+
+<body class="page-header-fixed" id="recordBody">
+<div th:replace="/commons/page_head::pageHead"></div>
+<div class="clearfix"></div>
+<div class="page-container">
+    <div th:replace="/commons/page_sidebar::pageSidebar"></div>
+    <div class="page-content">
+        <ul class="page-breadcrumb breadcrumb">
+            <li th:utext="${locationMenu}"></li>
+            <li>
+                <i class='icon-angle-right'></i>
+                <a href='javascript:void(0);'>查询</a>
+            </li>
+            
+        </ul>
+        <shiro:hasPermission name="record:search">
+            <form th:action="@{record}" method="post" id="recordFrom">
+                <!-- 搜索内容start -->
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>学校</label>
+                            <div class="input-group">
+                                <input type="text" id="schoolName" name="schoolName" class="form-control"
+                                       placeholder="请选择学校" readonly>
+                                <input type="hidden" id="schoolId" name="schoolId" class="form-control" readonly>
+                                <span class="input-group-btn" style="vertical-align:baseline">
+                        <button type="button" class="btn btn-default" onclick="clearSchool();">
+                             <i class="icon-remove"></i>
+                            </button>
+                                    <button type="button" class="btn blue btn-default" data-toggle="modal" data-target="#schoolModal" onclick="initSchoolTable()">
+                             选择 <i class="icon-plus"></i>
+                            </button>
+					    </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>系别/院校</label>
+                            <div class="input-group">
+                                <input type="text" id="xiBieName" name="xiBieName" class="form-control"
+                                       placeholder="请选择系别" readonly>
+                                <input type="hidden" id="xiBieId" name="xiBieId" class="form-control" readonly>
+                                <span class="input-group-btn" style="vertical-align:baseline">
+                        <button type="button" class="btn btn-default" onclick="clearXiBie();">
+                             <i class="icon-remove"></i>
+                            </button>
+                                    <button type="button" class="btn blue btn-default" data-toggle="modal" onclick="initXiBieTable()">
+                             选择 <i class="icon-plus"></i>
+                            </button>
+					    </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>班级</label>
+                            <div class="input-group">
+                                <input type="text" id="className" name="className" class="form-control"
+                                       placeholder="请选择班级" th:data-value="${identyRecord.className}" th:value="${identyRecord.className}" readonly>
+                                <input type="hidden" id="classId" name="classId" th:value="${identyRecord.classId}" th:data-value="${identyRecord.classId}" class="form-control" readonly>
+                                <span class="input-group-btn" style="vertical-align:baseline">
+                        <button type="button" class="btn btn-default" onclick="clearClass();">
+                             <i class="icon-remove"></i>
+                            </button>
+                                    <button type="button" class="btn blue btn-default" data-toggle="modal" onclick="initClassTable()">
+                             选择 <i class="icon-plus"></i>
+                            </button>
+					    </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row form-group">
+                    <div class="col-md-5"></div>
+                    <div class="col-md-1">
+                        <button type="submit" onclick="search()"
+                                class="btn blue btn-block btn-sm">查询<i class="m-icon-swapright m-icon-white"></i></button>
+                    </div>
+                    <div class="col-md-1">
+                        <button type="submit" onclick="cleanQuery()"
+                                class="btn blue btn-block btn-sm">重置<i class="m-icon-swapright m-icon-white"></i></button>
+                    </div>
+                    <div class="col-md-5"></div>
+                </div>
+
+                <div class="portlet-body">
+                    <div class="table-scrollable">
+                        <table class="table table-striped table-bordered table-hover">
+                            <thead>
+                            <tr>
+                                <th>图片</th>
+                                <th>图片路径</th>
+                                <th>班级ID</th>
+                                <th>班级名称</th>
+                                <th>上传时间</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="record : ${list}">
+                                <td><img th:src="'/person/loadImg?path='+${record.imagePath}" alt="图片" style="width:80px;height: 48px;"/></td>
+                                <td th:text="${record.imagePath}"></td>
+                                <td th:text="${record.classId}"></td>
+                                <td th:text="${record.className}"></td>
+                                <td th:text="${#calendars.format(record.createTime,'yyyy-MM-dd HH:mm:ss')}"></td>
+                                <td><a data-toggle="modal" class='btn green  btn-xs'
+                                       th:onclick="'javascript:view(\''+${record.id}+'\');'"
+                                       style="margin-left: 5px;">详情</a></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div th:utext="${pageHtml}" class="row page_info" data-search="recordFrom"></div>
+            </form>
+        </shiro:hasPermission>
+    </div>
+</div>
+
+
+<!--表格html-->
+<!--学校开始-->
+<div class="modal fade" id="schoolModal" tabindex="-1" role="dialog" aria-labelledby="schoolModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                </button>
+                <h4 class="modal-title" id="schoolModalLabel">学校信息</h4>
+            </div>
+            <div class="modal-body" style="height: auto;max-height: 600px;overflow-y:auto;overflow-x:auto">
+                <form method="post" id="schoolShowFrom">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label>学校代码</label>
+                                <div class="input-icon right">
+                                    <i class="icon-edit"></i>
+                                    <input id="schoolCodeSearch" type="text" class="form-control" placeholder="请输入学校代码">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label>学校名称（%）</label>
+                                <div class="input-icon right">
+                                    <i class="icon-edit"></i>
+                                    <input id="schoolNameSearch" type="text" class="form-control" placeholder="请输入学校名称">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-md-5"></div>
+                        <div class="form-inline">
+                            <button onclick="refreshAlertSchoolData()" type="button"
+                                    class="btn btn-primary">查询
+                            </button>
+                            <button onclick="cleanSchoolQuery()" type="button"
+                                    class="btn btn-primary">重置
+                            </button>
+                        </div>
+                        <div class="col-md-5"></div>
+                    </div>
+                </form>
+                <table id="schoolTable" class="table table-striped table-bordered table-hover"></table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="selectSchool();">提交</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--学校结束-->
+
+<!--系别开始-->
+<div class="modal fade" id="xiBieModal" tabindex="-1" role="dialog" aria-labelledby="xiBieModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                </button>
+                <h4 class="modal-title" id="xiBieModalLabel">系别/院系信息</h4>
+            </div>
+            <div class="modal-body" style="height: auto;max-height: 600px;overflow-y:auto;overflow-x:auto">
+                <form method="post" id="xiBieShowFrom">
+                    <div class="row">
+
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label>系别名称（%）</label>
+                                <div class="input-icon right">
+                                    <i class="icon-edit"></i>
+                                    <input id="xiBieNameSearch" type="text" class="form-control" placeholder="请输入系别名称">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-md-5"></div>
+                        <div class="form-inline">
+                            <button onclick="refreshAlertXiBieData()" type="button"
+                                    class="btn btn-primary">查询
+                            </button>
+                            <button onclick="cleanXiBieQuery()" type="button"
+                                    class="btn btn-primary">重置
+                            </button>
+                        </div>
+                        <div class="col-md-5"></div>
+                    </div>
+                </form>
+                <table id="xiBieTable" class="table table-striped table-bordered table-hover"></table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="selectXiBie();">提交</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--系别结束-->
+
+<!--班级开始-->
+<div class="modal fade" id="classModal" tabindex="-1" role="dialog" aria-labelledby="classModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                </button>
+                <h4 class="modal-title" id="classModalLabel">班级信息</h4>
+            </div>
+            <div class="modal-body" style="height: auto;max-height: 600px;overflow-y:auto;overflow-x:auto">
+                <form method="post" id="classShowFrom">
+                    <div class="row">
+
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label>班级名称（%）</label>
+                                <div class="input-icon right">
+                                    <i class="icon-edit"></i>
+                                    <input id="classNameSearch" type="text" class="form-control" placeholder="请输入班级名称">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-md-5"></div>
+                        <div class="form-inline">
+                            <button onclick="refreshAlertClassData()" type="button"
+                                    class="btn btn-primary">查询
+                            </button>
+                            <button onclick="cleanClassQuery()" type="button"
+                                    class="btn btn-primary">重置
+                            </button>
+                        </div>
+                        <div class="col-md-5"></div>
+                    </div>
+                </form>
+                <table id="classTable" class="table table-striped table-bordered table-hover"></table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="selectClass();">提交</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--班级结束-->
+
+
+
+<div th:replace="/commons/scripts::scripts"/>
+</div>
+<div th:replace="/commons/foot::foot"></div>
+<script>
+    jQuery(document).ready(function () {
+        App.init();
+        $("#recordOrg").select2({
+            formatNoMatches: function (term) {
+                return "未找到数据";
+            }
+        })
+    });
+</script>
+<script type="text/javascript" th:src="@{/js/sxc/sxc.js}" charset="utf-8"></script>
+<script type="text/javascript" th:src="@{/js/youtu/record.js}" charset="utf-8"></script>
+<script type="text/javascript" th:src="@{/js/commons/table-editable/jquery.dataTables.js}" charset="utf-8"></script>
+<script type="text/javascript" th:src="@{/js/table/bootstrap-table.js}" charset="utf-8"></script>
+<script type="text/javascript" th:src="@{/js/table/bootstrap-table-zh-CN.min.js}" charset="utf-8"></script>
+</body>
+</html>
