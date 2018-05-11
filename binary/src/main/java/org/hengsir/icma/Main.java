@@ -43,7 +43,7 @@ public class Main {
         Connector connector = new Connector("org.apache.coyote.http11.Http11NioProtocol");
         connector.setPort(port);
         connector.setSecure(false);
+        connector.setRedirectPort(443);
         return connector;
     }
-
 }
