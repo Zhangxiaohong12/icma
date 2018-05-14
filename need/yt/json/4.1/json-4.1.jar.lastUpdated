@@ -1,0 +1,12 @@
+#NOTE: This is an Aether internal implementation file, its format can be changed without prior notice.
+#Tue Apr 24 09:56:55 CST 2018
+https\://dl.bintray.com/rabbitmq/maven-milestones/.error=
+https\://repo.spring.io/snapshot/.error=
+https\://dl.bintray.com/rabbitmq/maven-milestones/.lastUpdated=1524535011847
+http\://maven.aliyun.com/nexus/content/groups/public/.lastUpdated=1524535015456
+https\://repo.spring.io/snapshot/.lastUpdated=1524535010239
+https\://repo.spring.io/milestone/.lastUpdated=1524535009734
+http\://172.16.94.124\:8081/nexus/content/groups/public/.lastUpdated=1524535009039
+http\://maven.aliyun.com/nexus/content/groups/public/.error=
+https\://repo.spring.io/milestone/.error=
+http\://172.16.94.124\:8081/nexus/content/groups/public/.error=

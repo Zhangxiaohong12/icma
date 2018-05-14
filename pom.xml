@@ -21,6 +21,7 @@
         <module>service</module>
         <module>web-app</module>
         <module>mini-app</module>
+        <module>httpclient</module>
     </modules>
 
     <properties>
