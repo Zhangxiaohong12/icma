@@ -77,9 +77,7 @@ $(function () {
                 $("#btnSave").attr("disabled", false);
                 Shade.unblockUI($("html"));
                 if (data.result == true) {
-                    BootboxExt.alert("识别成功", function (res) {
-                        location.href = "/img/result";
-                    });
+                    location.href = "/img/result";
                 } else {
                     BootboxExt.alert("识别失败", function (res) {
                         window.location.reload();
