@@ -10,11 +10,12 @@
         <result property="noMatchNum" column="NOMATCH_NUM" />
         <result property="createTime" column="CREATE_TIME" />
         <result property="className" column="CLASS_NAME" />
+        <result property="imgName" column="IMAGE_NAME" />
     </resultMap>
 
     <insert id="record" parameterType="org.hengsir.icma.entity.IdentyRecord">
-        INSERT INTO T_IDENTI_RECORD(IMAGE_PATH,CLASS_ID,MATCH_NUM,NOMATCH_NUM,CREATE_TIME) VALUES
-        (#{imagePath},#{classId},#{matchNum},#{noMatchNum},#{createTime})
+        INSERT INTO T_IDENTI_RECORD(IMAGE_PATH,CLASS_ID,MATCH_NUM,NOMATCH_NUM,CREATE_TIME,IMAGE_NAME) VALUES
+        (#{imagePath},#{classId},#{matchNum},#{noMatchNum},#{createTime},#{imgName})
     </insert>
 
     <select id="findAll" resultMap="Result" useCache="false">

@@ -13,6 +13,8 @@ public class IdentyRecord {
      */
     private Integer id;
 
+    private String imgName;
+
     /**
      * 可能在座的人数
      */
@@ -36,6 +38,14 @@ public class IdentyRecord {
     private String className;
 
     private Date createTime;
+
+    public String getImgName() {
+        return imgName;
+    }
+
+    public void setImgName(String imgName) {
+        this.imgName = imgName;
+    }
 
     public String getClassName() {
         return className;

@@ -147,7 +147,8 @@
                             </thead>
                             <tbody>
                             <tr th:each="record : ${list}">
-                                <td><img th:src="'/person/loadImg?path='+${record.imagePath}" alt="图片" style="width:80px;height: 48px;"/></td>
+                                <!--<td><img th:src="'/person/loadImg?path='+${record.imagePath}" alt="图片" style="width:80px;height: 48px;"/></td>-->
+                                <td><img th:src="@{'/IDENTY/'+${record.imgName}}" alt="图片" style="width:80px;height: 48px;"/></td>
                                 <td th:text="${record.imagePath}"></td>
                                 <td th:text="${record.classId}"></td>
                                 <td th:text="${record.className}"></td>

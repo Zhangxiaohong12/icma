@@ -109,6 +109,8 @@ public class IdentifyServiceImpl implements IdentifyService {
                 identyRecord.setMatchNum(matchUsers.size());
                 identyRecord.setNoMatchNum(noMatchs.size());
                 identyRecord.setCreateTime(new Date());
+                String imgName = imgPath.substring(imgPath.lastIndexOf("/")+1,imgPath.length());
+                identyRecord.setImgName(imgName);
                 identifyDao.record(identyRecord);
             } else {
                 returnMap.put("respCode", resp.getInt("errorcode"));

@@ -172,7 +172,7 @@ public class PersonController {
             fileName = personVo.getUserAccount();
             String filePath = FileUploadUtils.saveFile(fileName, photo);
             Image img = new Image();
-            img.setImageUrl(filePath);
+            img.setImageUrl(userAccount+"/"+photo.getOriginalFilename());
             img.setImagePath(filePath);
             img.setImageName(photo.getOriginalFilename());
 
