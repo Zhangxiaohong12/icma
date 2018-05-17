@@ -74,7 +74,7 @@ public class ValidateCodeUtil {
         // 创建字体
         //ImgFontByte imgFont=new ImgFontByte();
         //Font font =imgFont.getFont(fontHeight);
-        g.setFont(new Font("Times New Roman", Font.ITALIC, fontHeight));
+        g.setFont(new Font(null, Font.ITALIC, fontHeight));
 
         for (int i = 0; i < lineCount; i++) {
             int xs = random.nextInt(width);
