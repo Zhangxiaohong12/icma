@@ -110,6 +110,8 @@
                                 <th>图片路径</th>
                                 <th>班级ID</th>
                                 <th>班级名称</th>
+                                <th>符合人数</th>
+                                <th>不符合人数</th>
                                 <th>上传时间</th>
                                 <th>操作</th>
                             </tr>
@@ -120,6 +122,8 @@
                                 <td th:text="${record.imagePath}"></td>
                                 <td th:text="${record.classId}"></td>
                                 <td th:text="${record.className}"></td>
+                                <td th:text="${record.matchNum}"></td>
+                                <td th:text="${record.noMatchNum}"></td>
                                 <td th:text="${#calendars.format(record.createTime,'yyyy-MM-dd HH:mm:ss')}"></td>
                                 <td><a data-toggle="modal" class='btn green  btn-xs'
                                        th:onclick="'javascript:view(\''+${record.id}+'\');'"
