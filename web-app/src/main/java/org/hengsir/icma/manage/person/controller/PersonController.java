@@ -172,7 +172,7 @@ public class PersonController {
             fileName = personVo.getUserAccount();
             String filePath = FileUploadUtils.saveFile(fileName, photo);
             Image img = new Image();
-            img.setImageUrl(userAccount+"/"+photo.getOriginalFilename());
+            img.setImageUrl(fileName+"/"+photo.getOriginalFilename());
             img.setImagePath(filePath);
             img.setImageName(photo.getOriginalFilename());
 
@@ -254,7 +254,7 @@ public class PersonController {
             String fileName = p.getUser().getUserAccount();
             String filePath = FileUploadUtils.saveFile(fileName, photo);
             Image img = new Image();
-            img.setImageUrl(filePath);
+            img.setImageUrl(fileName+"/"+photo.getOriginalFilename());
             img.setImagePath(filePath);
             img.setImageName(photo.getOriginalFilename());
             boolean flag = personService.addFace(personId, img);
