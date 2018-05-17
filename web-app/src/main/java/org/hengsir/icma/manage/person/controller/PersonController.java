@@ -172,7 +172,7 @@ public class PersonController {
             fileName = personVo.getUserAccount();
             String filePath = FileUploadUtils.saveFile(fileName, photo);
             Image img = new Image();
-            img.setImageUrl(fileName+"/"+photo.getOriginalFilename());
+            img.setImageUrl(fileName + "/" + photo.getOriginalFilename());
             img.setImagePath(filePath);
             img.setImageName(photo.getOriginalFilename());
 
@@ -254,7 +254,7 @@ public class PersonController {
             String fileName = p.getUser().getUserAccount();
             String filePath = FileUploadUtils.saveFile(fileName, photo);
             Image img = new Image();
-            img.setImageUrl(fileName+"/"+photo.getOriginalFilename());
+            img.setImageUrl(fileName + "/" + photo.getOriginalFilename());
             img.setImagePath(filePath);
             img.setImageName(photo.getOriginalFilename());
             boolean flag = personService.addFace(personId, img);
@@ -292,6 +292,7 @@ public class PersonController {
 
     /**
      * 奖图片做为流写出去页面
+     *
      * @param path
      * @param resp
      * @throws IOException
@@ -320,16 +321,17 @@ public class PersonController {
 
     @RequestMapping("/to-sensitize")
     @RequiresPermissions("person:sensitize")
-    public ModelAndView toSensitize(String personId){
+    public ModelAndView toSensitize(String personId) {
         ModelAndView model = new ModelAndView();
         model.setViewName("/rights/person-sensitize");
         Person person = personDao.findById(personId);
-        model.addObject("person",person);
+        model.addObject("person", person);
         return model;
     }
 
     /**
      * 用户激活个体
+     *
      * @param personId
      * @param photo
      * @return
@@ -351,7 +353,7 @@ public class PersonController {
         String fileName = person.getUser().getUserAccount();
         String filePath = FileUploadUtils.saveFile(fileName, photo);
         Image img = new Image();
-        img.setImageUrl(filePath);
+        img.setImageUrl(fileName + "/" + photo.getOriginalFilename());
         img.setImagePath(filePath);
         img.setImageName(photo.getOriginalFilename());
 
