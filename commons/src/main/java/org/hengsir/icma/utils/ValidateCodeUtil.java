@@ -23,7 +23,7 @@ public class ValidateCodeUtil {
     private BufferedImage buffImg   = null;
 
 
-    private char[] codeSequence = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
+    private char[] codeSequence = {'0','1', '2', '3', '4', '5', '6', '7', '8', '9'};
 
 
     public ValidateCodeUtil() {
