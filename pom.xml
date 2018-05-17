@@ -22,6 +22,7 @@
         <module>web-app</module>
         <module>mini-app</module>
         <module>httpclient</module>
+        <module>timmer</module>
     </modules>
 
     <properties>

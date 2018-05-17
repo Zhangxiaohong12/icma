@@ -7,6 +7,7 @@ import org.hengsir.icma.dao.SXCDao;
 import org.hengsir.icma.entity.Class;
 import org.hengsir.icma.entity.ClassVo;
 import org.hengsir.icma.entity.IdentyRecord;
+import org.hengsir.icma.entity.IdentyRecordVo;
 import org.hengsir.icma.service.YoutuService;
 import org.hengsir.icma.utils.pageHelper.Page;
 import org.hengsir.icma.utils.pageHelper.PageHtmlUtil;
@@ -104,7 +105,7 @@ public class YoutuController {
     }
 
     /**
-     * 查看上传识别的图片
+     * 查看当天上传识别的图片
      * @param identyRecord
      * @param index
      * @param size
@@ -123,6 +124,25 @@ public class YoutuController {
     }
 
     /**
+     * 查看历史上传识别的图片
+     * @param identyRecordVo
+     * @param index
+     * @param size
+     * @return
+     */
+    @RequestMapping(value = "/hist/hist-record",method = {RequestMethod.POST,RequestMethod.GET})
+    @RequiresPermissions("hist_record:search")
+    public ModelAndView identiRecordHist(IdentyRecordVo identyRecordVo, @RequestParam(value = "pageNum", defaultValue = "1") int index,
+                                         @RequestParam(value = "pageSize", defaultValue = "10") int size){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/youtu/record-hist");
+        Page<IdentyRecord> page = identifyDao.findHistRecord(identyRecordVo,new Page<>(index,size));
+        modelAndView.addObject("list", page.getResult());
+        modelAndView.addObject("pageHtml", PageHtmlUtil.initHtml(page));
+        return modelAndView;
+    }
+
+    /**
      * 上传识别的详情
      * @param id
      * @return
@@ -134,4 +154,18 @@ public class YoutuController {
         modelAndView.addObject("record",identyRecord);
         return modelAndView;
     }
+
+    /**
+     * 上传识别的详情
+     * @param id
+     * @return
+     */
+    @RequestMapping("/hist/histView")
+    public ModelAndView histView(Integer id){
+        ModelAndView modelAndView = new ModelAndView("/youtu/hist-view");
+        IdentyRecord identyRecord = identifyDao.findHistById(id);
+        modelAndView.addObject("record",identyRecord);
+        return modelAndView;
+    }
+
 }

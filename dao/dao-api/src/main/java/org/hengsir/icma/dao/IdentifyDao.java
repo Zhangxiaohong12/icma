@@ -14,9 +14,17 @@ public interface IdentifyDao {
 
     Page<IdentyRecord> findRecord(IdentyRecord identyRecord,Page<IdentyRecord> page);
 
+    Page<IdentyRecord> findHistRecord(IdentyRecord identyRecord,Page<IdentyRecord> page);
+
     List<IdentyRecord> findAll(IdentyRecord identyRecord);
 
     IdentyRecord findById(Integer id);
 
+    IdentyRecord findHistById(Integer id);
+
     IdentyRecord findByClass(Integer classId);
+
+    boolean clearRecord();
+
+    boolean toHist();
 }

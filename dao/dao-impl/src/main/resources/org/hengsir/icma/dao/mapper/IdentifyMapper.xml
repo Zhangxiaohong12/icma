@@ -47,4 +47,38 @@
         ORDER BY I.CREATE_TIME DESC
     </select>
 
+    <delete id="clearRecord">
+        DELETE FROM T_IDENTI_RECORD
+    </delete>
+
+    <insert id="toHist">
+        INSERT INTO T_IDENTI_RECORD_HIST SELECT * FROM T_IDENTI_RECORD
+    </insert>
+
+    <select id="findHistRecord" useCache="false" resultMap="Result">
+        SELECT I.*,C.CLASS_NAME FROM T_IDENTI_RECORD_HIST I,T_CLASS C
+        <where>
+            I.CLASS_ID = C.ID
+            <if test="null != classId">
+                AND I.CLASS_ID = #{classId}
+            </if>
+            <if test="null != createTimeBegin and '' != createTimeBegin">
+                AND I.CREATE_TIME <![CDATA[>=]]>
+                str_to_date(#{createTimeBegin},'%Y-%m-%d %H:%m:%s')
+            </if>
+            <if test="null != createTimeEnd and '' != createTimeEnd">
+                AND I.CREATE_TIME <![CDATA[<]]>
+                cast(str_to_date(#{createTimeEnd},'%Y-%m-%d') + 1 as signed)
+            </if>
+        </where>
+
+        ORDER BY I.CREATE_TIME DESC
+    </select>
+
+    <select id="findHistById" resultMap="Result" useCache="false" parameterType="java.lang.Integer">
+        SELECT I.*,C.CLASS_NAME FROM T_IDENTI_RECORD_HIST I,T_CLASS C
+        WHERE I.CLASS_ID = C.ID AND I.ID = #{id}
+        ORDER BY I.CREATE_TIME DESC
+    </select>
+
 </mapper>

@@ -17,9 +17,17 @@ public interface IdentifyMapper {
 
     List<IdentyRecord> findRecord(IdentyRecord identyRecord);
 
+    List<IdentyRecord> findHistRecord(IdentyRecord identyRecord);
+
     List<IdentyRecord> findAll(IdentyRecord identyRecord);
 
     IdentyRecord findById(@Param("id") Integer id);
 
     IdentyRecord findByClass(@Param("classId") Integer classId);
+
+    IdentyRecord findHistById(@Param("id") Integer id);
+
+    void clearRecord();
+
+    void toHist();
 }

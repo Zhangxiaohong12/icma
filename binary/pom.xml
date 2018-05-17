@@ -50,6 +50,12 @@
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.hengsir</groupId>
+            <artifactId>timmer</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
     </dependencies>
     <build>
         <!-- 为jar包取名 -->

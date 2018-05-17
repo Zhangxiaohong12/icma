@@ -38,6 +38,13 @@ public class IdentifyDaoImpl implements IdentifyDao {
     }
 
     @Override
+    public Page<IdentyRecord> findHistRecord(IdentyRecord identyRecord, Page<IdentyRecord> page) {
+        PageHelper.startPage(page.getPageNum(),page.getPageSize());
+        identifyMapper.findHistRecord(identyRecord);
+        return PageHelper.endPage();
+    }
+
+    @Override
     public List<IdentyRecord> findAll(IdentyRecord identyRecord) {
         return identifyMapper.findAll(identyRecord);
     }
@@ -48,7 +55,32 @@ public class IdentifyDaoImpl implements IdentifyDao {
     }
 
     @Override
+    public IdentyRecord findHistById(Integer id) {
+        return identifyMapper.findHistById(id);
+    }
+
+    @Override
     public IdentyRecord findByClass(Integer classId) {
         return identifyMapper.findByClass(classId);
+    }
+
+    @Override
+    public boolean clearRecord() {
+        try{
+            identifyMapper.clearRecord();
+            return true;
+        } catch (Exception e){
+            return false;
+        }
+    }
+
+    @Override
+    public boolean toHist() {
+        try{
+            identifyMapper.toHist();
+            return true;
+        } catch (Exception e){
+            return false;
+        }
     }
 }
