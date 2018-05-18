@@ -98,8 +98,8 @@ public class ShiroReal extends AuthorizingRealm {
         shiroUser.setRights(rights);
         shiroUser.setLeftMenus(leftMenus);
 
-        LOGGER.info("shiroUser=" + JSONObject.toJSONString(shiroUser));
-
+        //LOGGER.info("shiroUser=" + JSONObject.toJSONString(shiroUser));
+        LOGGER.info("Shiro登录认证成功");
         return new SimpleAuthenticationInfo(shiroUser,
                 user.getUserPassword(),
                 getName());

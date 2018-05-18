@@ -22,16 +22,16 @@ public class RecordToHistTimmer {
     /**
      * 每天0点把识别记录存到历史表中
      */
-    @Scheduled(cron = "0 59 23 * * ?")
+    @Scheduled(cron = "59 59 23 * * ?")
     public void recordToHist(){
-        logger.info("开始转移今天记录到历史表");
+        logger.info("---------------开始转移今天记录到历史表---------------");
         boolean isToHist = identifyDao.toHist();
         if (isToHist){
-            logger.info("转移记录成功");
+            logger.info("---------------转移记录成功---------------");
             boolean isClear = identifyDao.clearRecord();
-            logger.info(isClear ? "清空当天记录成功" : "清空当天记录失败");
+            logger.info(isClear ? "---------------清空当天记录成功---------------" : "---------------清空当天记录失败---------------");
         } else {
-            logger.error("转移记录失败");
+            logger.error("---------------转移记录失败---------------");
         }
     }
 }

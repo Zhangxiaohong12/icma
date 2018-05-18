@@ -17,6 +17,8 @@ import org.hengsir.icma.utils.MD5Util;
 import org.hengsir.icma.utils.PasswordUtil;
 import org.hengsir.icma.utils.pageHelper.Page;
 import org.hengsir.icma.utils.pageHelper.PageHtmlUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -61,6 +63,7 @@ public class UserController {
     @Autowired
     PersonService personService;
 
+    Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @RequestMapping("/search")
     @RequiresPermissions("user:search")
@@ -121,12 +124,14 @@ public class UserController {
         Boolean result = userService.create(user);
         if (result) {
             User u = userDao.selectUserByAccount(userAccount);
+            logger.info("--------------新增用户成功，正在预创建个体personId:{}----------------",u.getUserAccount());
             Person p = new Person();
             p.setPersonId(u.getUserAccount());
             p.setPersonName(u.getUserName());
             p.setClassId(u.getClassId());
             p.setUser(u);
             personService.create(p, null);
+            logger.info("------------正在为用户:{} 添加学生角色---------------",u.getUserName());
             UserRelRole urr = new UserRelRole();
             urr.setRoleId(402);
             urr.setUserId(u.getUserId());

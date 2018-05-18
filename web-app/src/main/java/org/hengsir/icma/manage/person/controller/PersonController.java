@@ -138,9 +138,12 @@ public class PersonController {
     @RequestMapping(value = "/add-person", method = RequestMethod.POST)
     @ResponseBody
     public Object addPerson(String personId, String userAccount, @RequestParam(value = "photo", required = false) MultipartFile photo) {
+        logger.info("-------------------------新增个体业务开始--------------------------");
+        logger.info("-----------新增个体personId:{},绑定的帐户:{}------------",personId,userAccount);
         JSONObject jsonObject = new JSONObject();
         if (photo.getSize() > 2 * 1048576) {
             jsonObject.accumulate("result", "toMax");
+            logger.warn("-----------新增个体上传的照片过大:{}------------",photo.getSize());
             return jsonObject;
         }
         try {
@@ -151,6 +154,7 @@ public class PersonController {
             if (user == null) {
                 //该帐号不存在
                 jsonObject.accumulate("result", "notExits");
+                logger.warn("-----------新增个体所想绑定的帐号为:{},该帐号不存在------------",userAccount);
                 return jsonObject;
             }
             personVo.setUser(user);
@@ -160,12 +164,14 @@ public class PersonController {
             if (p != null) {
                 //关联用户已经有person，无法添加
                 jsonObject.accumulate("result", "userIsHas");
+                logger.warn("-----------新增个体所想绑定的帐号为:{},该帐号已经绑定个体------------",userAccount);
                 return jsonObject;
             }
             Person p1 = personDao.findById(personVo.getPersonId());
             if (p1 != null) {
                 //personId已经存在，无法添加
                 jsonObject.accumulate("result", "personIsHas");
+                logger.warn("-----------新增个体所想绑定的帐号为:{},该帐号不存在------------",userAccount);
                 return jsonObject;
             }
             //以帐号为dir，存放该用户的图片
@@ -179,11 +185,13 @@ public class PersonController {
             boolean flag = personService.create(personVo, img);
             if (flag) {
                 result = "success";
+                logger.info("-----------新增个体成功------------");
             }
             jsonObject.accumulate("result", result);
             return jsonObject;
         } catch (Exception e) {
             jsonObject.accumulate("result", false);
+            logger.error("-----------新增个体失败------------");
             return jsonObject;
         }
     }
@@ -198,9 +206,12 @@ public class PersonController {
     @RequiresPermissions("person:delete")
     @ResponseBody
     public Object deletePerson(String personId) {
+        logger.info("-----------删除个体开始------------");
+        logger.info("-----------删除个体personId:{}------------",personId);
         JSONObject jsonObject = new JSONObject();
         Person p = personDao.findById(personId);
         boolean result = personService.delete(personId);
+        logger.info("-----------删除个体结果:{}------------",result);
         //如果成功，删除项目中的文件
         if (result) {
             File file = new File(imgPath + "/" + p.getUser().getUserAccount() + "/");
@@ -238,9 +249,13 @@ public class PersonController {
     @RequestMapping(value = "/add-img", method = RequestMethod.POST)
     @ResponseBody
     public Object addImg(String personId, @RequestParam(value = "photo", required = false) MultipartFile photo) {
+        logger.info("-----------新增人脸开始------------");
+        ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
+        logger.info("-----------用户：{} 在新增人脸,personId:{}------------",shiroUser.getUserName(),personId);
         JSONObject jsonObject = new JSONObject();
         if (photo.getSize() > 2 * 1048576) {
             jsonObject.accumulate("result", "toMax");
+            logger.info("-----------用户：{} 在上传人脸过大:{}------------",shiroUser.getUserName(),photo.getSize());
             return jsonObject;
         }
         try {
@@ -249,6 +264,7 @@ public class PersonController {
             if (imgs != null && imgs.size() >= 6) {
                 //数量达到6张，无法添加
                 jsonObject.accumulate("result", "beyond6");
+                logger.info("-----------用户：{} 上传的人脸已经达到最多------------",shiroUser.getUserName());
                 return jsonObject;
             }
             String fileName = p.getUser().getUserAccount();
@@ -259,9 +275,11 @@ public class PersonController {
             img.setImageName(photo.getOriginalFilename());
             boolean flag = personService.addFace(personId, img);
             jsonObject.accumulate("result", flag);
+            logger.info("-----------用户：{} 新增人脸结果:{}------------",shiroUser.getUserName(),flag);
             return jsonObject;
         } catch (Exception e) {
             jsonObject.accumulate("result", false);
+            logger.error("-----------用户：{} 新增人脸失败------------",shiroUser.getUserName());
             return jsonObject;
         }
     }
@@ -277,8 +295,12 @@ public class PersonController {
     @RequiresPermissions("image:delete")
     @ResponseBody
     public Object deleteImg(String personId, String faceId) {
+        logger.info("-----------删除人脸业务开始------------");
+        ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
+        logger.info("-----------用户：{} 正在删除人脸------------",shiroUser.getUserName());
         JSONObject jsonObject = new JSONObject();
         Image img = imageDao.findByFaceId(faceId);
+        logger.info("-----------删除人脸:personId:{},faceId:{}------------",personId,faceId);
         boolean flag = personService.deleteFace(personId, faceId);
         if (flag) {
             File file = new File(img.getImagePath());
@@ -286,6 +308,7 @@ public class PersonController {
                 file.delete();
             }
         }
+        logger.info("-----------删除人脸结果:{}------------",flag);
         jsonObject.accumulate("result", flag);
         return jsonObject;
     }
@@ -319,6 +342,11 @@ public class PersonController {
         }
     }
 
+    /**
+     * 跳转到激活页面
+     * @param personId
+     * @return
+     */
     @RequestMapping("/to-sensitize")
     @RequiresPermissions("person:sensitize")
     public ModelAndView toSensitize(String personId) {
@@ -339,10 +367,14 @@ public class PersonController {
     @RequestMapping("/sensitize")
     @ResponseBody
     public Object sensitize(String personId, @RequestParam(value = "photo", required = false) MultipartFile photo) {
+        logger.info("-----------------激活个体业务开始----------------");
+        ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
+        logger.info("-----------------用户：{} 正在激活个体----------------",shiroUser.getUserName());
         JSONObject jsonObject = new JSONObject();
         String result = "";
         if (photo.getSize() > 2 * 1048576) {
             jsonObject.accumulate("result", "toMax");
+            logger.info("-----------------用户：{} 上传的图片过大：{}----------------",shiroUser.getUserName(),photo.getSize());
             return jsonObject;
         }
 
@@ -361,6 +393,7 @@ public class PersonController {
         if (flag) {
             result = "success";
         }
+        logger.info("-----------------用户：{} 激活个体结果：{}----------------",shiroUser.getUserName(),flag);
         jsonObject.accumulate("result", result);
         return jsonObject;
 

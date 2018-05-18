@@ -269,7 +269,7 @@ public class HttpInterfaceImpl implements HttpInterface {
         String url = Constant.BASE_URL + mPersonalInfoURL;//查询个人信息的URL
         String referer = Constant.STUDENT_URL + mUser.getUserName();//引用地址
         StringBuffer personalHtml = sendGetRequest(url,referer);
-        System.out.println(personalHtml);
+        //System.out.println(personalHtml);
         return null;
     }
 

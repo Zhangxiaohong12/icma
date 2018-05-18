@@ -12,6 +12,8 @@ import org.hengsir.icma.service.IdentifyService;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -43,8 +45,12 @@ public class IdentifyServiceImpl implements IdentifyService {
     @Autowired
     IdentifyDao identifyDao;
 
+    Logger logger = LoggerFactory.getLogger(IdentifyServiceImpl.class);
+
     @Override
     public Map<String, Object> identify(String imgPath, int classId, int num) {
+        logger.info("--------------多人脸识别开始----------------");
+        logger.info("--------------多人脸识别：imagePath:{},classId:{},num:{}----------------",imgPath,classId,num);
         List<String> personIds = new ArrayList<>();
         /*List<String> classIds = new ArrayList<>();
         classIds.add(classId);*/
@@ -53,6 +59,7 @@ public class IdentifyServiceImpl implements IdentifyService {
             //1、先进行youtu中的人脸检索得出结果
             JSONObject resp = youtu.MultiFaceIdentify(imgPath, classId + "", null, num, 40);
             if (resp.getInt("errorcode") == 0) {
+                logger.info("--------------多人脸识别---成功----------------");
                 //2、从结果的results中获取所有的candidates里的person_id
                 JSONArray results = resp.getJSONArray("results");
                 for (int j = 0;j < results.length();j ++ ){
@@ -102,6 +109,7 @@ public class IdentifyServiceImpl implements IdentifyService {
                 returnMap.put("matchNum", matchUsers.size());
                 returnMap.put("noMatchNum", noMatchs.size());
                 returnMap.put("studentNum", num);
+                logger.info("--------------多人脸识别，识别出:{} 人----------------",returnMap.get("matchNum"));
                 //存进数据库
                 IdentyRecord identyRecord = new IdentyRecord();
                 identyRecord.setClassId(classId);
@@ -113,6 +121,7 @@ public class IdentifyServiceImpl implements IdentifyService {
                 identyRecord.setImgName(imgName);
                 identifyDao.record(identyRecord);
             } else {
+                logger.error("--------------------多人脸识别---失败，错误码为：{}--------------------",resp.getInt("errorcode"));
                 returnMap.put("respCode", resp.getInt("errorcode"));
                 returnMap.put("respDesc", resp.getString("errormsg"));
             }
