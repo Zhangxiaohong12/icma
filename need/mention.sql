@@ -11,7 +11,7 @@
  Target Server Version : 50717
  File Encoding         : utf-8
 
- Date: 04/25/2018 11:12:57 AM
+ Date: 05/21/2018 14:49:17 PM
 */
 
 SET NAMES utf8mb4;
@@ -48,13 +48,13 @@ CREATE TABLE `T_IMAGE` (
   `FACE_ID` varchar(30) DEFAULT NULL,
   `IMAGE_PATH` varchar(255) DEFAULT NULL COMMENT '图片绝对路径',
   PRIMARY KEY (`IMAGE_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Records of `T_IMAGE`
 -- ----------------------------
 BEGIN;
-INSERT INTO `T_IMAGE` VALUES ('24', 'IMG_3223.JPG', null, '/Users/icma-upload-img/1513454/IMG_3223.JPG', '1513454', '2511358056665753420', '/Users/icma-upload-img/1513454/IMG_3223.JPG'), ('26', 'IMG_1722.JPG', null, '/Users/icma-upload-img/1515555/IMG_1722.JPG', '1515555', '2549171902917696840', '/Users/icma-upload-img/1515555/IMG_1722.JPG');
+INSERT INTO `T_IMAGE` VALUES ('24', 'IMG_3223.JPG', null, '/Users/icma-upload-img/1513454/IMG_3223.JPG', '1513454', '2511358056665753420', '/Users/icma-upload-img/1513454/IMG_3223.JPG'), ('26', 'IMG_1722.JPG', null, '/Users/icma-upload-img/1515555/IMG_1722.JPG', '1515555', '2549171902917696840', '/Users/icma-upload-img/1515555/IMG_1722.JPG'), ('27', 'IMG_1838.JPG', null, '/Users/icma-upload-img/1513454/IMG_1838.JPG', '1513454', '2550793722513106921', '/Users/icma-upload-img/1513454/IMG_1838.JPG');
 COMMIT;
 
 -- ----------------------------
@@ -133,6 +133,7 @@ CREATE TABLE `T_PERSON` (
   `PERSON_ID` varchar(60) NOT NULL,
   `PERSON_NAME` varchar(50) DEFAULT NULL,
   `USER_ID` int(11) DEFAULT NULL,
+  `STATUS` varchar(11) DEFAULT NULL,
   PRIMARY KEY (`PERSON_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -140,7 +141,7 @@ CREATE TABLE `T_PERSON` (
 --  Records of `T_PERSON`
 -- ----------------------------
 BEGIN;
-INSERT INTO `T_PERSON` VALUES ('1513454', '周宇恒', '101'), ('1515555', '陈景富', '103');
+INSERT INTO `T_PERSON` VALUES ('1513454', '周宇恒', '101', '1'), ('1515555', '陈景富', '103', '1');
 COMMIT;
 
 -- ----------------------------
@@ -251,7 +252,7 @@ CREATE TABLE `T_USER` (
 --  Records of `T_USER`
 -- ----------------------------
 BEGIN;
-INSERT INTO `T_USER` VALUES ('100', 'mention', '超级管理员', null, 'ccf3e494c8e5f27d0113214a226ad6a2', '0', '1', '1', '2017-12-18', '2017-12-18', null), ('101', '1513454', '周宇恒', '440421199606088032', '0c8f41d6a14d506a60fd37b845be1a01', '1', '1', '1', '2017-12-22', '2018-04-21', '1513454'), ('103', '1515555', '陈景富', '440421199404055067', '7c15d6aa3e3b1e3e5c912ca2692d8f8a', '1', '1', '1', '2018-04-24', null, '1515555');
+INSERT INTO `T_USER` VALUES ('100', 'mention', '超级管理员', null, 'ccf3e494c8e5f27d0113214a226ad6a2', '0', '1', '1', '2017-12-18', '2017-12-18', null), ('101', '1513454', '周宇恒', '440421199606088032', '0c8f41d6a14d506a60fd37b845be1a01', '1', '1', '1', '2017-12-22', '2018-04-21', '1513454');
 COMMIT;
 
 -- ----------------------------
